@@ -1,0 +1,58 @@
+{
+  "abis": [
+    "arm64-v8a",
+    "armeabi-v7a",
+    "x86",
+    "x86_64"
+  ],
+  "assets": [
+    {
+      "form": "/storage/emulated/0/Pictures/脚本/my",
+      "to": "/project"
+    }
+  ],
+  "buildDir": "build",
+  "build": {
+    "build_id": "D8B8AC55-7",
+    "build_number": 7,
+    "build_time": 1663155272505
+  },
+  "useFeatures": [],
+  "icon": "res/logo.png",
+  "ignoredDirs": [
+    "build"
+  ],
+  "encrypt-code": true,
+  "launchConfig": {
+    "displaySplash": true,
+    "hideAccessibilityServices": true,
+    "hideLauncher": false,
+    "hideLogs": true,
+    "stableMode": true,
+    "volumeUpcontrol": false,
+    "permissions": [
+      "background_start",
+      "draw_overlay"
+    ],
+    "serviceDesc": "使脚本自动操作(点击、长按、滑动等)所需，若关闭则只能执行不涉及自动操作的脚本。",
+    "splashIcon": "res/splashIcon.png",
+    "splashText": "xya日记"
+  },
+  "libs": [
+    "libjackpal-androidterm5.so",
+    "libjackpal-termexec2.so"
+  ],
+  "main": "main.js",
+  "name": "xya日记",
+  "outputPath": "/storage/emulated/0/Pictures/脚本/my/build",
+  "packageName": "xyz.xyazh.nikki",
+  "projectDirectory": "/storage/emulated/0/Pictures/脚本/my",
+  "scripts": {},
+  "signingConfig": {
+    "alias": "xya_public",
+    "keystore": "/storage/emulated/0/Pictures/脚本/.keyStore/AutoX.keystore"
+  },
+  "sourcePath": "/storage/emulated/0/Pictures/脚本/my/main.js",
+  "versionCode": 1,
+  "versionName": "0.4.6"
+}
