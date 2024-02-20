@@ -1,2 +1,2 @@
 # xya-nikki-diary
-给予autox.js的简约日记软件
+基于autox.js的简约日记软件
