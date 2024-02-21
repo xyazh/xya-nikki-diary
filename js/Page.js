@@ -171,7 +171,6 @@ const Page = function (app) {
         var day;
         var hours;
         var minu;
-        var week;
         var id;
         var text;
         var is_new;
@@ -181,7 +180,6 @@ const Page = function (app) {
             day = this.temp_nikki.day;
             hours = this.temp_nikki.hours;
             minu = this.temp_nikki.minu;
-            week = this.temp_nikki.week;
             id = this.temp_nikki.id;
             text = this.temp_nikki.text;
             is_new = this.temp_nikki.is_new;
@@ -192,7 +190,6 @@ const Page = function (app) {
             day = date.getDate();
             hours = Utils.addZero(date.getHours());
             minu = Utils.addZero(date.getMinutes());
-            week = "周" + "日一二三四五六".charAt(date.getDay());
             id = Date.parse(new Date());
             text = "";
             is_new = true;
@@ -203,6 +200,7 @@ const Page = function (app) {
         this.inp_hm_btn.setText(inp_hours_minu);
         this.input_nikki.setText(text);
         var datetime = Utils.ttToDatetime(inp_year_month_day, inp_hours_minu);
+        var week = "周" + "日一二三四五六".charAt(new Date(datetime).getDay());
         this.temp_nikki = {
             year: year,
             month: month,

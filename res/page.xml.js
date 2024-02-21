@@ -115,6 +115,8 @@ const PAGE = (
                         <text text="常规" color="{{DATA_CONTAINER.ui_color}}" textSize="12sp" margin="8" textStyle="bold"></text>
                         <button style="Widget.AppCompat.Button.Borderless" gravity="left|center_vertical" text="使用深色主题"></button>
                         <vertical h="1px" w="*" bg="#dadada"></vertical>
+                        <button id="cheak_nikki_time" style="Widget.AppCompat.Button.Borderless" gravity="left|center_vertical" text="校验日记时间错误"></button>
+                        <vertical h="1px" w="*" bg="#dadada"></vertical>
                         <text text="导出" color="{{DATA_CONTAINER.ui_color}}" textSize="12sp" margin="8" textStyle="bold"></text>
                         <button style="Widget.AppCompat.Button.Borderless" gravity="left|center_vertical" text="导出为明文"></button>
                         <vertical h="1px" w="*" bg="#dadada"></vertical>

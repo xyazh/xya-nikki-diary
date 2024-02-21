@@ -388,6 +388,26 @@ const DataMnager = function (app) {
         return dedata;
     }
 
+    this.cheakNikkiTime = function(){
+        var nikkis = [];
+        for(var nikki of NIKKIS){
+            var date = new Date(nikki.date);
+            nikki.year = date.getFullYear();
+            nikki.month = date.getMonth() + 1;
+            nikki.day = date.getDate();
+            nikki.hours = Utils.addZero(date.getHours());
+            nikki.minu = Utils.addZero(date.getMinutes());
+            nikki.week = "周" + "日一二三四五六".charAt(date.getDay());
+            nikkis.push(nikki);
+        }
+        this.clearNikkis();
+        for(var nikki of nikkis){
+            NIKKIS.push(nikki);
+        }
+        this.sortNikki();
+        this.saveNikki();
+    }
+
     return this;
 }
 
