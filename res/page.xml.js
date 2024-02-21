@@ -110,6 +110,30 @@ const PAGE = (
                         </horizontal>
                     </vertical>
                 </frame>
+                <frame id="setting" w="*">
+                    <vertical w="*">
+                        <text text="常规" color="{{DATA_CONTAINER.ui_color}}" textSize="12sp" margin="8" textStyle="bold"></text>
+                        <button style="Widget.AppCompat.Button.Borderless" gravity="left|center_vertical" text="使用深色主题"></button>
+                        <vertical h="1px" w="*" bg="#dadada"></vertical>
+                        <text text="导出" color="{{DATA_CONTAINER.ui_color}}" textSize="12sp" margin="8" textStyle="bold"></text>
+                        <button style="Widget.AppCompat.Button.Borderless" gravity="left|center_vertical" text="导出为明文"></button>
+                        <vertical h="1px" w="*" bg="#dadada"></vertical>
+                        <button style="Widget.AppCompat.Button.Borderless" gravity="left|center_vertical" text="导出为Day one日记文件"></button>
+                        <vertical h="1px" w="*" bg="#dadada"></vertical>
+                        <text text="安全" color="{{DATA_CONTAINER.ui_color}}" textSize="12sp" margin="8" textStyle="bold"></text>
+                        <button style="Widget.AppCompat.Button.Borderless" gravity="left|center_vertical" text="删除密码"></button>
+                        <vertical h="1px" w="*" bg="#dadada"></vertical>
+                        <text text="其他" color="{{DATA_CONTAINER.ui_color}}" textSize="12sp" margin="8" textStyle="bold"></text>
+                        <button id="git" style="Widget.AppCompat.Button.Borderless" gravity="left|center_vertical" text="仓库地址"></button>
+                        <vertical h="1px" w="*" bg="#dadada"></vertical>
+                        <button id="about" style="Widget.AppCompat.Button.Borderless" gravity="left|center_vertical" text="关于"></button>
+                        <vertical w="*">
+                            <text gravity="center" color="#cccccc" textSize="9sp" text="xya日记"></text>
+                            <text gravity="center" color="#cccccc" textSize="9sp" text="Since 2021.5.5"></text>
+                            <text gravity="center" color="#cccccc" textSize="9sp" text="Made with by xyazh"></text>
+                        </vertical>
+                    </vertical>
+                </frame>
             </frame>
         </vertical>
         <vertical layout_gravity="left" bg="#ffffff" w="280">

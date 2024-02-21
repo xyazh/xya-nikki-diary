@@ -1,6 +1,7 @@
 const PasswordManager = require("./PasswordManager.js");
 const TekokiBinder = require("./TekokiBinder.js");
 const NikkiBinder = require("./NikkiBinder.js");
+const SettingBinder = require("./SettingBinder.js");
 const Utils = require("./Utils.js");
 
 const MENU_LIST = [{
@@ -28,10 +29,13 @@ const MENU_LIST = [{
     icon: "@drawable/ic_file_download_black_48dp"
 },
 {
+    title: "设置",
+    icon: "@drawable/ic_settings_black_48dp"
+},
+{
     title: "退出",
     icon: "@drawable/ic_exit_to_app_black_48dp"
-}
-]
+}];
 
 const Page = function (app) {
     this.app = app;
@@ -40,6 +44,7 @@ const Page = function (app) {
     this.is_look_nikki = false;
     this.is_write_nikki = false;
     this.is_tekoki = false;
+    this.is_setting = false;
     this.looking_nikki = null;
     this.temp_nikki = null;
 
@@ -52,6 +57,7 @@ const Page = function (app) {
         this.tekoki = ui.tekoki;
         this.menu = ui.menu;
         this.toolbar = ui.toolbar;
+        this.setting = ui.setting;
         this.nikki_count = ui.tj;
         this.input_nikki = ui.inp;
         this.inp_ymd_btn = ui.Tset;
@@ -77,6 +83,7 @@ const Page = function (app) {
         this.nikki_manager.bindDateSele();
         this.nikki_manager.bindOnBtn();
         this.nikki_manager.bindChangeInput();
+        this.Setting_manager = new SettingBinder(this, this.app);
     }
 
 
@@ -90,11 +97,13 @@ const Page = function (app) {
         this.look_nikki.attr("h", "0");
         this.write_nikki.attr("h", "0");
         this.tekoki.attr("h", "0");
-        this.main_page.attr("visibility","gone");
-        this.nikki.attr("visibility","gone");
-        this.look_nikki.attr("visibility","gone");
-        this.write_nikki.attr("visibility","gone");
-        this.tekoki.attr("visibility","gone");
+        this.setting.attr("h", "0");
+        this.main_page.attr("visibility", "gone");
+        this.nikki.attr("visibility", "gone");
+        this.look_nikki.attr("visibility", "gone");
+        this.write_nikki.attr("visibility", "gone");
+        this.tekoki.attr("visibility", "gone");
+        this.setting.attr("visibility", "gone");
         this.is_main_page = false;
         this.is_nikki = false;
         this.is_look_nikki = false;
@@ -109,7 +118,7 @@ const Page = function (app) {
     this.openMainPage = function () {
         this.allHidden();
         this.main_page.attr("h", this.getHeight());
-        this.main_page.attr("visibility","visible");
+        this.main_page.attr("visibility", "visible");
         this.toolbar.title = "主页";
         this.is_main_page = true;
     }
@@ -117,7 +126,7 @@ const Page = function (app) {
     this.openNikki = function () {
         this.allHidden();
         this.nikki.attr("h", this.getHeight());
-        this.nikki.attr("visibility","visible");
+        this.nikki.attr("visibility", "visible");
         this.toolbar.title = "日记";
         this.is_nikki = true;
     }
@@ -125,7 +134,7 @@ const Page = function (app) {
     this.openLookNikki = function () {
         this.allHidden();
         this.look_nikki.attr("h", this.getHeight());
-        this.look_nikki.attr("visibility","visible");
+        this.look_nikki.attr("visibility", "visible");
         this.toolbar.title = "查看日记";
         this.is_look_nikki = true;
     }
@@ -133,18 +142,26 @@ const Page = function (app) {
     this.openWriteNikki = function () {
         this.allHidden();
         this.write_nikki.attr("h", this.getHeight());
-        this.write_nikki.attr("visibility","visible");
+        this.write_nikki.attr("visibility", "visible");
         this.toolbar.title = "写日记-";
-        this.toolbar.title += this.temp_nikki===null||this.temp_nikki.is_new?"新":"来自草稿";
+        this.toolbar.title += this.temp_nikki === null || this.temp_nikki.is_new ? "新" : "来自草稿";
         this.is_write_nikki = true;
     }
 
     this.openTekoki = function () {
         this.allHidden();
         this.tekoki.attr("h", this.getHeight());
-        this.tekoki.attr("visibility","visible");
+        this.tekoki.attr("visibility", "visible");
         this.toolbar.title = "记录";
         this.is_tekoki = true;
+    }
+
+    this.openSetting = function () {
+        this.allHidden();
+        this.setting.attr("h", this.getHeight());
+        this.setting.attr("visibility", "visible");
+        this.toolbar.title = "设置";
+        this.is_setting = true;
     }
 
     this.loadWriteNikki = function () {
@@ -266,6 +283,9 @@ const Page = function (app) {
                     break;
                 case "导入":
                     this.import();
+                    break;
+                case "设置":
+                    this.openSetting();
                     break;
                 case "退出":
                     this.app.onExit();

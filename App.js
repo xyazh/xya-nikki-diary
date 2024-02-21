@@ -36,8 +36,12 @@ const App = function (DATA_CONTAINER) {
     this.nikkiUpdate = function () {
     }
 
-    this.uiLoadFream = function () {
+    this.loadUI = function () {
         ui.layout(PAGE_XML);
+    }
+
+    this.uiLoadFream = function () {
+        this.loadUI();
         ui.statusBarColor(this.DATA_CONTAINER.ui_color);
         //让工具栏左上角可以打开侧拉菜单
         ui.toolbar.setupWithDrawer(ui.drawer);
