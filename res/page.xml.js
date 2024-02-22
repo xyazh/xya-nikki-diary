@@ -119,9 +119,9 @@ const PAGE = (
                             <button textColor="{{DATA_CONTAINER.normal_text_color}}" id="cheak_nikki_time" style="Widget.AppCompat.Button.Borderless" gravity="left|center_vertical" text="校验日记时间错误"></button>
                             <vertical h="2px" w="*" bg="{{DATA_CONTAINER.line_color}}"></vertical>
                             <text text="导出" color="{{DATA_CONTAINER.setting_title_text_color}}" textSize="12sp" margin="8" textStyle="bold"></text>
-                            <button  textColor="{{DATA_CONTAINER.normal_text_color}}"id="export_nikki_plain" style="Widget.AppCompat.Button.Borderless" gravity="left|center_vertical" text="导出为明文"></button>
+                            <button textColor="{{DATA_CONTAINER.normal_text_color}}" id="export_nikki_plain" style="Widget.AppCompat.Button.Borderless" gravity="left|center_vertical" text="导出为明文"></button>
                             <vertical h="2px" w="*" bg="{{DATA_CONTAINER.line_color}}"></vertical>
-                            <button textColor="{{DATA_CONTAINER.normal_text_color}}" style="Widget.AppCompat.Button.Borderless" gravity="left|center_vertical" text="导出为Day one日记文件"></button>
+                            <button textColor="{{DATA_CONTAINER.normal_text_color}}" id="export_one_day" style="Widget.AppCompat.Button.Borderless" gravity="left|center_vertical" text="导出为Day one日记文件"></button>
                             <vertical h="2px" w="*" bg="{{DATA_CONTAINER.line_color}}"></vertical>
                             <text text="安全" color="{{DATA_CONTAINER.setting_title_text_color}}" textSize="12sp" margin="8" textStyle="bold"></text>
                             <button textColor="{{DATA_CONTAINER.normal_text_color}}" id="delete_password" style="Widget.AppCompat.Button.Borderless" gravity="left|center_vertical" text="删除密码"></button>

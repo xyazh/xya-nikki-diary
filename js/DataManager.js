@@ -213,6 +213,7 @@ const DataMnager = function (app) {
         data = LZString.compressToBase64(data);
         data = this.encrypt(data);
         data = JSON.stringify(data);
+        files.ensureDir(full_path);
         files.write(full_path, data, [encoding = "utf-8"]);
         toast("已导出文件到:" + full_path);
     }
@@ -232,6 +233,7 @@ const DataMnager = function (app) {
             data: data
         }
         data = JSON.stringify(data);
+        files.ensureDir(full_path);
         files.write(full_path, data, [encoding = "utf-8"]);
         toast("已导出文件到:" + full_path);
     }
@@ -259,7 +261,7 @@ const DataMnager = function (app) {
 
     this._importV1 = function (load_backup) {
         var data = this.decrypt(load_backup);
-        if(load_backup.is_plain !== true){
+        if (load_backup.is_plain !== true) {
             data = LZString.decompressFromBase64(data);
         }
         try {
@@ -274,7 +276,7 @@ const DataMnager = function (app) {
         }
         this.sortNikki();
         TEKOKIS.data = data.out_tekoki.data;
-        
+
         TEKOKIS.events = data.out_tekoki.events;
         this.save();
     }
@@ -409,9 +411,9 @@ const DataMnager = function (app) {
         return dedata;
     }
 
-    this.cheakNikkiTime = function(){
+    this.cheakNikkiTime = function () {
         var nikkis = [];
-        for(var nikki of NIKKIS){
+        for (var nikki of NIKKIS) {
             var date = new Date(nikki.date);
             nikki.year = date.getFullYear();
             nikki.month = date.getMonth() + 1;
@@ -422,11 +424,61 @@ const DataMnager = function (app) {
             nikkis.push(nikki);
         }
         this.clearNikkis();
-        for(var nikki of nikkis){
+        for (var nikki of nikkis) {
             NIKKIS.push(nikki);
         }
         this.sortNikki();
         this.saveNikki();
+    }
+
+    this.exportOneDay = function (full_path) {
+        toast("正在导出...可能会花费一些时间...");
+        var result = {
+            metadata: {
+                version: "2023.25",
+                xya_info: "This is export from xya-nikki"
+            },
+            entries: []
+        }
+        for (var nikki of NIKKIS) {
+            var text = nikki.text;
+            var text_data = {
+                contents: [{
+                    text: text
+                }
+                ],
+                meta: {
+                    created: {
+                        platform: "com.bloombuilt.dayone-android",
+                        version: 407
+                    },
+                    "small-lines-removed": true,
+                    version: 1
+                }
+            };
+            text_data = JSON.stringify(text_data);
+            var date = Utils.formatTimestamp(nikki.date);
+            var data = {
+                uuid: $crypto.digest(text_data, "MD5").toUpperCase(),
+                starred: false,
+                pinned: false,
+                text: text,
+                richText: text_data,
+                creationDate: date,
+                modifiedDate: date,
+                creationDevice: device.model,
+                creationOSName: "Android",
+                creationOSVersion: Utils.getAndroidVersion(),
+                creationDeviceType: device.brand,
+                timeZone: Utils.getTimeZone(),
+                v: {}
+            };
+            result.entries.push(data);
+            result = JSON.stringify(result);
+            files.ensureDir(full_path);
+            files.write(full_path, result, [encoding = "utf-8"]);
+            toast("已导出文件到:" + full_path);
+        }
     }
 
     return this;

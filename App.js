@@ -1,5 +1,6 @@
-const VERSION = "0.4.7"
+const VERSION = "0.4.8";
 const PACKAGE_NAME = "xyz.xyazh.nikki";
+const VERSION_ID = 3;
 
 const PAGE_XML = require("./res/page.xml.js");
 const Utils = require("./js/Utils.js");
@@ -9,7 +10,9 @@ const DataManager = require("./js/DataManager.js");
 
 const App = function (DATA_CONTAINER) {
     this.VERSION = VERSION;
+    this.VERSION_ID = VERSION_ID;
     this.DATA_CONTAINER = DATA_CONTAINER;
+    this.PACKAGE_NAME = PACKAGE_NAME;
     this.date = new Date();
     this.password_manager = new PasswordManager(this);
     this.page = new Page(this);
