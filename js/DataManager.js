@@ -474,11 +474,11 @@ const DataMnager = function (app) {
                 v: {}
             };
             result.entries.push(data);
-            result = JSON.stringify(result);
-            files.ensureDir(full_path);
-            files.write(full_path, result, [encoding = "utf-8"]);
-            toast("已导出文件到:" + full_path);
         }
+        result = JSON.stringify(result);
+        files.ensureDir(full_path);
+        files.write(full_path, result, [encoding = "utf-8"]);
+        toast("已导出文件到:" + full_path);
     }
 
     return this;

@@ -69,8 +69,8 @@ const PAGE = (
                     <vertical>
                         <input id="inp" hint="写些什么罢" gravity="left" lines="10" />
                         <horizontal>
-                            <button backgroundTint="{{DATA_CONTAINER.button_color}}" color="{{DATA_CONTAINER.dis_text_color}}" id="Tset" text="xxxx-xx-xx" style="Widget.AppCompat.Button.Colored" w="auto" />
-                            <button backgroundTint="{{DATA_CONTAINER.button_color}}" color="{{DATA_CONTAINER.dis_text_color}}" id="tset" text="xx:xx" style="Widget.AppCompat.Button.Colored" w="auto" />
+                            <button backgroundTint="{{DATA_CONTAINER.button_color}}" color="{{DATA_CONTAINER.btn_text_color}}" id="Tset" text="xxxx-xx-xx" style="Widget.AppCompat.Button.Colored" w="auto" />
+                            <button backgroundTint="{{DATA_CONTAINER.button_color}}" color="{{DATA_CONTAINER.btn_text_color}}" id="tset" text="xx:xx" style="Widget.AppCompat.Button.Colored" w="auto" />
                         </horizontal>
                     </vertical>
                     <card clickable="true" foreground="?selectableItemBackground" id="write_nikki_but" layout_gravity="right|bottom" margin="100px" w="172px" h="172px" bg="{{DATA_CONTAINER.ui_color}}">
@@ -105,7 +105,7 @@ const PAGE = (
                                         <text color="{{DATA_CONTAINER.dis_text_color}}"  layout_gravity="center" textSize="{{DATA_CONTAINER.TEKOKI_TEXT_SIZE}}px" text="{{this.day}}" w="auto" h="auto" />
                                     </frame>
                                 </grid>
-                                <button backgroundTint="{{DATA_CONTAINER.button_color}}" color="{{DATA_CONTAINER.dis_text_color}}"  id="tekoki_event_set" text="{{DATA_CONTAINER.tekoki_event}}" style="Widget.AppCompat.Button.Colored" w="auto" />
+                                <button backgroundTint="{{DATA_CONTAINER.button_color}}" color="{{DATA_CONTAINER.btn_text_color}}"  id="tekoki_event_set" text="{{DATA_CONTAINER.tekoki_event}}" style="Widget.AppCompat.Button.Colored" w="auto" />
                             </vertical>
                         </horizontal>
                     </vertical>
@@ -139,10 +139,10 @@ const PAGE = (
                 </frame>
             </frame>
         </vertical>
-        <vertical layout_gravity="left" bg="#ffffff" w="280">
+        <vertical layout_gravity="left" bg="{{DATA_CONTAINER.main_bg_color}}" w="260">
             <card w="280" h="200" scaleType="fitXY" bg="{{DATA_CONTAINER.ui_color}}"></card>
             <list id="menu">
-                <horizontal bg="{{DATA_CONTAINER.main_bg_color}}" w="*">
+                <horizontal w="*">
                     <img w="50" h="50" padding="16" src="{{this.icon}}" tint="{{DATA_CONTAINER.ui_color}}" />
                     <text color="{{DATA_CONTAINER.normal_text_color}}" textSize="15sp" text="{{this.title}}" layout_gravity="center" />
                 </horizontal>

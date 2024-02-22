@@ -9,10 +9,6 @@
     {
       "form": "/storage/emulated/0/Pictures/脚本/nikki/xya-nikki-diary",
       "to": "/project"
-    },
-    {
-      "form": "/storage/emulated/0/Pictures/脚本/nikki/xya-nikki-diary",
-      "to": "/project"
     }
   ],
   "buildDir": "build",
@@ -57,6 +53,6 @@
     "keystore": "/storage/emulated/0/Pictures/脚本/.keyStore/AutoX.keystore"
   },
   "sourcePath": "/storage/emulated/0/Pictures/脚本/nikki/xya-nikki-diary/main.js",
-  "versionCode": 2,
-  "versionName": "0.4.7"
+  "versionCode": 3,
+  "versionName": "0.4.8"
 }

@@ -58,6 +58,7 @@ const App = function (DATA_CONTAINER) {
         this.DATA_CONTAINER.tine_color = "#ffffff";
         this.DATA_CONTAINER.line_color = "#dadada";
         this.DATA_CONTAINER.button_color = "#03A9F4";
+        this.DATA_CONTAINER.btn_text_color = "#ffffff";
     }
 
     this.darkTheme = function () {
@@ -71,6 +72,7 @@ const App = function (DATA_CONTAINER) {
         this.DATA_CONTAINER.tine_color = "#cccccc";
         this.DATA_CONTAINER.line_color = "#888888";
         this.DATA_CONTAINER.button_color = "#1a1a1a";
+        this.DATA_CONTAINER.btn_text_color = "#757575";
     }
 
     this.main = ()=>{
