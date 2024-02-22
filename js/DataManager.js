@@ -217,6 +217,25 @@ const DataMnager = function (app) {
         toast("已导出文件到:" + full_path);
     }
 
+    this.exportPlain = function (full_path) {
+        toast("正在导出...可能会花费一些时间...");
+        var data = {
+            out_nikki: NIKKIS,
+            out_tekoki: TEKOKIS,
+        }
+        data = JSON.stringify(data);
+        data = {
+            version: this.app.VERSION,
+            crypt_version: CRYPT_VRESION,
+            is_encrypt: false,
+            is_plain: true,
+            data: data
+        }
+        data = JSON.stringify(data);
+        files.write(full_path, data, [encoding = "utf-8"]);
+        toast("已导出文件到:" + full_path);
+    }
+
     this.import = function (full_path) {
         toast("正在导入...可能会花费一些时间...");
         var load_backup_json = files.read(full_path, [, encoding = "utf-8"])
@@ -240,7 +259,9 @@ const DataMnager = function (app) {
 
     this._importV1 = function (load_backup) {
         var data = this.decrypt(load_backup);
-        data = LZString.decompressFromBase64(data);
+        if(load_backup.is_plain !== true){
+            data = LZString.decompressFromBase64(data);
+        }
         try {
             data = JSON.parse(data);
         } catch (e) {

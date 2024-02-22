@@ -1,4 +1,5 @@
-const VERSION = "0.4.6"
+const VERSION = "0.4.7"
+const PACKAGE_NAME = "xyz.xyazh.nikki";
 
 const PAGE_XML = require("./res/page.xml.js");
 const Utils = require("./js/Utils.js");
@@ -8,13 +9,13 @@ const DataManager = require("./js/DataManager.js");
 
 const App = function (DATA_CONTAINER) {
     this.VERSION = VERSION;
+    this.DATA_CONTAINER = DATA_CONTAINER;
     this.date = new Date();
     this.password_manager = new PasswordManager(this);
     this.page = new Page(this);
     this.data_manager = new DataManager(this);
+    this.config = storages.create(PACKAGE_NAME+".config");
 
-    this.DATA_CONTAINER = DATA_CONTAINER;
-    this.DATA_CONTAINER.ui_color = "#77aaff";
     this.DATA_CONTAINER.page_number = 0;
     this.DATA_CONTAINER.title = "主页";
     this.DATA_CONTAINER.TEKOKI_TEXT_SIZE = 48;
@@ -28,7 +29,49 @@ const App = function (DATA_CONTAINER) {
     this.DATA_CONTAINER.week = "周" + "日一二三四五六".charAt(this.date.getDay());
     this.DATA_CONTAINER.tekoki_event = "默认";
 
+    this.seleTheme = function () {
+        var theme_name = this.config.get("theme","dis");
+        switch (theme_name) {
+            case "dark":
+                this.darkTheme();
+                break;
+            case "dis":
+                this.disTheme();
+                break;
+            default:
+                this.disTheme();
+                break;
+        }
+    }
+
+    this.disTheme = function () {
+        this.DATA_CONTAINER.ui_color = "#77aaff";
+        this.DATA_CONTAINER.main_bg_color = "#ffffff";
+        this.DATA_CONTAINER.dis_text_color = "#757575";
+        this.DATA_CONTAINER.normal_text_color = "#000000";
+        this.DATA_CONTAINER.tekoki_btn_text_color = "#666666";
+        this.DATA_CONTAINER.setting_title_text_color = "#77aaff";
+        this.DATA_CONTAINER.card_bg_color = "#ffffff";
+        this.DATA_CONTAINER.tine_color = "#ffffff";
+        this.DATA_CONTAINER.line_color = "#dadada";
+        this.DATA_CONTAINER.button_color = "#03A9F4";
+    }
+
+    this.darkTheme = function () {
+        this.DATA_CONTAINER.ui_color = "#1a1a1a";
+        this.DATA_CONTAINER.main_bg_color = "#333333";
+        this.DATA_CONTAINER.dis_text_color = "#757575";
+        this.DATA_CONTAINER.normal_text_color = "#bbbbbb";
+        this.DATA_CONTAINER.tekoki_btn_text_color = "#666666";
+        this.DATA_CONTAINER.setting_title_text_color = "#77aaff";
+        this.DATA_CONTAINER.card_bg_color = "#444444";
+        this.DATA_CONTAINER.tine_color = "#cccccc";
+        this.DATA_CONTAINER.line_color = "#888888";
+        this.DATA_CONTAINER.button_color = "#1a1a1a";
+    }
+
     this.main = ()=>{
+        this.seleTheme();
         this.uiLoadFream();
         this.page.openMainPage();
     }
@@ -59,6 +102,8 @@ const App = function (DATA_CONTAINER) {
                 this.page.openNikki();
             }else if(this.page.is_write_nikki) {
                 this.onReturn();
+            }else if(this.page.is_setting) {
+                this.page.openMainPage();
             }else {
                 this.onExit();
             }

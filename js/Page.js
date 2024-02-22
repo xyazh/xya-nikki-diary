@@ -109,6 +109,7 @@ const Page = function (app) {
         this.is_look_nikki = false;
         this.is_write_nikki = false;
         this.is_tekoki = false;
+        this.is_setting = false;
     }
 
     this.setNikkiCount = function (page_n) {
@@ -226,7 +227,7 @@ const Page = function (app) {
 
     this.changeMenuPW = function () {
         var appd = {
-            title: "修改密码",
+            title: PasswordManager.hasPassword() ? "修改密码" : "创建密码",
             icon: "@drawable/ic_https_black_48dp"
         };
         MENU_LIST.splice(3, 1);

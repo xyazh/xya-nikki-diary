@@ -26,6 +26,14 @@ const PasswordManager = function (app) {
         })
     };
 
+    this.deletePassword = function () {
+        files.remove("./data/ccpw.cc")
+        this.password = "";
+        this.has_password = false;
+        this.app.data_manager.save();
+        this.app.page.changeMenuPW();
+    };
+
     this.setPassword = function (str) {
         if (!this.has_password) {
             return true;

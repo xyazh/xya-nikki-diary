@@ -7,7 +7,11 @@
   ],
   "assets": [
     {
-      "form": "/storage/emulated/0/Pictures/脚本/my",
+      "form": "/storage/emulated/0/Pictures/脚本/nikki/xya-nikki-diary",
+      "to": "/project"
+    },
+    {
+      "form": "/storage/emulated/0/Pictures/脚本/nikki/xya-nikki-diary",
       "to": "/project"
     }
   ],
@@ -44,15 +48,15 @@
   ],
   "main": "main.js",
   "name": "xya日记",
-  "outputPath": "/storage/emulated/0/Pictures/脚本/my/build",
+  "outputPath": "/storage/emulated/0/Pictures/脚本/nikki/xya-nikki-diary/build",
   "packageName": "xyz.xyazh.nikki",
-  "projectDirectory": "/storage/emulated/0/Pictures/脚本/my",
+  "projectDirectory": "/storage/emulated/0/Pictures/脚本/nikki/xya-nikki-diary",
   "scripts": {},
   "signingConfig": {
     "alias": "xya_public",
     "keystore": "/storage/emulated/0/Pictures/脚本/.keyStore/AutoX.keystore"
   },
-  "sourcePath": "/storage/emulated/0/Pictures/脚本/my/main.js",
-  "versionCode": 1,
-  "versionName": "0.4.6"
+  "sourcePath": "/storage/emulated/0/Pictures/脚本/nikki/xya-nikki-diary/main.js",
+  "versionCode": 2,
+  "versionName": "0.4.7"
 }
