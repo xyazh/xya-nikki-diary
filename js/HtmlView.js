@@ -27,4 +27,4 @@ const HtmlView = (function () {
     return HtmlView;
 })();
 
-module.exports = HtmlView;
+module.exports = HtmlView; 
