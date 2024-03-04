@@ -7,7 +7,6 @@ const HtmlView = (function () {
             return this._html;
         }, (view, name, value, defaultSetter) => {
             this._html = value;
-            var web_root = $files.join(files.cwd(), "res");
             view.jsBridge.registerHandler("ajx", (data, callBack) => {
                 if (data == "web_ready") {
                     callBack(value);
