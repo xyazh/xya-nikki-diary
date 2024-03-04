@@ -39,6 +39,7 @@
     "splashText": "xya日记"
   },
   "libs": [
+    "libp7zip.so",
     "libjackpal-androidterm5.so",
     "libjackpal-termexec2.so"
   ],

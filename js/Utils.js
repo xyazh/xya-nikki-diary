@@ -1,4 +1,5 @@
 importClass(java.util.TimeZone);
+importClass(java.util.UUID);
 
 const Utils = {};
 
@@ -100,6 +101,11 @@ Utils.getAndroidVersion = function () {
 Utils.getTimeZone = function () {
     var tz = TimeZone.getDefault().getID();
     return tz;
+}
+
+Utils.createUUID = function () {
+    var uuid = UUID.randomUUID();
+    return uuid.toString();
 }
 
 module.exports = Utils;
