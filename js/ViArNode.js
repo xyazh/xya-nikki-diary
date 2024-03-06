@@ -19,10 +19,10 @@ const ViArNode = function (data) {
             creat_date: this.creat_date,
             id: this.id,
             content: this.content,
-            tags: this.tags,
+            tags: Array.from(this.tags),
             parent: this.parent,
-            childs: this.childs,
-            links: this.links,
+            childs: Array.from(this.childs),
+            links: Array.from(this.links),
             meta: this.meta
         }
         return save_data;
@@ -38,10 +38,10 @@ ViArNode.newRootNode = function () {
         creat_date: 0,
         id: "root",
         content: "root",
-        tags: [],
+        tags: new Set(),
         parent: null,
-        childs: [],
-        links: [],
+        childs: new Set(),
+        links: new Set(),
         meta: ""
     }
     return new ViArNode(data);
@@ -55,16 +55,35 @@ ViArNode.newNode = function (title, content, tags, parent, links) {
         creat_date: date,
         id: Utils.createUUID(),
         content: content,
-        tags: tags,
+        tags: new Set(tags),
         parent: parent.id,
-        childs: [],
-        links: links,
+        childs: new Set(),
+        links: new Set(),
         meta: ""
     }
     var node = new ViArNode(data);
-    parent.childs.push(node.id);
-    //TODO tages links
+    parent.childs.add(node.id);
+    for(var link of links){
+        node.links.add(link.id);
+        link.links.add(node.id);
+    }
     return node;
+}
+
+ViArNode.loadNode = function (save_data) {
+    var data = {
+        title: save_data.title,
+        date: save_data.date,
+        creat_date: save_data.creat_date,
+        id: save_data.id,
+        content: save_data.content,
+        tags: new Set(save_data.tags),
+        parent: parent.id,
+        childs: new Set(save_data.childs),
+        links: new Set(save_data.links),
+        meta: save_data.meta
+    }
+    return new ViArNode(data);
 }
 
 module.exports = ViArNode;

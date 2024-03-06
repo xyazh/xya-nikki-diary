@@ -107,5 +107,14 @@ Utils.createUUID = function () {
     var uuid = UUID.randomUUID();
     return uuid.toString();
 }
+Utils.splitKeyword = function (str) {
+    let result = [];
+    for (let len = 1; len <= str.length; len++) {
+        for (let start = 0; start <= str.length - len; start++) {
+            result.push(str.substring(start, start + len));
+        }
+    }
+    return result;
+}
 
 module.exports = Utils;
