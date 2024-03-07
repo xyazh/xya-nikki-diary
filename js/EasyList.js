@@ -11,10 +11,10 @@ const EasyList = (function () {
             return JSON.stringify(view._list);
         }, (view, name, value, defaultSetter) => {
             if(view._list == undefined){
-                view._list = [2];
+                view._list = [];
                 view.setDataSource(view._list);
             }
-            //view._list.length = 0;
+            view._list.length = 0;
             var list = JSON.parse(value);
             for(let item of list){
                 view._list.push(item);

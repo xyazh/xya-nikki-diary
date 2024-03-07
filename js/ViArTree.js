@@ -1,12 +1,90 @@
 const ViArNode = require("./ViArNode.js");
 const Utils = require("./Utils.js");
 
+const RENDER_LIST = [];
+
 const ViArTree = function () {
     this._root = ViArNode.newRootNode();
     this.node_map = {};
+    this.tags = new Set();
+    this.tags.add("无");
+    this.tags.add("root");
+
+    RENDER_LIST.push(this._root.getRenderNode());
 
     this.getRoot = function () {
         return this._root;
+    }
+
+    this.getTags = function () {
+        return this.tags;
+    }
+
+    this.clearRenderList = function () {
+        RENDER_LIST.length = 0;
+    }
+
+    this.getRenderList = function () {
+        return RENDER_LIST;
+    }
+
+    this.useNodeLinks = function (node) {
+        this.clearRenderList();
+        if (node instanceof String) {
+            node = this.getNode(node);
+        }
+        if (!(node instanceof ViArNode)) {
+            return;
+        }
+        for (var link of node.links) {
+            if (link instanceof String) {
+                link = this.getNode(link);
+            }
+            if (!(link instanceof ViArNode)) {
+                continue;
+            }
+            RENDER_LIST.push(link.getRenderNode());
+        }
+        RENDER_LIST.length = 0;
+    }
+
+    this.useNodeChilds = function (node) {
+        this.clearRenderList();
+        if (node instanceof String) {
+            node = this.getNode(node);
+        }
+        if (!(node instanceof ViArNode)) {
+            return;
+        }
+        for (var child of node.childs) {
+            if (child instanceof String) {
+                child = this.getNode(child);
+            }
+            if (!(child instanceof ViArNode)) {
+                continue;
+            }
+            RENDER_LIST.push(child.getRenderNode());
+        }
+    }
+
+    this.useNodeParent = function (node) {
+        this.clearRenderList();
+        if (node instanceof String) {
+            node = this.getNode(node);
+        }
+        if (!(node instanceof ViArNode)) {
+            return;
+        }
+        if (node.parent != null) {
+            var parent = node.parent;
+            if (parent  instanceof String) {
+                parent  = this.getNode(parent );
+            }
+            if (!(parent  instanceof ViArNode)) {
+                return;
+            }
+            RENDER_LIST.push(parent.getRenderNode());
+        }
     }
 
     this.newNode = function (parent, title, content, tags, links) {
@@ -80,6 +158,20 @@ const ViArTree = function () {
         return this.node_map[id];
     }
 
+    this.getNodesWithLinks = function (node) {
+        var result = [];
+        if (node instanceof String) {
+            node = this.getNode(node);
+        }
+        if (!(node instanceof ViArNode)) {
+            return result;
+        }
+        for (var link of node.links) {
+            result.push(link);
+        }
+        return result;
+    }
+
     this.getNodesWithChild = function (node) {
         var result = [];
         if (node instanceof String) {
@@ -113,6 +205,7 @@ const ViArTree = function () {
         return {
             root: this._root.save(),
             node_map: node_save_map,
+            tags: Array.from(this.tags),
             salt: Math.floor(Math.random() * 1000000000) + 1,
         };
     }
@@ -122,9 +215,18 @@ const ViArTree = function () {
     }
 
     this.load = function (data) {
-        this.root = ViArNode.loadNode(data.root);
-        for (var node_id in data.node_map) {
-            this.node_map[node_id] = ViArNode.loadNode(data.node_map[node_id]);
+        if (data.root != undefined) {
+            this.root = ViArNode.loadNode(data.root);
+        }
+        if (data.node_map != undefined) {
+            for (var node_id in data.node_map) {
+                this.node_map[node_id] = ViArNode.loadNode(data.node_map[node_id]);
+            }
+        }
+        if (data.tags != undefined) {
+            for (var tag of data.tags) {
+                this.tags.add(tag);
+            }
         }
     }
 

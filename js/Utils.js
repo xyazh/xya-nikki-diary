@@ -48,7 +48,7 @@ Utils.objIsEmpty = function (obj) {
     return Object.keys(obj).length === 0;
 }
 
-Utils.formatTimestamp = function (timestamp) {
+Utils.formatTimestampUTC = function (timestamp) {
     var date = new Date(timestamp);
     var year = date.getUTCFullYear();
     var month = String(date.getUTCMonth() + 1).padStart(2, '0');
@@ -57,6 +57,17 @@ Utils.formatTimestamp = function (timestamp) {
     var minutes = String(date.getUTCMinutes()).padStart(2, '0');
     var seconds = String(date.getUTCSeconds()).padStart(2, '0');
     return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}Z`;
+}
+
+Utils.formatTimestamp = function (timestamp) {
+    let date = new Date(timestamp);
+    let year = date.getFullYear();
+    let month = (date.getMonth() + 1).toString().padStart(2, '0');
+    let day = date.getDate().toString().padStart(2, '0');
+    let hours = date.getHours().toString().padStart(2, '0');
+    let minutes = date.getMinutes().toString().padStart(2, '0');
+    let seconds = date.getSeconds().toString().padStart(2, '0');
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 }
 
 Utils.getAndroidVersion = function () {
@@ -116,5 +127,26 @@ Utils.splitKeyword = function (str) {
     }
     return result;
 }
+
+Utils.stringToColor = function (str) {
+    str = String(str);
+    return "#" + $crypto.digest(str, "MD5").substring(0, 6);
+}
+
+Utils.invertColor = function (hex) {
+    hex = hex.substring(1);
+    let r = parseInt(hex.substring(0, 2), 16);
+    let g = parseInt(hex.substring(2, 4), 16);
+    let b = parseInt(hex.substring(4, 6), 16);
+    r = 255 - r;
+    g = 255 - g;
+    b = 255 - b;
+    let invertedHex = "#" +
+        ("0" + r.toString(16)).slice(-2) +
+        ("0" + g.toString(16)).slice(-2) +
+        ("0" + b.toString(16)).slice(-2);
+    return invertedHex;
+}
+
 
 module.exports = Utils;

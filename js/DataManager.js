@@ -102,14 +102,17 @@ const DataMnager = function (app) {
         this.sortNikki();
     }
 
-    this.createEnptyFile = function (path) {
+    this.createEnptyFile = function (path,data_tmp) {
         if (files.exists(path)) {
             return;
         }
         files.ensureDir(path);
+        if(data_tmp == undefined){
+            data_tmp = [];
+        }
         var data = {
             salt: Math.floor(Math.random() * 1000000000) + 1,
-            data: []
+            data: data_tmp
         };
         data = JSON.stringify(data);
         data = this.encrypt(data);
@@ -182,7 +185,7 @@ const DataMnager = function (app) {
         try {
             viar = JSON.parse(viar_data);
         } catch (e) {
-            toast("加载备忘集发生异常:" + e);
+            toast("加载故事集发生异常:" + e);
         }
         if (viar !== null) {
             viar = this.decrypt(viar);
@@ -190,13 +193,14 @@ const DataMnager = function (app) {
         try {
             VIAR.loadFromJson(viar);
         } catch (e) {
-            toast("加载备忘集发生异常:" + e);
+            toast("加载故事集发生异常:" + e);
         }
     }
 
     this.load = function () {
         this.loadNikki();
         this.loadTekoki();
+        this.loadViAr();
     }
 
     this.saveNikki = function () {
@@ -224,16 +228,17 @@ const DataMnager = function (app) {
     }
 
     this.saveViAr = function () {
-        this.createEnptyFile(TEKOKIS_PATH);
+        this.createEnptyFile(VIAR_PATH,{});
         var viar_data = VIAR.saveToJson();
         viar_data = this.encrypt(viar_data);
         viar_data = JSON.stringify(viar_data);
-        files.write(TEKOKIS_PATH, viar_data, [encoding = "utf-8"]);
+        files.write(VIAR_PATH, viar_data, [encoding = "utf-8"]);
     }
 
     this.save = function () {
         this.saveTekoki();
         this.saveNikki();
+        this.saveViAr();
     }
 
     this.export = function (full_path) {
@@ -491,7 +496,7 @@ const DataMnager = function (app) {
                 }
             };
             text_data = JSON.stringify(text_data);
-            var date = Utils.formatTimestamp(nikki.date);
+            var date = Utils.formatTimestampUTC(nikki.date);
             var data = {
                 uuid: $crypto.digest(text_data, "MD5").toUpperCase(),
                 starred: false,

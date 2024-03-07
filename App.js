@@ -7,6 +7,8 @@ const Utils = require("./js/Utils.js");
 const Page = require("./js/Page.js");
 const PasswordManager = require("./js/PasswordManager.js");
 const DataManager = require("./js/DataManager.js");
+const EasyList = require("./js/EasyList.js");
+const HtmlView = require("./js/HtmlView.js");
 
 const App = function (DATA_CONTAINER) {
     this.VERSION = VERSION;
@@ -31,6 +33,7 @@ const App = function (DATA_CONTAINER) {
     this.DATA_CONTAINER.datetime = Date.parse(this.date);
     this.DATA_CONTAINER.week = "周" + "日一二三四五六".charAt(this.date.getDay());
     this.DATA_CONTAINER.tekoki_event = "默认";
+    this.DATA_CONTAINER.stringToColor = Utils.stringToColor;
 
     this.seleTheme = function () {
         var theme_name = this.config.get("theme","dis");
@@ -109,6 +112,8 @@ const App = function (DATA_CONTAINER) {
                 this.onReturn();
             }else if(this.page.is_setting) {
                 this.page.openMainPage();
+            }else if(this.page.is_look_viar) {
+                this.page.openViAr();
             }else {
                 this.onExit();
             }

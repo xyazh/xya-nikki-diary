@@ -2,6 +2,7 @@ const PasswordManager = require("./PasswordManager.js");
 const TekokiBinder = require("./TekokiBinder.js");
 const NikkiBinder = require("./NikkiBinder.js");
 const SettingBinder = require("./SettingBinder.js");
+const ViArBinder = require("./ViArBinder.js");
 const Utils = require("./Utils.js");
 
 const MENU_LIST = [{
@@ -15,6 +16,10 @@ const MENU_LIST = [{
 {
     title: "记录",
     icon: "@drawable/ic_create_black_48dp"
+},
+{
+    title: "故事集",
+    icon: "@drawable/ic_device_hub_black_48dp"
 },
 {
     title: PasswordManager.hasPassword() ? "修改密码" : "创建密码",
@@ -45,6 +50,8 @@ const Page = function (app) {
     this.is_write_nikki = false;
     this.is_tekoki = false;
     this.is_setting = false;
+    this.is_viar = false;
+    this.is_look_viar = false;
     this.looking_nikki = null;
     this.temp_nikki = null;
 
@@ -62,6 +69,8 @@ const Page = function (app) {
         this.input_nikki = ui.inp;
         this.inp_ymd_btn = ui.Tset;
         this.inp_hm_btn = ui.tset;
+        this.viar = ui.viar;
+        this.look_viar = ui.look_viar;
         this.initLookNikki();
         this.loadManagers();
         this.bindMenu();
@@ -84,6 +93,7 @@ const Page = function (app) {
         this.nikki_manager.bindOnBtn();
         this.nikki_manager.bindChangeInput();
         this.Setting_manager = new SettingBinder(this, this.app);
+        this.viar_manager = new ViArBinder(this, this.app);
     }
 
 
@@ -98,18 +108,27 @@ const Page = function (app) {
         this.write_nikki.attr("h", "0");
         this.tekoki.attr("h", "0");
         this.setting.attr("h", "0");
+        this.viar.attr("h", "0");
+        this.look_viar.attr("h", "0");
+        
+
         this.main_page.attr("visibility", "gone");
         this.nikki.attr("visibility", "gone");
         this.look_nikki.attr("visibility", "gone");
         this.write_nikki.attr("visibility", "gone");
         this.tekoki.attr("visibility", "gone");
         this.setting.attr("visibility", "gone");
+        this.viar.attr("visibility", "gone");
+        this.look_viar.attr("visibility", "gone");
+
         this.is_main_page = false;
         this.is_nikki = false;
         this.is_look_nikki = false;
         this.is_write_nikki = false;
         this.is_tekoki = false;
         this.is_setting = false;
+        this.is_viar = false;
+        this.is_look_viar = false;
     }
 
     this.setNikkiCount = function (page_n) {
@@ -163,6 +182,22 @@ const Page = function (app) {
         this.setting.attr("visibility", "visible");
         this.toolbar.title = "设置";
         this.is_setting = true;
+    }
+
+    this.openViAr = function () {
+        this.allHidden();
+        this.viar.attr("h", this.getHeight());
+        this.viar.attr("visibility", "visible");
+        this.toolbar.title = "故事集";
+        this.is_viar = true;
+    }
+
+    this.openLookViAr = function () {
+        this.allHidden();
+        this.look_viar.attr("h", this.getHeight());
+        this.look_viar.attr("visibility", "visible");
+        this.toolbar.title = "故事集-查看";
+        this.is_look_viar = true;
     }
 
     this.loadWriteNikki = function () {
@@ -230,8 +265,8 @@ const Page = function (app) {
             title: PasswordManager.hasPassword() ? "修改密码" : "创建密码",
             icon: "@drawable/ic_https_black_48dp"
         };
-        MENU_LIST.splice(3, 1);
-        MENU_LIST.splice(3, 0, appd);
+        MENU_LIST.splice(4, 1);
+        MENU_LIST.splice(4, 0, appd);
     }
 
     this.import = function () {
@@ -270,6 +305,10 @@ const Page = function (app) {
                 case "记录":
                     this.openTekoki();
                     this.tekoki_manager.tekokiUpdate();
+                    break;
+                case "故事集":
+                    this.openViAr();
+                    this.viar_manager.viarUpdate();
                     break;
                 case "创建密码":
                     this.app.password_manager.create();

@@ -15,7 +15,7 @@ const PAGE = (
                         </vertical>
                         <vertical>
                             <list id="texts_list">
-                                <card  bg="{{DATA_CONTAINER.card_bg_color}}" id="msg_card" clickable="true" foreground="?selectableItemBackground" w="*" margin="10 5">
+                                <card bg="{{DATA_CONTAINER.card_bg_color}}" id="msg_card" clickable="true" foreground="?selectableItemBackground" w="*" margin="10 5">
                                     <vertical>
                                         <horizontal>
                                             <vertical>
@@ -36,7 +36,7 @@ const PAGE = (
                         </vertical>
                     </vertical>
                     <card clickable="true" foreground="?selectableItemBackground" id="nikki_but" layout_gravity="right|bottom" margin="100px" w="172px" h="172px" bg="{{DATA_CONTAINER.ui_color}}">
-                        <img w="170px" h="170px" gravity="center" src="@drawable/ic_playlist_add_black_48dp" tint="{{DATA_CONTAINER.tine_color}}"/>
+                        <img w="170px" h="170px" gravity="center" src="@drawable/ic_playlist_add_black_48dp" tint="{{DATA_CONTAINER.tine_color}}" />
                     </card>
                 </frame>
                 <frame id="look_nikki">
@@ -102,10 +102,10 @@ const PAGE = (
                                     <frame margin="0 5" w="64px" h="64px">
                                         <frame w="*" h="*" bg="{{DATA_CONTAINER.ui_color}}"></frame>
                                         <frame w="*" h="{{parseInt((1-this.p)*64)}}px" bg="{{DATA_CONTAINER.main_bg_color}}"></frame>
-                                        <text color="{{DATA_CONTAINER.dis_text_color}}"  layout_gravity="center" textSize="{{DATA_CONTAINER.TEKOKI_TEXT_SIZE}}px" text="{{this.day}}" w="auto" h="auto" />
+                                        <text color="{{DATA_CONTAINER.dis_text_color}}" layout_gravity="center" textSize="{{DATA_CONTAINER.TEKOKI_TEXT_SIZE}}px" text="{{this.day}}" w="auto" h="auto" />
                                     </frame>
                                 </grid>
-                                <button backgroundTint="{{DATA_CONTAINER.button_color}}" color="{{DATA_CONTAINER.btn_text_color}}"  id="tekoki_event_set" text="{{DATA_CONTAINER.tekoki_event}}" style="Widget.AppCompat.Button.Colored" w="auto" />
+                                <button backgroundTint="{{DATA_CONTAINER.button_color}}" color="{{DATA_CONTAINER.btn_text_color}}" id="tekoki_event_set" text="{{DATA_CONTAINER.tekoki_event}}" style="Widget.AppCompat.Button.Colored" w="auto" />
                             </vertical>
                         </horizontal>
                     </vertical>
@@ -136,6 +136,71 @@ const PAGE = (
                             </vertical>
                         </vertical>
                     </ScrollView>
+                </frame>
+                <frame id="viar" w="*" h="*">
+                    <vertical>
+                        <vertical id="viar_tob">
+                            <text color="{{DATA_CONTAINER.dis_text_color}}" size="10sp" margin="4 0 0 0" text="搜索条件" />
+                            <text id="viar_srh_kw" color="{{DATA_CONTAINER.normal_text_color}}" size="12sp" margin="4 0 0 0" text="无" ellipsize="end" maxLines="1" />
+                            <text color="{{DATA_CONTAINER.dis_text_color}}" size="10sp" margin="4 0 0 0" text="Tags" />
+                            <easy-list id="viar_tags" source="[]" orientation="horizontal">
+                                <card radius="100px" bg="{{DATA_CONTAINER.stringToColor(this)}}" h="55px" w="auto" gravity="center" margin="8px" minWidth="100px">
+                                    <text margin="8px" size="10sp" text="{{this}}" />
+                                </card>
+                            </easy-list>
+                        </vertical>
+                        <button id="viar_tob_hidden_btn" style="Widget.AppCompat.Button.Borderless.Colored" color="{{DATA_CONTAINER.button_color}}" size="10sp" w="160px" h="100px" layout_gravity="right" text="收起" />
+                        <vertical h="2px" w="*" bg="{{DATA_CONTAINER.line_color}}"></vertical>
+                        <list id="viar_list">
+                            <card id="viar_card" clickable="true" foreground="?selectableItemBackground" w="*" h="auto" margin="10 5">
+                                <vertical>
+                                    <text color="{{DATA_CONTAINER.dis_text_color}}" size="10sp" margin="4 0 0 0" text="{{this.time}}" />
+                                    <text color="{{DATA_CONTAINER.normal_text_color}}" size="24sp" margin="4 0 0 0" text="{{this.title}}" ellipsize="end" maxLines="2" />
+                                    <text color="{{DATA_CONTAINER.dis_text_color}}" size="12sp" margin="4 0 0 0" text="{{this.meta}}" ellipsize="end" maxLines="1" />
+                                    <vertical h="2px" w="*" bg="{{DATA_CONTAINER.line_color}}"></vertical>
+                                    <text color="{{DATA_CONTAINER.dis_text_color}}" size="10sp" margin="4 0 0 0" text="Tag" />
+                                    <card radius="100px" bg="{{DATA_CONTAINER.stringToColor(this.main_tag)}}" h="55px" w="auto" gravity="center" margin="8px" minWidth="100px">
+                                        <text margin="8px" size="10sp" text="{{this.main_tag}}" />
+                                    </card>
+                                </vertical>
+                            </card>
+                        </list>
+                    </vertical>
+                    <card clickable="true" foreground="?selectableItemBackground" id="viar_but" layout_gravity="right|bottom" margin="100px 0px 100px 100px" w="172px" h="172px" bg="{{DATA_CONTAINER.ui_color}}">
+                        <img w="170px" h="170px" gravity="center" src="@drawable/ic_list_black_48dp" tint="{{DATA_CONTAINER.tine_color}}" />
+                    </card>
+                    <card clickable="true" visibility="gone" foreground="?selectableItemBackground" id="viar_add" layout_gravity="right|bottom" margin="100px 0px 100px 292px" w="152px" h="152px" bg="{{DATA_CONTAINER.ui_color}}">
+                        <img w="150px" h="150px" gravity="center" src="@drawable/ic_playlist_add_black_48dp" tint="{{DATA_CONTAINER.tine_color}}" />
+                    </card>
+                    <card clickable="true" visibility="gone" foreground="?selectableItemBackground" id="viar_srh" layout_gravity="right|bottom" margin="100px 0px 100px 464px" w="152px" h="152px" bg="{{DATA_CONTAINER.ui_color}}">
+                        <img w="150px" h="150px" gravity="center" src="@drawable/ic_search_black_48dp" tint="{{DATA_CONTAINER.tine_color}}" />
+                    </card>
+                </frame>
+                <frame id="look_viar" w="*" h="*">
+                    <vertical h="*">
+                        <vertical id="look_viar_tob">
+                            <vertical h="2px" w="*" bg="{{DATA_CONTAINER.line_color}}"></vertical>
+                            <text id="look_viar_id" color="{{DATA_CONTAINER.dis_text_color}}" size="12sp" margin="0" text="id" ellipsize="end" maxLines="1" />
+                            <text id="look_viar_time" color="{{DATA_CONTAINER.dis_text_color}}" size="10sp" margin="0" text="xxxx-xx-xx xx:xx:xx" />
+                            <easy-list id="look_viar_tags" source="{{'[2333]'}}" orientation="horizontal">
+                                <card radius="100px" bg="{{DATA_CONTAINER.stringToColor(this)}}" h="55px" w="auto" gravity="center" margin="8px" minWidth="100px">
+                                    <text margin="8px" size="10sp" text="{{this}}" />
+                                </card>
+                            </easy-list>
+                            <text id="look_viar_title" color="{{DATA_CONTAINER.normal_text_color}}" size="24sp" margin="0" padding="0" text="title" gravity="center" />
+                        </vertical>
+                        <horizontal w="*" gravity="right">
+                            <button id="link_node_but" style="Widget.AppCompat.Button.Borderless.Colored" color="{{DATA_CONTAINER.button_color}}" size="10sp" w="140px" h="100px" layout_gravity="right" text="链接" />
+                            <button id="last_node_but" style="Widget.AppCompat.Button.Borderless.Colored" color="{{DATA_CONTAINER.button_color}}" size="10sp" w="140px" h="100px" layout_gravity="right" text="上级" />
+                            <button id="next_node_but" style="Widget.AppCompat.Button.Borderless.Colored" color="{{DATA_CONTAINER.button_color}}" size="10sp" w="140px" h="100px" layout_gravity="right" text="下级" />
+                            <button id="look_viar_tob_hidden_btn" style="Widget.AppCompat.Button.Borderless.Colored" margin="0" color="{{DATA_CONTAINER.button_color}}" size="10sp" w="140px" h="100px" layout_gravity="right" text="收起" />
+                        </horizontal>
+                        <vertical h="2px" w="*" bg="{{DATA_CONTAINER.line_color}}"></vertical>
+                        <html-view id="look_viar_html" w="*" h="*" html="2333" />
+                    </vertical>
+                    <card clickable="true" foreground="?selectableItemBackground" id="look_viar_but" layout_gravity="right|bottom" margin="100px" w="172px" h="172px" bg="{{DATA_CONTAINER.ui_color}}">
+                        <img w="170px" h="170px" gravity="center" src="@drawable/ic_create_black_48dp" tint="{{DATA_CONTAINER.tine_color}}" />
+                    </card>
                 </frame>
             </frame>
         </vertical>
