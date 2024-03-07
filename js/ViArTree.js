@@ -10,7 +10,14 @@ const ViArTree = function () {
     this.tags.add("无");
     this.tags.add("root");
 
-    RENDER_LIST.push(this._root.getRenderNode());
+    this.initRenderList = function(){
+        this.forEachNode((node) => {
+            if (node instanceof ViArNode) {
+                RENDER_LIST.push(node.getRenderNode());
+            }
+        });
+    };
+
 
     this.getRoot = function () {
         return this._root;
@@ -21,6 +28,7 @@ const ViArTree = function () {
     }
 
     this.clearRenderList = function () {
+        RENDER_LIST.push(this._root.getRenderNode());
         RENDER_LIST.length = 0;
     }
 
@@ -45,7 +53,6 @@ const ViArTree = function () {
             }
             RENDER_LIST.push(link.getRenderNode());
         }
-        RENDER_LIST.length = 0;
     }
 
     this.useNodeChilds = function (node) {

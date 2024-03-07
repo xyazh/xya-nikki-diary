@@ -28,7 +28,8 @@ const ViArBinder = function (page, app) {
     this.last_node_btn = ui.last_node_but;
     this.next_node_btn = ui.next_node_but;
 
-    this.list.setDataSource(this.viar.getRenderList());
+    this.list.setDataSource(this.viar.getRenderList())
+    this.viar.initRenderList();
 
     this.link_node_btn.on("click", () => {
         var id = this.look_viar_id.text();
@@ -36,8 +37,22 @@ const ViArBinder = function (page, app) {
         this.viar.useNodeLinks(node);
         this.viar_srh_kw.setText(`<node:${node.title}|id=${id}>的链接`);
         this.page.openViAr();
-        this.list.setDataSource(this.viar.getRenderList());
-        print(this.viar.getRenderList());
+    });
+
+    this.next_node_btn.on("click", () => {
+        var id = this.look_viar_id.text();
+        var node = this.viar.getNode(id);
+        this.viar.useNodeChilds(node);
+        this.viar_srh_kw.setText(`<node:${node.title}|id=${id}>的子节点`);
+        this.page.openViAr();
+    });
+
+    this.last_node_btn.on("click", () => {
+        var id = this.look_viar_id.text();
+        var node = this.viar.getNode(id);
+        this.viar.useNodeParent(node);
+        this.viar_srh_kw.setText(`<node:${node.title}|id=${id}>的父节点`);
+        this.page.openViAr();
     });
 
     this.tob_hidden_btn.on("click", () => {
