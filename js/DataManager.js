@@ -1,14 +1,17 @@
 const Utils = require("./Utils.js");
 const LZString = require("./LZString");
+const ViArTree = require("./ViArTree.js")
 
 const NIKKIS = [];
 const TEKOKIS = {
     events: [],
     data: {}
 };
+const VIAR = new ViArTree();
 
 const TEKOKIS_PATH = "./data/tekoki/tekoki.json";
 const NIKKIS_PATH = "./data/nikki/nikki.json";
+const VIAR_PATH = "./data/viar/viar.json";
 
 const CRYPT_VRESION = 1;
 
@@ -21,6 +24,10 @@ const DataMnager = function (app) {
 
     this.getTekokis = function () {
         return TEKOKIS;
+    }
+
+    this.getViAr = function(){
+        return VIAR;
     }
 
     this.getTekokiData = function (key, event_name) {
@@ -168,6 +175,25 @@ const DataMnager = function (app) {
         TEKOKIS.data = tekoki.data;
     }
 
+    this.loadViAr = function () {
+        this.createEnptyFile(VIAR_PATH);
+        var viar_data = files.read(VIAR_PATH, [encoding = "utf-8"]);
+        var viar = null;
+        try {
+            viar = JSON.parse(viar_data);
+        } catch (e) {
+            toast("加载备忘集发生异常:" + e);
+        }
+        if (viar !== null) {
+            viar = this.decrypt(viar);
+        }
+        try {
+            VIAR.loadFromJson(viar);
+        } catch (e) {
+            toast("加载备忘集发生异常:" + e);
+        }
+    }
+
     this.load = function () {
         this.loadNikki();
         this.loadTekoki();
@@ -195,6 +221,14 @@ const DataMnager = function (app) {
         tekoki_data = this.encrypt(tekoki_data);
         tekoki_data = JSON.stringify(tekoki_data);
         files.write(TEKOKIS_PATH, tekoki_data, [encoding = "utf-8"]);
+    }
+
+    this.saveViAr = function () {
+        this.createEnptyFile(TEKOKIS_PATH);
+        var viar_data = VIAR.saveToJson();
+        viar_data = this.encrypt(viar_data);
+        viar_data = JSON.stringify(viar_data);
+        files.write(TEKOKIS_PATH, viar_data, [encoding = "utf-8"]);
     }
 
     this.save = function () {
