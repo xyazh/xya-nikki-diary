@@ -180,9 +180,9 @@ const PAGE = (
                     <vertical h="*">
                         <vertical id="look_viar_tob">
                             <vertical h="2px" w="*" bg="{{DATA_CONTAINER.line_color}}"></vertical>
-                            <text id="look_viar_id" color="{{DATA_CONTAINER.dis_text_color}}" size="12sp" margin="0" text="id" ellipsize="end" maxLines="1" />
-                            <text id="look_viar_time" color="{{DATA_CONTAINER.dis_text_color}}" size="10sp" margin="0" text="xxxx-xx-xx xx:xx:xx" />
-                            <easy-list id="look_viar_tags" source="{{'[2333]'}}" orientation="horizontal">
+                            <text id="look_viar_id" color="{{DATA_CONTAINER.dis_text_color}}" size="8sp" margin="0" text="id" ellipsize="end" maxLines="1" />
+                            <text id="look_viar_time" color="{{DATA_CONTAINER.dis_text_color}}" size="8sp" margin="0" text="xxxx-xx-xx xx:xx:xx" />
+                            <easy-list id="look_viar_tags" source="{{'[]'}}" orientation="horizontal">
                                 <card radius="100px" bg="{{DATA_CONTAINER.stringToColor(this)}}" h="55px" w="auto" gravity="center" margin="8px" minWidth="100px">
                                     <text margin="8px" size="10sp" text="{{this}}" />
                                 </card>

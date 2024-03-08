@@ -1,5 +1,16 @@
 const Utils = require("./Utils.js");
 
+const ROOT_CONTENT = `
+<h5>RootNode</h5>
+<p>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;根节点是所有其他节点的最上级节点，无法修改和删除。但是可以将根节点隐藏不显示在列表中。
+</p>
+<p>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;可以通过编辑节点的html代码来实现各种各样的效果。
+</p>
+
+`
+
 const ViArNode = function (data) {
     this.title = data.title;
     this.date = data.date;
@@ -24,7 +35,7 @@ const ViArNode = function (data) {
         return result;
     }
 
-    this.getTime = function(){
+    this.getTime = function () {
         return Utils.formatTimestamp(this.date);
     }
 
@@ -54,7 +65,7 @@ ViArNode.newRootNode = function () {
         date: 0,
         creat_date: 0,
         id: "root",
-        content: "root",
+        content: ROOT_CONTENT,
         tags: new Set(),
         main_tag: "root",
         parent: null,

@@ -1,0 +1,162 @@
+<style>
+    .u_add_div_s {
+        width: 100%;
+        height: 30px;
+        line-height: 30px;
+        background-color: #ececec;
+        text-align: left;
+        border-left: 1px solid rgb(148, 148, 148);
+        border-right: 1px solid rgb(148, 148, 148);
+        outline: none;
+        font-size: 16px;
+        color: rgb(82, 82, 82);
+    }
+
+    .u_add_div_s:hover {
+        background-color: #ececec;
+    }
+
+    .u_add_div_l {
+        display: inline-block;
+        margin: 0;
+        cursor: pointer;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    .u_add_div_l:hover {
+        background-color: #e0e0e0;
+    }
+
+    .input {
+        width: 100%;
+        min-height: 600px;
+        background-color: #ffffff;
+        text-align: left;
+        color: #e0e0e0;
+        border: 1px solid rgb(148, 148, 148);
+        border-top: none;
+        border-bottom: none;
+        outline: none;
+    }
+
+    hb {
+        background-color: black;
+        color: #000000;
+    }
+
+    hb:hover {
+        background-color: rgba(255, 255, 255, 0);
+    }
+</style>
+<script>
+    var savedRange;
+
+    const saveCurrentCursorPos = function () {
+        var sel = window.getSelection();
+        if (sel.rangeCount > 0) {
+            savedRange = sel.getRangeAt(0);
+        }
+    }
+    const insertTextAtCursor = function (text) {
+        if (savedRange == undefined) {
+            return;
+        }
+        inputOnClick(document.getElementById("input"));
+        var sel = window.getSelection();
+        if (savedRange) {
+            sel.removeAllRanges();
+            sel.addRange(savedRange);
+        }
+        document.execCommand("insertText", true, text);
+    }
+    const insertHtmlAtCursor = function (html) {
+        if (savedRange == undefined) {
+            return;
+        }
+        inputOnClick(document.getElementById("input"));
+        var sel = window.getSelection();
+        if (sel.rangeCount) {
+            var range = savedRange;
+            range.deleteContents();
+            var el = document.createElement("div");
+            el.innerHTML = html;
+            var frag = document.createDocumentFragment(), node, lastNode;
+            while ((node = el.firstChild)) {
+                lastNode = frag.appendChild(node);
+            }
+            range.insertNode(frag);
+            if (lastNode) {
+                range = range.cloneRange();
+                range.setStartAfter(lastNode);
+                range.collapse(true);
+                sel.removeAllRanges();
+                sel.addRange(range);
+            }
+        }
+    }
+    const inputOnClick = function (self) {
+        var attr = self.getAttribute("isblur");
+        if (attr == "false") {
+            self.innerHTML = "";
+            self.setAttribute("isblur", "true");
+            self.style.color = "#000000";
+        }
+    }
+    const handlblur = function (self) {
+        saveCurrentCursorPos();
+        if (self.innerHTML == "") {
+            self.innerHTML = "写些什么吧";
+            self.setAttribute("isblur", "false");
+            self.style.color = "#e0e0e0";
+        }
+    }
+    const onBlack = function () {
+        if (savedRange == undefined) {
+            return;
+        }
+        var text = savedRange.toString();
+        insertHtmlAtCursor('<b>' + text + '</b>');
+    }
+
+    const onInc = function () {
+        if (savedRange == undefined) {
+            return;
+        }
+        var text = savedRange.toString();
+        insertHtmlAtCursor('<i>' + text + '</i>');
+    }
+
+    const onDel = function () {
+        if (savedRange == undefined) {
+            return;
+        }
+        var text = savedRange.toString();
+        insertHtmlAtCursor('<del>' + text + '</del>');
+    }
+
+    const onHb = function () {
+        if (savedRange == undefined) {
+            return;
+        }
+        var text = savedRange.toString();
+        insertHtmlAtCursor('<hb>' + text + '</hb>');
+    }
+</script>
+<div id="u_add_div_s" class="u_add_div_s">
+    <div class="u_add_div_l" onclick="onBlack()">
+        <t>&nbsp;<b>&nbsp;&nbsp;B&nbsp;&nbsp;</b>&nbsp;</t>
+    </div>
+    <div class="u_add_div_l" onclick="onInc()">
+        <t>&nbsp;<i>&nbsp;&nbsp;I&nbsp;&nbsp;</i>&nbsp;</t>
+    </div>
+    <div class="u_add_div_l" onclick="onDel()">
+        <t>&nbsp;<del>划去</del>&nbsp;</t>
+    </div>
+    <div class="u_add_div_l" onclick="onHb()">
+        <t>&nbsp;防剧透&nbsp;</t>
+    </div>
+</div>
+<div class="input" id="input" isblur="false" onblur="handlblur(this)" contenteditable="true"
+    onclick="inputOnClick(this)">写些什么罢
+</div>
