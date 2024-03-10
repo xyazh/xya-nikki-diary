@@ -29,7 +29,7 @@ ui.layout(
             <vertical id="write_viar_tob">
                 <text color="{{DATA_CONTAINER.dis_text_color}}" size="10sp" margin="0" text="Tags" />
                 <easy-list id="write_viar_tags" source="{{'[2333]'}}" orientation="horizontal">
-                    <card radius="100px" bg="{{DATA_CONTAINER.stringToColor(this)}}" h="55px" w="auto" gravity="center" margin="8px" minWidth="100px">
+                    <card bg="{{DATA_CONTAINER.stringToColor(this)}}" h="55px" w="auto" gravity="center" margin="8px" minWidth="100px">
                         <text margin="8px" size="10sp" text="{{this}}" />
                     </card>
                 </easy-list>

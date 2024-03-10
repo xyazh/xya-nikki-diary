@@ -10,7 +10,8 @@ const ViArTree = function () {
     this.tags.add("无");
     this.tags.add("root");
 
-    this.initRenderList = function(){
+    this.initRenderList = function () {
+        this.clearRenderList();
         this.forEachNode((node) => {
             if (node instanceof ViArNode) {
                 RENDER_LIST.push(node.getRenderNode());
@@ -28,7 +29,9 @@ const ViArTree = function () {
     }
 
     this.clearRenderList = function () {
-        RENDER_LIST.push(this._root.getRenderNode());
+        if (RENDER_LIST.length == 1) {
+            RENDER_LIST.pop();
+        }
         RENDER_LIST.length = 0;
     }
 
@@ -84,17 +87,17 @@ const ViArTree = function () {
         }
         if (node.parent != null) {
             var parent = node.parent;
-            if (parent  instanceof String) {
-                parent  = this.getNode(parent );
+            if (parent instanceof String) {
+                parent = this.getNode(parent);
             }
-            if (!(parent  instanceof ViArNode)) {
+            if (!(parent instanceof ViArNode)) {
                 return;
             }
             RENDER_LIST.push(parent.getRenderNode());
         }
     }
 
-    this.newNode = function (parent, title, content, tags, links) {
+    this.newNode = function (parent, title, content, tags, links, meta, main_tag) {
         if (parent instanceof String) {
             parent = this.getNode(parent);
         }
@@ -111,7 +114,11 @@ const ViArTree = function () {
             }
             in_links.push(link);
         }
-        var node = ViArNode.newNode(title, content, tags, parent, in_links);
+        for(var tag of tags){
+            this.tags.add(tag);
+        }
+        this.tags.add(main_tag);
+        var node = ViArNode.newNode(title, content, tags, parent, in_links,meta,main_tag);
         this.node_map[node.id] = node;
         return node;
     }
@@ -235,6 +242,7 @@ const ViArTree = function () {
                 this.tags.add(tag);
             }
         }
+        this.initRenderList();
     }
 
     this.loadFromJson = function (data) {
@@ -279,6 +287,29 @@ const ViArTree = function () {
             }
             result.push({
                 node: node,
+                score: n,
+            });
+        }
+        result.sort((a, b) => b.score - a.score);
+        return result;
+    }
+
+    this.searchTag = function (keyword) {
+        var result = [];
+        var keywords = Utils.splitKeyword(keyword);
+        for (var tag of this.tags) {
+            tag = String(tag);
+            var n = 0;
+            for (keyword of keywords) {
+                if (tag.includes(keyword)) {
+                    n += 1;
+                }
+            }
+            if (n <= 0) {
+                continue;
+            }
+            result.push({
+                tag: tag,
                 score: n,
             });
         }

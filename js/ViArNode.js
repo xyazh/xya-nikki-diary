@@ -60,13 +60,14 @@ const ViArNode = function (data) {
 }
 
 ViArNode.newRootNode = function () {
+    var tags = ["root"];
     var data = {
         title: "root",
         date: 0,
         creat_date: 0,
         id: "root",
         content: ROOT_CONTENT,
-        tags: new Set(),
+        tags: new Set(tags),
         main_tag: "root",
         parent: null,
         childs: new Set(),
@@ -76,7 +77,7 @@ ViArNode.newRootNode = function () {
     return new ViArNode(data);
 }
 
-ViArNode.newNode = function (title, content, tags, parent, links, main_tag) {
+ViArNode.newNode = function (title, content, tags, parent, links, meta, main_tag) {
     var date = Date.parse(new Date());
     var data = {
         title: title,
@@ -89,7 +90,7 @@ ViArNode.newNode = function (title, content, tags, parent, links, main_tag) {
         parent: parent.id,
         childs: new Set(),
         links: new Set(),
-        meta: ""
+        meta: meta
     }
     data.tags.add(main_tag);
     var node = new ViArNode(data);
@@ -110,7 +111,7 @@ ViArNode.loadNode = function (save_data) {
         content: save_data.content,
         tags: new Set(save_data.tags),
         main_tag: save_data.main_tag,
-        parent: parent.id,
+        parent: save_data.parent,
         childs: new Set(save_data.childs),
         links: new Set(save_data.links),
         meta: save_data.meta

@@ -52,8 +52,11 @@ const Page = function (app) {
     this.is_setting = false;
     this.is_viar = false;
     this.is_look_viar = false;
+    this.is_write_viar = false;
     this.looking_nikki = null;
     this.temp_nikki = null;
+    this.is_select_viar_for_parent = false;
+    this.is_select_viar_for_links = false;
 
     this.init = function () {
         this.fh = ui.fh;
@@ -71,6 +74,7 @@ const Page = function (app) {
         this.inp_hm_btn = ui.tset;
         this.viar = ui.viar;
         this.look_viar = ui.look_viar;
+        this.write_viar = ui.write_viar;
         this.initLookNikki();
         this.loadManagers();
         this.bindMenu();
@@ -110,7 +114,7 @@ const Page = function (app) {
         this.setting.attr("h", "0");
         this.viar.attr("h", "0");
         this.look_viar.attr("h", "0");
-        
+        this.write_viar.attr("h", "0");
 
         this.main_page.attr("visibility", "gone");
         this.nikki.attr("visibility", "gone");
@@ -120,6 +124,7 @@ const Page = function (app) {
         this.setting.attr("visibility", "gone");
         this.viar.attr("visibility", "gone");
         this.look_viar.attr("visibility", "gone");
+        this.write_viar.attr("visibility", "gone");
 
         this.is_main_page = false;
         this.is_nikki = false;
@@ -129,6 +134,10 @@ const Page = function (app) {
         this.is_setting = false;
         this.is_viar = false;
         this.is_look_viar = false;
+        this.is_write_viar = false;
+
+        this.is_select_viar_for_parent = false;
+        this.is_select_viar_for_links = false;
     }
 
     this.setNikkiCount = function (page_n) {
@@ -190,6 +199,7 @@ const Page = function (app) {
         this.viar.attr("visibility", "visible");
         this.toolbar.title = "故事集";
         this.is_viar = true;
+        this.viar_manager.viarUpdate();
     }
 
     this.openLookViAr = function () {
@@ -198,6 +208,35 @@ const Page = function (app) {
         this.look_viar.attr("visibility", "visible");
         this.toolbar.title = "故事集-查看";
         this.is_look_viar = true;
+    }
+
+    this.openWriteViAr = function () {
+        this.allHidden();
+        this.write_viar.attr("h", this.getHeight());
+        this.write_viar.attr("visibility", "visible");
+        this.toolbar.title = "故事集-写";
+        this.is_write_viar = true;
+        this.viar_manager.displayAdd();
+        this.viar_manager.setWriteParentTx();
+        this.viar_manager.nofityTags();
+    }
+
+    this.openSelectViarForParent = function () {
+        this.allHidden();
+        this.viar.attr("h", this.getHeight());
+        this.viar.attr("visibility", "visible");
+        this.toolbar.title = "故事集-搜索";
+        this.is_select_viar_for_parent = true;
+        this.viar_manager.hiddenAdd();
+    }
+
+    this.openSelectViarForLinks = function () {
+        this.allHidden();
+        this.viar.attr("h", this.getHeight());
+        this.viar.attr("visibility", "visible");
+        this.toolbar.title = "故事集-搜索";
+        this.is_select_viar_for_links = true;
+        this.viar_manager.hiddenAdd();
     }
 
     this.loadWriteNikki = function () {

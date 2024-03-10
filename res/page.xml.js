@@ -144,7 +144,7 @@ const PAGE = (
                             <text id="viar_srh_kw" color="{{DATA_CONTAINER.normal_text_color}}" size="12sp" margin="4 0 0 0" text="无" ellipsize="end" maxLines="1" />
                             <text color="{{DATA_CONTAINER.dis_text_color}}" size="10sp" margin="4 0 0 0" text="Tags" />
                             <easy-list id="viar_tags" source="[]" orientation="horizontal">
-                                <card radius="100px" bg="{{DATA_CONTAINER.stringToColor(this)}}" h="55px" w="auto" gravity="center" margin="8px" minWidth="100px">
+                                <card bg="{{DATA_CONTAINER.stringToColor(this)}}" h="55px" w="auto" gravity="center" margin="8px" minWidth="100px">
                                     <text margin="8px" size="10sp" text="{{this}}" />
                                 </card>
                             </easy-list>
@@ -159,7 +159,7 @@ const PAGE = (
                                     <text color="{{DATA_CONTAINER.dis_text_color}}" size="12sp" margin="4 0 0 0" text="{{this.meta}}" ellipsize="end" maxLines="1" />
                                     <vertical h="2px" w="*" bg="{{DATA_CONTAINER.line_color}}"></vertical>
                                     <text color="{{DATA_CONTAINER.dis_text_color}}" size="10sp" margin="4 0 0 0" text="Tag" />
-                                    <card radius="100px" bg="{{DATA_CONTAINER.stringToColor(this.main_tag)}}" h="55px" w="auto" gravity="center" margin="8px" minWidth="100px">
+                                    <card bg="{{DATA_CONTAINER.stringToColor(this.main_tag)}}" h="55px" w="auto" gravity="center" margin="8px" minWidth="100px">
                                         <text margin="8px" size="10sp" text="{{this.main_tag}}" />
                                     </card>
                                 </vertical>
@@ -169,11 +169,11 @@ const PAGE = (
                     <card clickable="true" foreground="?selectableItemBackground" id="viar_but" layout_gravity="right|bottom" margin="100px 0px 100px 100px" w="172px" h="172px" bg="{{DATA_CONTAINER.ui_color}}">
                         <img w="170px" h="170px" gravity="center" src="@drawable/ic_list_black_48dp" tint="{{DATA_CONTAINER.tine_color}}" />
                     </card>
-                    <card clickable="true" visibility="gone" foreground="?selectableItemBackground" id="viar_add" layout_gravity="right|bottom" margin="100px 0px 100px 292px" w="152px" h="152px" bg="{{DATA_CONTAINER.ui_color}}">
-                        <img w="150px" h="150px" gravity="center" src="@drawable/ic_playlist_add_black_48dp" tint="{{DATA_CONTAINER.tine_color}}" />
-                    </card>
-                    <card clickable="true" visibility="gone" foreground="?selectableItemBackground" id="viar_srh" layout_gravity="right|bottom" margin="100px 0px 100px 464px" w="152px" h="152px" bg="{{DATA_CONTAINER.ui_color}}">
+                    <card clickable="true" visibility="gone" foreground="?selectableItemBackground" id="viar_srh" layout_gravity="right|bottom" margin="100px 0px 100px 292px" w="152px" h="152px" bg="{{DATA_CONTAINER.ui_color}}">
                         <img w="150px" h="150px" gravity="center" src="@drawable/ic_search_black_48dp" tint="{{DATA_CONTAINER.tine_color}}" />
+                    </card>
+                    <card clickable="true" visibility="gone" foreground="?selectableItemBackground" id="viar_add" layout_gravity="right|bottom" margin="100px 0px 100px 464px" w="152px" h="152px" bg="{{DATA_CONTAINER.ui_color}}">
+                        <img w="150px" h="150px" gravity="center" src="@drawable/ic_playlist_add_black_48dp" tint="{{DATA_CONTAINER.tine_color}}" />
                     </card>
                 </frame>
                 <frame id="look_viar" w="*" h="*">
@@ -182,11 +182,11 @@ const PAGE = (
                             <vertical h="2px" w="*" bg="{{DATA_CONTAINER.line_color}}"></vertical>
                             <text id="look_viar_id" color="{{DATA_CONTAINER.dis_text_color}}" size="8sp" margin="0" text="id" ellipsize="end" maxLines="1" />
                             <text id="look_viar_time" color="{{DATA_CONTAINER.dis_text_color}}" size="8sp" margin="0" text="xxxx-xx-xx xx:xx:xx" />
-                            <easy-list id="look_viar_tags" source="{{'[]'}}" orientation="horizontal">
-                                <card radius="100px" bg="{{DATA_CONTAINER.stringToColor(this)}}" h="55px" w="auto" gravity="center" margin="8px" minWidth="100px">
+                            <list id="look_viar_tags" orientation="horizontal">
+                                <card bg="{{DATA_CONTAINER.stringToColor(this)}}" h="55px" w="auto" gravity="center" margin="8px" minWidth="100px">
                                     <text margin="8px" size="10sp" text="{{this}}" />
                                 </card>
-                            </easy-list>
+                            </list>
                             <text id="look_viar_title" color="{{DATA_CONTAINER.normal_text_color}}" size="24sp" margin="0" padding="0" text="title" gravity="center" />
                         </vertical>
                         <horizontal w="*" gravity="right">
@@ -200,6 +200,44 @@ const PAGE = (
                     </vertical>
                     <card clickable="true" foreground="?selectableItemBackground" id="look_viar_but" layout_gravity="right|bottom" margin="100px" w="172px" h="172px" bg="{{DATA_CONTAINER.ui_color}}">
                         <img w="170px" h="170px" gravity="center" src="@drawable/ic_create_black_48dp" tint="{{DATA_CONTAINER.tine_color}}" />
+                    </card>
+                </frame>
+                <frame id="write_viar" w="*" h="*">
+                    <ScrollView>
+                        <vertical>
+                            <vertical>
+                                <input id="viar_inp_tit" size="24sp" hint="标题" gravity="left" lines="1" />
+                                <input id="viar_inp" hint="编辑html" gravity="left" lines="10" />
+                            </vertical>
+                            <text color="{{DATA_CONTAINER.dis_text_color}}" size="10sp" margin="0" text="Tags" />
+                            <horizontal>
+                                <input id="srh_tag_inp" size="10sp" w="{{device.width-60}}px" hint="搜索或创建" lines="1" />
+                                <img clickable="true" layout_gravity="center" foreground="?selectableItemBackground" id="srh_tag_but" w="60px" h="60px" gravity="center" src="@drawable/ic_search_black_48dp" tint="{{DATA_CONTAINER.dis_text_color}}" />
+                            </horizontal>
+                            <list id="srh_tag_li" orientation="horizontal">
+                                <card bg="{{DATA_CONTAINER.stringToColor(this)}}" h="55px" w="auto" gravity="center" margin="8px" minWidth="100px">
+                                    <text margin="8px" size="10sp" text="{{this}}" />
+                                </card>
+                            </list>
+                            <list id="write_viar_li" orientation="horizontal">
+                                <card bg="{{DATA_CONTAINER.stringToColor(this)}}" h="55px" w="auto" gravity="center" margin="8px" minWidth="100px">
+                                    <text margin="8px" size="10sp" text="{{this}}" />
+                                </card>
+                            </list>
+                            <vertical h="4px" w="*" bg="#848484" margin="4 0 4 0"></vertical>
+                            <text id="write_parent_tx" text="" gravity="center" size="12sp" />
+                            <button id="viar_slc_last" style="Widget.AppCompat.Button.Borderless.Colored" margin="0" color="{{DATA_CONTAINER.button_color}}" size="10sp" w="*" h="100px" text="选择父节点" />
+                            <vertical h="4px" w="*" bg="#848484" margin="4 0 4 0"></vertical>
+                            <list id="viar_inp_links">
+                                <text text="{{this}}" w="*" gravity="center" size="12sp" />
+                            </list>
+                            <button id="viar_inp_add_links" style="Widget.AppCompat.Button.Borderless.Colored" margin="0" color="{{DATA_CONTAINER.button_color}}" size="10sp" w="*" h="100px" text="链接" />
+                            <vertical h="4px" w="*" bg="#848484" margin="4 0 4 0"></vertical>
+                            <input id="viar_inp_meta" size="10sp" hint="编辑meta" gravity="left" lines="1" />
+                        </vertical>
+                    </ScrollView>
+                    <card clickable="true" foreground="?selectableItemBackground" id="write_viar_but" layout_gravity="right|bottom" margin="100px" w="172px" h="172px" bg="{{DATA_CONTAINER.ui_color}}">
+                        <img w="170px" h="170px" gravity="center" src="@drawable/ic_check_black_48dp" tint="{{DATA_CONTAINER.tine_color}}" />
                     </card>
                 </frame>
             </frame>
