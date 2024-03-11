@@ -319,6 +319,7 @@ const DataMnager = function (app) {
         TEKOKIS.data = data.out_tekoki.data;
         TEKOKIS.events = data.out_tekoki.events;
         var viar = data.out_viar;
+        print(viar);
         if (viar != undefined) {
             try {
                 VIAR.loadFromJson(viar);

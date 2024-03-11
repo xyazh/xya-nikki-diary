@@ -283,14 +283,15 @@ const ViArTree = function () {
             this._root = ViArNode.loadNode(data.root);
         }
         if (data.node_map != undefined) {
-            for (var key in data.node_map) {
-                delete data.node_map[key];
+            for (var key in this.node_map) {
+                delete this.node_map[key];
             }
             for (var node_id in data.node_map) {
                 this.node_map[node_id] = ViArNode.loadNode(data.node_map[node_id]);
             }
         }
         if (data.tags != undefined) {
+            this.tags.clear();
             for (var tag of data.tags) {
                 this.tags.add(tag);
             }
