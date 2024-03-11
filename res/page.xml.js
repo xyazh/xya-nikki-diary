@@ -141,15 +141,22 @@ const PAGE = (
                     <vertical>
                         <vertical id="viar_tob">
                             <text color="{{DATA_CONTAINER.dis_text_color}}" size="10sp" margin="4 0 0 0" text="搜索条件" />
-                            <text id="viar_srh_kw" color="{{DATA_CONTAINER.normal_text_color}}" size="12sp" margin="4 0 0 0" text="无" ellipsize="end" maxLines="1" />
+                            <input id="viar_srh_kw" color="{{DATA_CONTAINER.normal_text_color}}" size="12sp" margin="4 0 0 0" text="无" />
                             <text color="{{DATA_CONTAINER.dis_text_color}}" size="10sp" margin="4 0 0 0" text="Tags" />
+                            <horizontal>
+                                <input id="srh_tag_inp_main" size="10sp" w="{{device.width-60}}px" hint="搜索" lines="1" />
+                                <img clickable="true" layout_gravity="center" foreground="?selectableItemBackground" id="srh_tag_but_main" w="60px" h="60px" gravity="center" src="@drawable/ic_search_black_48dp" tint="{{DATA_CONTAINER.dis_text_color}}" />
+                            </horizontal>
                             <easy-list id="viar_tags" source="[]" orientation="horizontal">
                                 <card bg="{{DATA_CONTAINER.stringToColor(this)}}" h="55px" w="auto" gravity="center" margin="8px" minWidth="100px">
                                     <text margin="8px" size="10sp" text="{{this}}" />
                                 </card>
                             </easy-list>
                         </vertical>
-                        <button id="viar_tob_hidden_btn" style="Widget.AppCompat.Button.Borderless.Colored" color="{{DATA_CONTAINER.button_color}}" size="10sp" w="160px" h="100px" layout_gravity="right" text="收起" />
+                        <horizontal w="*" gravity="right">
+                            <button style="Widget.AppCompat.Button.Borderless.Colored" color="{{DATA_CONTAINER.button_color}}" size="10sp" w="140px" h="100px" layout_gravity="right" text="重置" />
+                            <button id="viar_tob_hidden_btn" style="Widget.AppCompat.Button.Borderless.Colored" color="{{DATA_CONTAINER.button_color}}" size="10sp" w="160px" h="100px" layout_gravity="right" text="收起" />
+                        </horizontal>
                         <vertical h="2px" w="*" bg="{{DATA_CONTAINER.line_color}}"></vertical>
                         <list id="viar_list">
                             <card id="viar_card" clickable="true" foreground="?selectableItemBackground" w="*" h="auto" margin="10 5">

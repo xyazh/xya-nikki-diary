@@ -125,6 +125,7 @@ const ViArBinder = function (page, app) {
 
     this.add_btn.on("click", () => {
         this.page.openWriteViAr();
+        this.nofityTags();
     });
 
     this.srh_parent_btn.on("click", () => {
@@ -159,7 +160,7 @@ const ViArBinder = function (page, app) {
     this.list.on("item_click", (item) => {
         var node = this.viar.getNode(item.id);
         if (!(node instanceof ViArNode)) {
-            toast("未发现节点：item.id");
+            toast(`未发现节点：${item.id}`);
             return;
         }
         if (this.page.is_viar) {
@@ -225,15 +226,36 @@ const ViArBinder = function (page, app) {
     }
 
     this.clearWriteTags = function () {
+        if (WRITE_TAGS.length > 1) {
+            WRITE_TAGS.length = 1;
+        }
+        if (WRITE_TAGS.length == 1) {
+            WRITE_TAGS.pop();
+        }
         WRITE_TAGS_SET.clear();
-        WRITE_TAGS.length = 0;
     }
 
     this.clearSrhTags = function () {
+        if (SRH_TAGS.length > 1) {
+            SRH_TAGS.length = 1;
+        }
         if (SRH_TAGS.length == 1) {
             SRH_TAGS.pop();
         }
-        SRH_TAGS.length = 0;
+        SRH_TAGS_SET.clear();
+    }
+
+    this.clearWriteLinks = function () {
+        if (WRITE_LINKS.length > 1) {
+            WRITE_LINKS.length = 1;
+        }
+        if (WRITE_LINKS.length == 1) {
+            WRITE_LINKS.pop();
+        }
+        WRITE_LINKS_MAP = {};
+        for (var key in WRITE_LINKS_MAP) {
+            delete WRITE_LINKS_MAP[key];
+        }
     }
 
     this.clearWritePage = function () {
@@ -241,6 +263,8 @@ const ViArBinder = function (page, app) {
         this.inp.setText("");
         this.inp_meta.setText("");
         this.srh_tag_inp.setText("");
+        this.clearWriteLinks();
+        this.clearWriteTags();
     }
 
     this.addWriteTag = function (tag) {
@@ -303,10 +327,12 @@ const ViArBinder = function (page, app) {
     }
 
     this.setLookTags = function (tags) {
-        if(LOOK_TAGS.length == 1){
+        if (LOOK_TAGS.length > 1) {
+            LOOK_TAGS.length = 1;
+        }
+        if (LOOK_TAGS.length == 1) {
             LOOK_TAGS.pop();
         }
-        LOOK_TAGS.length = 0;
         for (var tag of tags) {
             LOOK_TAGS.push(tag);
         }

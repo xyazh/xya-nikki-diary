@@ -8,7 +8,7 @@ const SettingBinder = function (page, a) {
     this.export_one_day_btn = ui.export_one_day;
     this.delete_password_btn = ui.delete_password;
     this.theme_btn = ui.theme;
-    this.theme_btn.setText(this.app.config.get("theme","dis")=="dark"?"使用默认主题" : "使用深色主题");
+    this.theme_btn.setText(this.app.config.get("theme", "dis") == "dark" ? "使用默认主题" : "使用深色主题");
     this.git_btn.on("click", () => {
         $app.openUrl("https://github.com/xyazh/xya-nikki-diary");
     });
@@ -47,12 +47,12 @@ const SettingBinder = function (page, a) {
     });
 
     this.theme_btn.on("click", () => {
-        var theme = this.app.config.get("theme","dis");
-        if(theme == "dark"){
-            this.app.config.put("theme","dis");
+        var theme = this.app.config.get("theme", "dis");
+        if (theme == "dark") {
+            this.app.config.put("theme", "dis");
             this.theme_btn.setText("使用深色主题");
-        }else{
-            this.app.config.put("theme","dark");
+        } else {
+            this.app.config.put("theme", "dark");
             this.theme_btn.setText("使用默认主题");
         }
         toast("重启软件后生效");

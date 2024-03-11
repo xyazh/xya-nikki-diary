@@ -19,7 +19,7 @@ const App = function (DATA_CONTAINER) {
     this.password_manager = new PasswordManager(this);
     this.page = new Page(this);
     this.data_manager = new DataManager(this);
-    this.config = storages.create(PACKAGE_NAME+".config");
+    this.config = storages.create(PACKAGE_NAME + ".config");
 
     this.DATA_CONTAINER.page_number = 0;
     this.DATA_CONTAINER.title = "主页";
@@ -36,7 +36,7 @@ const App = function (DATA_CONTAINER) {
     this.DATA_CONTAINER.stringToColor = Utils.stringToColor;
 
     this.seleTheme = function () {
-        var theme_name = this.config.get("theme","dis");
+        var theme_name = this.config.get("theme", "dis");
         switch (theme_name) {
             case "dark":
                 this.darkTheme();
@@ -78,7 +78,7 @@ const App = function (DATA_CONTAINER) {
         this.DATA_CONTAINER.btn_text_color = "#757575";
     }
 
-    this.main = ()=>{
+    this.main = () => {
         this.seleTheme();
         this.uiLoadFream();
         this.page.openMainPage();
@@ -105,16 +105,20 @@ const App = function (DATA_CONTAINER) {
         ui.emitter.on("back_pressed", (e) => {
             e.consumed = true;
             if (this.page.is_look_nikki) {
-                this.page.looking_nikki=null;
+                this.page.looking_nikki = null;
                 this.nikkiUpdate();
                 this.page.openNikki();
-            }else if(this.page.is_write_nikki) {
+            } else if (this.page.is_write_nikki) {
                 this.onReturn();
-            }else if(this.page.is_setting) {
+            } else if (this.page.is_setting) {
                 this.page.openMainPage();
-            }else if(this.page.is_look_viar) {
+            } else if (this.page.is_look_viar) {
                 this.page.openViAr();
-            }else {
+            } else if (this.page.is_select_viar_for_parent || this.page.is_select_viar_for_links) {
+                this.page.openWriteViAr();
+            } else if (this.page.is_write_viar) {
+                this.onReturnViar();
+            } else {
                 this.onExit();
             }
         });
@@ -128,11 +132,20 @@ const App = function (DATA_CONTAINER) {
         });
     }
 
-    this.onReturn= function () {
+    this.onReturn = function () {
         confirm("确认返回吗，你可能还未保存？").then((status) => {
             if (status) {
                 this.nikkiUpdate();
                 this.page.openNikki();
+            }
+        });
+    }
+
+    this.onReturnViar = function () {
+        confirm("确认返回吗，你可能还未保存？").then((status) => {
+            if (status) {
+                this.page.openViAr();
+                this.page.viar_manager.viarUpdate();
             }
         });
     }

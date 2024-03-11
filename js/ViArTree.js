@@ -29,10 +29,12 @@ const ViArTree = function () {
     }
 
     this.clearRenderList = function () {
-        if (RENDER_LIST.length == 1) {
+        if (RENDER_LIST.length > 1) {
+            RENDER_LIST.length = 1;
+        }
+        if (RENDER_LIST.length = 1) {
             RENDER_LIST.pop();
         }
-        RENDER_LIST.length = 0;
     }
 
     this.getRenderList = function () {
@@ -41,14 +43,14 @@ const ViArTree = function () {
 
     this.useNodeLinks = function (node) {
         this.clearRenderList();
-        if (node instanceof String) {
+        if (typeof node == "string") {
             node = this.getNode(node);
         }
         if (!(node instanceof ViArNode)) {
             return;
         }
         for (var link of node.links) {
-            if (link instanceof String) {
+            if (typeof link == "string") {
                 link = this.getNode(link);
             }
             if (!(link instanceof ViArNode)) {
@@ -60,14 +62,14 @@ const ViArTree = function () {
 
     this.useNodeChilds = function (node) {
         this.clearRenderList();
-        if (node instanceof String) {
+        if (typeof node == "string") {
             node = this.getNode(node);
         }
         if (!(node instanceof ViArNode)) {
             return;
         }
         for (var child of node.childs) {
-            if (child instanceof String) {
+            if (typeof child == "string") {
                 child = this.getNode(child);
             }
             if (!(child instanceof ViArNode)) {
@@ -79,7 +81,7 @@ const ViArTree = function () {
 
     this.useNodeParent = function (node) {
         this.clearRenderList();
-        if (node instanceof String) {
+        if (typeof node == "string") {
             node = this.getNode(node);
         }
         if (!(node instanceof ViArNode)) {
@@ -87,7 +89,7 @@ const ViArTree = function () {
         }
         if (node.parent != null) {
             var parent = node.parent;
-            if (parent instanceof String) {
+            if (typeof parent == "string") {
                 parent = this.getNode(parent);
             }
             if (!(parent instanceof ViArNode)) {
@@ -98,7 +100,7 @@ const ViArTree = function () {
     }
 
     this.newNode = function (parent, title, content, tags, links, meta, main_tag) {
-        if (parent instanceof String) {
+        if (typeof parent == "string") {
             parent = this.getNode(parent);
         }
         if (!(parent instanceof ViArNode)) {
@@ -106,7 +108,7 @@ const ViArTree = function () {
         }
         var in_links = [];
         for (var link of links) {
-            if (link instanceof String) {
+            if (typeof link == "string") {
                 link = this.getNode(link);
             }
             if (!(link instanceof ViArNode)) {
@@ -114,11 +116,13 @@ const ViArTree = function () {
             }
             in_links.push(link);
         }
-        for(var tag of tags){
+        for (var tag of tags) {
             this.tags.add(tag);
         }
-        this.tags.add(main_tag);
-        var node = ViArNode.newNode(title, content, tags, parent, in_links,meta,main_tag);
+        if (main_tag != undefined) {
+            this.tags.add(main_tag);
+        }
+        var node = ViArNode.newNode(title, content, tags, parent, in_links, meta, main_tag);
         this.node_map[node.id] = node;
         return node;
     }
@@ -130,7 +134,7 @@ const ViArTree = function () {
         if (node == this._root || node == "root") {
             return false;
         }
-        if (node instanceof String) {
+        if (typeof node == "string") {
             var node_id = node;
             node = this.getNode(node_id);
             if (node == undefined) {
@@ -174,7 +178,7 @@ const ViArTree = function () {
 
     this.getNodesWithLinks = function (node) {
         var result = [];
-        if (node instanceof String) {
+        if (typeof node == "string") {
             node = this.getNode(node);
         }
         if (!(node instanceof ViArNode)) {
@@ -188,7 +192,7 @@ const ViArTree = function () {
 
     this.getNodesWithChild = function (node) {
         var result = [];
-        if (node instanceof String) {
+        if (typeof node == "string") {
             node = this.getNode(node);
         }
         if (!(node instanceof ViArNode)) {
@@ -230,7 +234,7 @@ const ViArTree = function () {
 
     this.load = function (data) {
         if (data.root != undefined) {
-            this.root = ViArNode.loadNode(data.root);
+            this._root = ViArNode.loadNode(data.root);
         }
         if (data.node_map != undefined) {
             for (var node_id in data.node_map) {

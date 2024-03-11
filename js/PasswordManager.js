@@ -4,7 +4,7 @@ const PasswordManager = function (app) {
     this.has_password = PasswordManager.hasPassword();
 
     this.inputPassword = function (loadFuc) {
-        if(!PasswordManager.hasPassword()){
+        if (!PasswordManager.hasPassword()) {
             loadFuc();
             return;
         }

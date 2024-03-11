@@ -26,7 +26,7 @@ const DataMnager = function (app) {
         return TEKOKIS;
     }
 
-    this.getViAr = function(){
+    this.getViAr = function () {
         return VIAR;
     }
 
@@ -102,12 +102,12 @@ const DataMnager = function (app) {
         this.sortNikki();
     }
 
-    this.createEnptyFile = function (path,data_tmp) {
+    this.createEnptyFile = function (path, data_tmp) {
         if (files.exists(path)) {
             return;
         }
         files.ensureDir(path);
-        if(data_tmp == undefined){
+        if (data_tmp == undefined) {
             data_tmp = [];
         }
         var data = {
@@ -228,7 +228,7 @@ const DataMnager = function (app) {
     }
 
     this.saveViAr = function () {
-        this.createEnptyFile(VIAR_PATH,{});
+        this.createEnptyFile(VIAR_PATH, {});
         var viar_data = VIAR.saveToJson();
         viar_data = this.encrypt(viar_data);
         viar_data = JSON.stringify(viar_data);

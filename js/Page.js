@@ -218,7 +218,6 @@ const Page = function (app) {
         this.is_write_viar = true;
         this.viar_manager.displayAdd();
         this.viar_manager.setWriteParentTx();
-        this.viar_manager.nofityTags();
     }
 
     this.openSelectViarForParent = function () {

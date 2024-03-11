@@ -100,7 +100,7 @@ const NikkiBinder = function (page, app) {
             var text = this.input_nikki.getText();
             this.page.temp_nikki.text = text;
         }
-        setTimeout(()=>{this.bindChangeInput();}, 5000);
+        setTimeout(() => { this.bindChangeInput(); }, 5000);
     }
 
     this.save = function () {

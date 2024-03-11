@@ -92,7 +92,7 @@ ViArNode.newNode = function (title, content, tags, parent, links, meta, main_tag
         links: new Set(),
         meta: meta
     }
-    data.tags.add(main_tag);
+    data.tags.add(data.main_tag);
     var node = new ViArNode(data);
     parent.childs.add(node.id);
     for (var link of links) {
