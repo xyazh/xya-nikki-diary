@@ -35,6 +35,30 @@ const ViArNode = function (data) {
         return result;
     }
 
+    this.update = function (parent, title, content, tags, links, meta, main_tag) {
+        if (typeof parent == "string") {
+            this.parent = parent;
+        } else if (parent instanceof ViArNode) {
+            this.parent = parent.id;
+        }
+        this.title = title;
+        this.content = content;
+        this.tags.clear();
+        for (var tag of tags) {
+            this.tags.add(tag);
+        }
+        this.links.clear();
+        for (var link of links) {
+            if (typeof link == "string") {
+                this.links.add(link);
+            } else if (link instanceof ViArNode) {
+                this.links.add(link.id);
+            }
+        }
+        this.meta = meta;
+        this.main_tag = main_tag == undefined ? "无" : main_tag
+    }
+
     this.getTime = function () {
         return Utils.formatTimestamp(this.date);
     }

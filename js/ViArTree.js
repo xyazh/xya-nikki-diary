@@ -169,6 +169,52 @@ const ViArTree = function () {
         return true;
     }
 
+    this.updateNode = function (node, parent, title, content, tags, links, meta, main_tag) {
+        if (node == this._root || node == "root") {
+            return false;
+        }
+        if (typeof node == "string") {
+            var node_id = node;
+            node = this.getNode(node_id);
+            if (node == undefined) {
+                return false;
+            }
+        } else if (node instanceof ViArNode) {
+            var node_id = node.id;
+        } else {
+            return false;
+        }
+        var old_links = node.links;
+        var old_parent = this.getNode(node.parent);
+        //断开旧链接
+        if (old_parent != undefined) {
+            old_parent.childs.delete(node.id);
+        }
+        for (var old_link of old_links) {
+            old_link = this.getNode(old_link);
+            if (old_link != undefined) {
+                old_link.links.delete(node_id);
+            }
+        }
+        //建立新链接
+        if (typeof parent == "string") {
+            parent = this.getNode(parent);
+        }
+        if (parent instanceof ViArNode) {
+            parent.childs.add(node_id);
+        }
+        for (var link of links) {
+            if (typeof link == "string") {
+                link = this.getNode(link);
+            }
+            if (!(link instanceof ViArNode)) {
+                continue;
+            }
+            link.links.add(node_id);
+        }
+        node.update(parent, title, content, tags, links, meta, main_tag);
+    }
+
     this.getNode = function (id) {
         if (id == "root") {
             return this._root;
@@ -237,6 +283,9 @@ const ViArTree = function () {
             this._root = ViArNode.loadNode(data.root);
         }
         if (data.node_map != undefined) {
+            for (var key in data.node_map) {
+                delete data.node_map[key];
+            }
             for (var node_id in data.node_map) {
                 this.node_map[node_id] = ViArNode.loadNode(data.node_map[node_id]);
             }
@@ -260,9 +309,17 @@ const ViArTree = function () {
         }
     }
 
+    this.useSearch = function (keyword, tags) {
+        var nodes = this.search(keyword, tags);
+        this.clearRenderList();
+        for (var node of nodes) {
+            RENDER_LIST.push(node.node.getRenderNode());
+        }
+    }
+
     this.search = function (keyword, tags) {
         var nodes = new Set();
-        if (tags != undefined) {
+        if (tags != undefined && tags.length > 0) {
             for (var tag of tags) {
                 var tag_nodes = this.findNodesWithTag(tag);
                 for (var tag_node of tag_nodes) {
@@ -275,6 +332,15 @@ const ViArTree = function () {
             }, nodes);
         }
         var result = [];
+        if (keyword == undefined || keyword == "" || keyword == null) {
+            for (var node of nodes) {
+                result.push({
+                    node: node,
+                    score: 1,
+                });
+            }
+            return result;
+        }
         var keywords = Utils.splitKeyword(keyword);
         for (var node of nodes) {
             var n = 0;

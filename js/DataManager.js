@@ -246,6 +246,7 @@ const DataMnager = function (app) {
         var data = {
             out_nikki: NIKKIS,
             out_tekoki: TEKOKIS,
+            out_viar: VIAR.saveToJson(),
             salt: Math.floor(Math.random() * 1000000000) + 1
         }
         data = JSON.stringify(data);
@@ -262,6 +263,7 @@ const DataMnager = function (app) {
         var data = {
             out_nikki: NIKKIS,
             out_tekoki: TEKOKIS,
+            out_viar: VIAR.saveToJson()
         }
         data = JSON.stringify(data);
         data = {
@@ -315,8 +317,15 @@ const DataMnager = function (app) {
         }
         this.sortNikki();
         TEKOKIS.data = data.out_tekoki.data;
-
         TEKOKIS.events = data.out_tekoki.events;
+        var viar = data.out_viar;
+        if (viar != undefined) {
+            try {
+                VIAR.loadFromJson(viar);
+            } catch (e) {
+                toast("加载故事集发生异常:" + e);
+            }
+        }
         this.save();
     }
 

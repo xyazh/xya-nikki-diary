@@ -123,6 +123,15 @@ const PAGE = (
                             <vertical h="2px" w="*" bg="{{DATA_CONTAINER.line_color}}"></vertical>
                             <button textColor="{{DATA_CONTAINER.normal_text_color}}" id="export_one_day" style="Widget.AppCompat.Button.Borderless" gravity="left|center_vertical" text="导出为Day one日记文件"></button>
                             <vertical h="2px" w="*" bg="{{DATA_CONTAINER.line_color}}"></vertical>
+                            
+                            <text text="故事集" color="{{DATA_CONTAINER.setting_title_text_color}}" textSize="12sp" margin="8" textStyle="bold"></text>
+                            <button textColor="{{DATA_CONTAINER.normal_text_color}}" style="Widget.AppCompat.Button.Borderless" gravity="left|center_vertical" text="清理Tag"></button>
+                            <vertical h="2px" w="*" bg="{{DATA_CONTAINER.line_color}}"></vertical>
+                            <button textColor="{{DATA_CONTAINER.normal_text_color}}" style="Widget.AppCompat.Button.Borderless" gravity="left|center_vertical" text="检查重建上下关系"></button>
+                            <vertical h="2px" w="*" bg="{{DATA_CONTAINER.line_color}}"></vertical>
+                            <button textColor="{{DATA_CONTAINER.normal_text_color}}" style="Widget.AppCompat.Button.Borderless" gravity="left|center_vertical" text="检查重建链接"></button>
+                            <vertical h="2px" w="*" bg="{{DATA_CONTAINER.line_color}}"></vertical>
+
                             <text text="安全" color="{{DATA_CONTAINER.setting_title_text_color}}" textSize="12sp" margin="8" textStyle="bold"></text>
                             <button textColor="{{DATA_CONTAINER.normal_text_color}}" id="delete_password" style="Widget.AppCompat.Button.Borderless" gravity="left|center_vertical" text="删除密码"></button>
                             <vertical h="2px" w="*" bg="{{DATA_CONTAINER.line_color}}"></vertical>
@@ -139,23 +148,28 @@ const PAGE = (
                 </frame>
                 <frame id="viar" w="*" h="*">
                     <vertical>
-                        <vertical id="viar_tob">
+                        <vertical id="viar_tob" visibility="gone">
                             <text color="{{DATA_CONTAINER.dis_text_color}}" size="10sp" margin="4 0 0 0" text="搜索条件" />
-                            <input id="viar_srh_kw" color="{{DATA_CONTAINER.normal_text_color}}" size="12sp" margin="4 0 0 0" text="无" />
+                            <input id="viar_srh_kw" hint="无" color="{{DATA_CONTAINER.normal_text_color}}" size="12sp" margin="4 0 0 0"/>
                             <text color="{{DATA_CONTAINER.dis_text_color}}" size="10sp" margin="4 0 0 0" text="Tags" />
                             <horizontal>
                                 <input id="srh_tag_inp_main" size="10sp" w="{{device.width-60}}px" hint="搜索" lines="1" />
-                                <img clickable="true" layout_gravity="center" foreground="?selectableItemBackground" id="srh_tag_but_main" w="60px" h="60px" gravity="center" src="@drawable/ic_search_black_48dp" tint="{{DATA_CONTAINER.dis_text_color}}" />
+                                <img id="srh_tag_btn_main" clickable="true" layout_gravity="center" foreground="?selectableItemBackground" w="60px" h="60px" gravity="center" src="@drawable/ic_search_black_48dp" tint="{{DATA_CONTAINER.dis_text_color}}" />
                             </horizontal>
-                            <easy-list id="viar_tags" source="[]" orientation="horizontal">
+                            <list id="viar_tags" orientation="horizontal">
                                 <card bg="{{DATA_CONTAINER.stringToColor(this)}}" h="55px" w="auto" gravity="center" margin="8px" minWidth="100px">
                                     <text margin="8px" size="10sp" text="{{this}}" />
                                 </card>
-                            </easy-list>
+                            </list>
+                            <list id="viar_srh_tags" orientation="horizontal">
+                                <card bg="{{DATA_CONTAINER.stringToColor(this)}}" h="55px" w="auto" gravity="center" margin="8px" minWidth="100px">
+                                    <text margin="8px" size="10sp" text="{{this}}" />
+                                </card>
+                            </list>
                         </vertical>
                         <horizontal w="*" gravity="right">
-                            <button style="Widget.AppCompat.Button.Borderless.Colored" color="{{DATA_CONTAINER.button_color}}" size="10sp" w="140px" h="100px" layout_gravity="right" text="重置" />
-                            <button id="viar_tob_hidden_btn" style="Widget.AppCompat.Button.Borderless.Colored" color="{{DATA_CONTAINER.button_color}}" size="10sp" w="160px" h="100px" layout_gravity="right" text="收起" />
+                            <button id="viar_reset" visibility="gone" style="Widget.AppCompat.Button.Borderless.Colored" color="{{DATA_CONTAINER.button_color}}" size="10sp" w="140px" h="100px" layout_gravity="right" text="重置" />
+                            <button id="viar_tob_hidden_btn" style="Widget.AppCompat.Button.Borderless.Colored" color="{{DATA_CONTAINER.button_color}}" size="10sp" w="160px" h="100px" layout_gravity="right" text="展开" />
                         </horizontal>
                         <vertical h="2px" w="*" bg="{{DATA_CONTAINER.line_color}}"></vertical>
                         <list id="viar_list">

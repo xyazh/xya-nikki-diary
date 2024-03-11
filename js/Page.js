@@ -200,6 +200,7 @@ const Page = function (app) {
         this.toolbar.title = "故事集";
         this.is_viar = true;
         this.viar_manager.viarUpdate();
+        this.viar_manager.displayAdd();
     }
 
     this.openLookViAr = function () {
@@ -216,7 +217,6 @@ const Page = function (app) {
         this.write_viar.attr("visibility", "visible");
         this.toolbar.title = "故事集-写";
         this.is_write_viar = true;
-        this.viar_manager.displayAdd();
         this.viar_manager.setWriteParentTx();
     }
 

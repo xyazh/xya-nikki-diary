@@ -8,6 +8,10 @@ const WRITE_TAGS_SET = new Set();
 const WRITE_LINKS = [];
 const WRITE_LINKS_MAP = {};
 const LOOK_TAGS = [];
+const TAG_LIST = [];
+const TAGS_SET = new Set();
+const SRH_MAIN_TAG = [];
+const SRH_MAIN_TAGS_SET = new Set();
 
 const ViArBinder = function (page, app) {
     this.page = page;
@@ -15,6 +19,7 @@ const ViArBinder = function (page, app) {
 
     this.viar = this.app.data_manager.getViAr();
     this.write_parent = this.viar.getRoot();
+    this.write_node = null;
 
     this.tob_hidden_btn = ui.viar_tob_hidden_btn;
     this.tob = ui.viar_tob;
@@ -48,12 +53,18 @@ const ViArBinder = function (page, app) {
     this.inp_tit = ui.viar_inp_tit;
     this.inp = ui.viar_inp;
     this.inp_meta = ui.viar_inp_meta;
+    this.reset_btn = ui.viar_reset;
+    this.srh_tags = ui.viar_srh_tags;
+    this.srh_tag_btn_main = ui.srh_tag_btn_main;
+    this.srh_tag_inp_main = ui.srh_tag_inp_main
 
     this.list.setDataSource(this.viar.getRenderList())
     this.srh_tag_li.setDataSource(SRH_TAGS);
     this.write_viar_li.setDataSource(WRITE_TAGS);
     this.inp_links.setDataSource(WRITE_LINKS);
     this.look_tag_list.setDataSource(LOOK_TAGS);
+    this.tag_list.setDataSource(TAG_LIST);
+    this.srh_tags.setDataSource(SRH_MAIN_TAG);
 
     this.link_node_btn.on("click", () => {
         var id = this.look_viar_id.text();
@@ -79,12 +90,48 @@ const ViArBinder = function (page, app) {
         this.page.openViAr();
     });
 
+    this.look_viar_btn.on("click", () => {
+        var id = this.look_viar_id.text();
+        if (id == "root") {
+            toast(`根节点禁止修改`);
+            return;
+        }
+        var node = this.viar.getNode(id);
+        if (!(node instanceof ViArNode)) {
+            toast(`未发现节点：${id}`);
+            return;
+        }
+        this.clearWritePage();
+        this.write_node = node;
+        var parent = this.viar.getNode(node.parent);
+        if (parent == undefined) {
+            parent = this.viar.getRoot();
+        }
+        this.write_parent = parent;
+        this.inp_tit.setText(node.title);
+        this.inp.setText(node.content);
+        this.inp_meta.setText(node.meta);
+        var tags = node.tags;
+        for (var tag of tags) {
+            this.addWriteTag(tag);
+        }
+        var links = node.links;
+        for (var link of links) {
+            link = this.viar.getNode(link);
+            if (link == undefined) {
+                continue;
+            }
+            this.addWriteLink(link);
+        }
+        this.page.openWriteViAr();
+    });
+
     this.srh_tag_btn.on("click", () => {
         var kw = this.srh_tag_inp.text();
         this.clearSrhTags();
         if (kw == "") {
             for (let v of this.viar.tags) {
-                SRH_TAGS.push(v);
+                this.addSrhTag(v);
             }
             return;
         }
@@ -99,9 +146,11 @@ const ViArBinder = function (page, app) {
         if (this.tob_hidden_btn.text() == "收起") {
             this.tob_hidden_btn.setText("展开");
             this.tob.attr("visibility", "gone");
+            this.reset_btn.attr("visibility", "gone");
         } else {
             this.tob_hidden_btn.setText("收起");
             this.tob.attr("visibility", "visible");
+            this.reset_btn.attr("visibility", "visible");
         }
     });
 
@@ -136,10 +185,33 @@ const ViArBinder = function (page, app) {
         this.page.openSelectViarForLinks();
     });
 
+    this.reset_btn.on("click", () => {
+        this.viar.initRenderList();
+        this.viar_srh_kw.setText("");
+        this.clearSrhMainTag();
+    });
+
     this.write_btn.on("click", () => {
         var parent = this.write_parent;
         var title = this.inp_tit.text();
         var content = this.inp.text();
+        if (content == "" && this.write_node != null) {
+            confirm("正文留空代表删除该项以及所有子项，是否继续？").then((status) => {
+                if (status) {
+                    this.viar.delNode(this.write_node);
+                    this.viar.initRenderList();
+                    this.viar_srh_kw.setText("");
+                    this.page.openViAr();
+                    this.clearWritePage();
+                    this.app.data_manager.saveViAr();
+                    this.write_node = null;
+                }
+            });
+            return;
+        }
+        if (content == "") {
+            return;
+        }
         var tags = Array.from(WRITE_TAGS_SET);
         var links = [];
         var main_tag = undefined;
@@ -150,11 +222,44 @@ const ViArBinder = function (page, app) {
         for (var link in WRITE_LINKS_MAP) {
             links.push(WRITE_LINKS_MAP[link]);
         }
-        this.viar.newNode(parent, title, content, tags, links, meta, main_tag);
+        if (this.write_node != null) {
+            this.viar.updateNode(this.write_node, parent, title, content, tags, links, meta, main_tag);
+        } else {
+            this.viar.newNode(parent, title, content, tags, links, meta, main_tag);
+        }
         this.viar.initRenderList();
+        this.viar_srh_kw.setText("");
         this.page.openViAr();
         this.clearWritePage();
         this.app.data_manager.saveViAr();
+        this.write_node = null;
+    });
+
+    this.srh_tag_btn_main.on("click", () => {
+        var kw = this.srh_tag_inp_main.text();
+        this.clearTagList();
+        if (kw == "") {
+            for (let v of this.viar.tags) {
+                this.addTagList(v);
+            }
+            return;
+        }
+        var tags = this.viar.searchTag(kw);
+        for (var tag of tags) {
+            this.addTagList(tag.tag);
+        }
+    });
+
+    this.srh_btn.on("click", () => {
+        if (this.tob_hidden_btn.text() != "收起") {
+            this.tob_hidden_btn.setText("收起");
+            this.tob.attr("visibility", "visible");
+            this.reset_btn.attr("visibility", "visible");
+            return;
+        }
+        var keyword = this.viar_srh_kw.text();
+        var tags = SRH_MAIN_TAG;
+        this.viar.useSearch(keyword, tags);
     });
 
     this.list.on("item_click", (item) => {
@@ -192,6 +297,14 @@ const ViArBinder = function (page, app) {
         this.delWriteTag(item);
     });
 
+    this.tag_list.on("item_click", (item) => {
+        this.addSrhMainTag(item);
+    });
+
+    this.srh_tags.on("item_click", (item) => {
+        this.delSrhMainTag(item);
+    });
+
     this.look_tob_hidden_btn.on("click", () => {
         if (this.look_tob_hidden_btn.text() == "收起") {
             this.look_tob_hidden_btn.setText("展开");
@@ -213,7 +326,10 @@ const ViArBinder = function (page, app) {
     }
 
     this.displayAdd = function () {
-        this.add_btn.attr("visibility", "visible");
+        var st = this.srh_btn.attr("visibility");
+        if (st != "gone") {
+            this.add_btn.attr("visibility", "visible");
+        }
     }
 
     this.setWriteParentTx = function () {
@@ -222,7 +338,11 @@ const ViArBinder = function (page, app) {
     }
 
     this.viarUpdate = function () {
-        this.tag_list.attr("source", JSON.stringify(Array.from(this.viar.getTags())));
+        this.clearTagList();
+        var tags = this.viar.getTags();
+        for (var tag of tags) {
+            this.addTagList(tag);
+        }
     }
 
     this.clearWriteTags = function () {
@@ -252,10 +372,29 @@ const ViArBinder = function (page, app) {
         if (WRITE_LINKS.length == 1) {
             WRITE_LINKS.pop();
         }
-        WRITE_LINKS_MAP = {};
         for (var key in WRITE_LINKS_MAP) {
             delete WRITE_LINKS_MAP[key];
         }
+    }
+
+    this.clearTagList = function () {
+        if (TAG_LIST.length > 1) {
+            TAG_LIST.length = 1;
+        }
+        if (TAG_LIST.length == 1) {
+            TAG_LIST.pop();
+        }
+        TAGS_SET.clear();
+    }
+
+    this.clearSrhMainTag = function () {
+        if (SRH_MAIN_TAG.length > 1) {
+            SRH_MAIN_TAG.length = 1;
+        }
+        if (SRH_MAIN_TAG.length == 1) {
+            SRH_MAIN_TAG.pop();
+        }
+        SRH_MAIN_TAGS_SET.clear();
     }
 
     this.clearWritePage = function () {
@@ -286,6 +425,20 @@ const ViArBinder = function (page, app) {
         if (!(key in WRITE_LINKS_MAP)) {
             WRITE_LINKS_MAP[key] = link;
             WRITE_LINKS.push(key);
+        }
+    }
+
+    this.addTagList = function (tag) {
+        if (!TAGS_SET.has(tag)) {
+            TAGS_SET.add(tag);
+            TAG_LIST.push(tag);
+        }
+    }
+
+    this.addSrhMainTag = function (tag) {
+        if (!SRH_MAIN_TAGS_SET.has(tag)) {
+            SRH_MAIN_TAGS_SET.add(tag);
+            SRH_MAIN_TAG.push(tag);
         }
     }
 
@@ -322,6 +475,24 @@ const ViArBinder = function (page, app) {
         for (let i = WRITE_LINKS.length - 1; i >= 0; i--) {
             if (WRITE_LINKS[i] == key) {
                 WRITE_LINKS.splice(i, 1);
+            }
+        }
+    }
+
+    this.delTagList = function (tag) {
+        TAGS_SET.delete(tag);
+        for (let i = TAG_LIST.length - 1; i >= 0; i--) {
+            if (TAG_LIST[i] == tag) {
+                TAG_LIST.splice(i, 1);
+            }
+        }
+    }
+
+    this.delSrhMainTag = function (tag) {
+        SRH_MAIN_TAGS_SET.delete(tag);
+        for (let i = SRH_MAIN_TAG.length - 1; i >= 0; i--) {
+            if (SRH_MAIN_TAG[i] == tag) {
+                SRH_MAIN_TAG.splice(i, 1);
             }
         }
     }

@@ -3,6 +3,8 @@ importClass(java.util.UUID);
 
 const Utils = {};
 
+const STR_COLOR_MAP = {};
+
 Utils.addZero = function (num) {
     num = "" + num;
     if (num.length == 1) {
@@ -130,7 +132,10 @@ Utils.splitKeyword = function (str) {
 
 Utils.stringToColor = function (str) {
     str = String(str);
-    return "#" + $crypto.digest(str, "MD5").substring(0, 6);
+    if (!(str in STR_COLOR_MAP)) {
+        STR_COLOR_MAP[str] = "#" + $crypto.digest(str, "MD5").substring(0, 6);
+    }
+    return STR_COLOR_MAP[str];
 }
 
 Utils.invertColor = function (hex) {
