@@ -6,9 +6,16 @@ const RENDER_LIST = [];
 const ViArTree = function () {
     this._root = ViArNode.newRootNode();
     this.node_map = {};
+
     this.tags = new Set();
-    this.tags.add("无");
-    this.tags.add("root");
+
+    this.addDisTags = function () {
+        this.tags.add("无");
+        this.tags.add("root");
+    }
+
+    this.addDisTags();
+    
 
     this.initRenderList = function () {
         this.clearRenderList();
@@ -18,7 +25,6 @@ const ViArTree = function () {
             }
         });
     };
-
 
     this.getRoot = function () {
         return this._root;
@@ -212,6 +218,9 @@ const ViArTree = function () {
             }
             link.links.add(node_id);
         }
+        for (var tag of tags) {
+            this.tags.add(tag);
+        }
         node.update(parent, title, content, tags, links, meta, main_tag);
     }
 
@@ -386,6 +395,16 @@ const ViArTree = function () {
         }
         result.sort((a, b) => b.score - a.score);
         return result;
+    }
+
+    this.reCreateTags = function () {
+        this.tags.clear();
+        this.addDisTags();
+        this.forEachNode((node) => {
+            for (var tag of node.tags) {
+                this.tags.add(tag);
+            }
+        });
     }
 }
 

@@ -125,7 +125,7 @@ const PAGE = (
                             <vertical h="2px" w="*" bg="{{DATA_CONTAINER.line_color}}"></vertical>
                             
                             <text text="故事集" color="{{DATA_CONTAINER.setting_title_text_color}}" textSize="12sp" margin="8" textStyle="bold"></text>
-                            <button textColor="{{DATA_CONTAINER.normal_text_color}}" style="Widget.AppCompat.Button.Borderless" gravity="left|center_vertical" text="清理Tag"></button>
+                            <button textColor="{{DATA_CONTAINER.normal_text_color}}" id="re_create_tags_btn" style="Widget.AppCompat.Button.Borderless" gravity="left|center_vertical" text="清理Tag"></button>
                             <vertical h="2px" w="*" bg="{{DATA_CONTAINER.line_color}}"></vertical>
                             <button textColor="{{DATA_CONTAINER.normal_text_color}}" style="Widget.AppCompat.Button.Borderless" gravity="left|center_vertical" text="检查重建上下关系"></button>
                             <vertical h="2px" w="*" bg="{{DATA_CONTAINER.line_color}}"></vertical>

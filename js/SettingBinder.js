@@ -8,6 +8,7 @@ const SettingBinder = function (page, a) {
     this.export_one_day_btn = ui.export_one_day;
     this.delete_password_btn = ui.delete_password;
     this.theme_btn = ui.theme;
+    this.re_create_tags_btn = ui.re_create_tags_btn;
     this.theme_btn.setText(this.app.config.get("theme", "dis") == "dark" ? "使用默认主题" : "使用深色主题");
     this.git_btn.on("click", () => {
         $app.openUrl("https://github.com/xyazh/xya-nikki-diary");
@@ -57,6 +58,13 @@ const SettingBinder = function (page, a) {
         }
         toast("重启软件后生效");
     });
+
+    this.re_create_tags_btn.on("click", () => {
+        this.page.viar_manager.viar.reCreateTags();
+        this.app.data_manager.saveViAr();
+        toast("已重建标签");
+    });
+
     return this;
 }
 
