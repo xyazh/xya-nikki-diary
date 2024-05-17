@@ -116,14 +116,21 @@ const PAGE = (
                             <text text="常规" color="{{DATA_CONTAINER.setting_title_text_color}}" textSize="12sp" margin="8" textStyle="bold"></text>
                             <button textColor="{{DATA_CONTAINER.normal_text_color}}" id="theme" style="Widget.AppCompat.Button.Borderless" gravity="left|center_vertical" text="使用深色主题"></button>
                             <vertical h="2px" w="*" bg="{{DATA_CONTAINER.line_color}}"></vertical>
-                            <button textColor="{{DATA_CONTAINER.normal_text_color}}" id="cheak_nikki_time" style="Widget.AppCompat.Button.Borderless" gravity="left|center_vertical" text="校验日记时间错误"></button>
-                            <vertical h="2px" w="*" bg="{{DATA_CONTAINER.line_color}}"></vertical>
+
                             <text text="导出" color="{{DATA_CONTAINER.setting_title_text_color}}" textSize="12sp" margin="8" textStyle="bold"></text>
                             <button textColor="{{DATA_CONTAINER.normal_text_color}}" id="export_nikki_plain" style="Widget.AppCompat.Button.Borderless" gravity="left|center_vertical" text="导出为明文"></button>
                             <vertical h="2px" w="*" bg="{{DATA_CONTAINER.line_color}}"></vertical>
                             <button textColor="{{DATA_CONTAINER.normal_text_color}}" id="export_one_day" style="Widget.AppCompat.Button.Borderless" gravity="left|center_vertical" text="导出为Day one日记文件"></button>
                             <vertical h="2px" w="*" bg="{{DATA_CONTAINER.line_color}}"></vertical>
                             
+                            <text text="日记" color="{{DATA_CONTAINER.setting_title_text_color}}" textSize="12sp" margin="8" textStyle="bold"></text>
+                            <button textColor="{{DATA_CONTAINER.normal_text_color}}" id="cheak_nikki_time" style="Widget.AppCompat.Button.Borderless" gravity="left|center_vertical" text="校验日记时间错误"></button>
+                            <vertical h="2px" w="*" bg="{{DATA_CONTAINER.line_color}}"></vertical>
+
+                            <text text="记录" color="{{DATA_CONTAINER.setting_title_text_color}}" textSize="12sp" margin="8" textStyle="bold"></text>
+                            <button textColor="{{DATA_CONTAINER.normal_text_color}}" id="re_create_events_btn" style="Widget.AppCompat.Button.Borderless" gravity="left|center_vertical" text="清理事件"></button>
+                            <vertical h="2px" w="*" bg="{{DATA_CONTAINER.line_color}}"></vertical>
+
                             <text text="故事集" color="{{DATA_CONTAINER.setting_title_text_color}}" textSize="12sp" margin="8" textStyle="bold"></text>
                             <button textColor="{{DATA_CONTAINER.normal_text_color}}" id="re_create_tags_btn" style="Widget.AppCompat.Button.Borderless" gravity="left|center_vertical" text="清理Tag"></button>
                             <vertical h="2px" w="*" bg="{{DATA_CONTAINER.line_color}}"></vertical>
@@ -135,6 +142,7 @@ const PAGE = (
                             <text text="安全" color="{{DATA_CONTAINER.setting_title_text_color}}" textSize="12sp" margin="8" textStyle="bold"></text>
                             <button textColor="{{DATA_CONTAINER.normal_text_color}}" id="delete_password" style="Widget.AppCompat.Button.Borderless" gravity="left|center_vertical" text="删除密码"></button>
                             <vertical h="2px" w="*" bg="{{DATA_CONTAINER.line_color}}"></vertical>
+                            
                             <text text="其他" color="{{DATA_CONTAINER.setting_title_text_color}}" textSize="12sp" margin="8" textStyle="bold"></text>
                             <button textColor="{{DATA_CONTAINER.normal_text_color}}" id="git" style="Widget.AppCompat.Button.Borderless" gravity="left|center_vertical" text="仓库地址"></button>
                             <vertical h="2px" w="*" bg="{{DATA_CONTAINER.line_color}}"></vertical>

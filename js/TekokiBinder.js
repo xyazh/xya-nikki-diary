@@ -151,6 +151,7 @@ const TekokiBinder = function (page, app) {
                 }
             }
         });
+
         this.tekoki_event_set.on("click", () => {
             dialogs.select("你要查看哪件事？", this.app.data_manager.getTekokiEvents(), (i) => {
                 var tekoki_events = this.app.data_manager.getTekokiEvents();
@@ -161,6 +162,7 @@ const TekokiBinder = function (page, app) {
                 }
             });
         });
+
         this.tekoki_day.on("item_click", item => {
             if (item.day == "") {
                 return;

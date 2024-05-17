@@ -9,6 +9,7 @@ const SettingBinder = function (page, a) {
     this.delete_password_btn = ui.delete_password;
     this.theme_btn = ui.theme;
     this.re_create_tags_btn = ui.re_create_tags_btn;
+    this.tekoki_re_create_events_btn = ui.re_create_events_btn;
     this.theme_btn.setText(this.app.config.get("theme", "dis") == "dark" ? "使用默认主题" : "使用深色主题");
     this.git_btn.on("click", () => {
         $app.openUrl("https://github.com/xyazh/xya-nikki-diary");
@@ -63,6 +64,13 @@ const SettingBinder = function (page, a) {
         this.page.viar_manager.viar.reCreateTags();
         this.app.data_manager.saveViAr();
         toast("已重建标签");
+    });
+
+    this.tekoki_re_create_events_btn.on("click", () => {
+        this.app.data_manager.reCreateTekoki();
+        this.page.tekoki_manager.event = "默认";
+        this.page.tekoki_manager.tekokiUpdate();
+        toast("已清理事件");
     });
 
     return this;

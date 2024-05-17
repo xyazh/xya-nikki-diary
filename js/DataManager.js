@@ -79,6 +79,25 @@ const DataMnager = function (app) {
         this.saveTekoki();
     }
 
+    this.reCreateTekoki = function () {
+        var re_events = new Set();
+        for (var year_mouth in TEKOKIS.data) {
+            var days = TEKOKIS.data[year_mouth];
+            for (var day in days) {
+                var events = days[day].events;
+                for (var event_name in events) {
+                    if (events[event_name] <= 0) {
+                        continue;
+                    }
+                    re_events.add(event_name);
+                }
+            }
+        }
+        TEKOKIS.events = Array.from(re_events);
+        this.saveTekoki();
+    }
+
+
     this.sortNikki = function () {
         NIKKIS.sort((a, b) => b.date - a.date);
         this.app.page.setNikkiCount(NIKKIS.length);
@@ -101,6 +120,7 @@ const DataMnager = function (app) {
         }
         this.sortNikki();
     }
+
 
     this.createEnptyFile = function (path, data_tmp) {
         if (files.exists(path)) {

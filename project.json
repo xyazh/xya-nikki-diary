@@ -9,6 +9,10 @@
     {
       "form": "/storage/emulated/0/Pictures/脚本/nikki/xya-nikki-diary",
       "to": "/project"
+    },
+    {
+      "form": "/storage/emulated/0/Pictures/js/xya-nikki-diary",
+      "to": "/project"
     }
   ],
   "buildDir": "build",
@@ -22,7 +26,6 @@
   "ignoredDirs": [
     "build"
   ],
-  "encrypt-code": true,
   "launchConfig": {
     "displaySplash": true,
     "hideAccessibilityServices": true,
@@ -45,15 +48,15 @@
   ],
   "main": "main.js",
   "name": "xya日记",
-  "outputPath": "/storage/emulated/0/Pictures/脚本/nikki/xya-nikki-diary/build",
+  "outputPath": "/storage/emulated/0/Pictures/js/nikki/xya-nikki-diary/build",
   "packageName": "xyz.xyazh.nikki",
-  "projectDirectory": "/storage/emulated/0/Pictures/脚本/nikki/xya-nikki-diary",
+  "projectDirectory": "/storage/emulated/0/Pictures/js/xya-nikki-diary",
   "scripts": {},
   "signingConfig": {
-    "alias": "xya_public",
-    "keystore": "/storage/emulated/0/Pictures/脚本/.keyStore/AutoX.keystore"
+    "alias": "xyazh-nikki",
+    "keystore": "/storage/emulated/0/Pictures/js/.keyStore/AutoX.keystore"
   },
-  "sourcePath": "/storage/emulated/0/Pictures/脚本/nikki/xya-nikki-diary/main.js",
-  "versionCode": 4,
-  "versionName": "0.5.1"
+  "sourcePath": "/storage/emulated/0/Pictures/js/nikki/xya-nikki-diary/build",
+  "versionCode": 5,
+  "versionName": "0.5.3"
 }

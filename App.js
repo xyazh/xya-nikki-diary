@@ -1,4 +1,4 @@
-const VERSION = "0.5.1";
+const VERSION = "0.5.3";
 const PACKAGE_NAME = "xyz.xyazh.nikki";
 const VERSION_ID = 4;
 
