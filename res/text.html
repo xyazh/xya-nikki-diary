@@ -1,162 +1,268 @@
-<style>
-    .u_add_div_s {
-        width: 100%;
-        height: 30px;
-        line-height: 30px;
-        background-color: #ececec;
-        text-align: left;
-        border-left: 1px solid rgb(148, 148, 148);
-        border-right: 1px solid rgb(148, 148, 148);
-        outline: none;
-        font-size: 16px;
-        color: rgb(82, 82, 82);
-    }
+<!doctype html>
+<html lang="cn">
 
-    .u_add_div_s:hover {
-        background-color: #ececec;
-    }
-
-    .u_add_div_l {
-        display: inline-block;
-        margin: 0;
-        cursor: pointer;
-        white-space: nowrap;
-        overflow: hidden;
-    }
-
-    .u_add_div_l:hover {
-        background-color: #e0e0e0;
-    }
-
-    .input {
-        width: 100%;
-        min-height: 600px;
-        background-color: #ffffff;
-        text-align: left;
-        color: #e0e0e0;
-        border: 1px solid rgb(148, 148, 148);
-        border-top: none;
-        border-bottom: none;
-        outline: none;
-    }
-
-    hb {
-        background-color: black;
-        color: #000000;
-    }
-
-    hb:hover {
-        background-color: rgba(255, 255, 255, 0);
-    }
-</style>
-<script>
-    var savedRange;
-
-    const saveCurrentCursorPos = function () {
-        var sel = window.getSelection();
-        if (sel.rangeCount > 0) {
-            savedRange = sel.getRangeAt(0);
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <style>
+        html {
+            margin: 0;
+            height: 100%;
+            width: 100%
         }
-    }
-    const insertTextAtCursor = function (text) {
-        if (savedRange == undefined) {
-            return;
+
+        body {
+            margin: 0;
+            height: 100%;
+            width: 100%;
+            overflow-x: hidden
         }
-        inputOnClick(document.getElementById("input"));
-        var sel = window.getSelection();
-        if (savedRange) {
-            sel.removeAllRanges();
-            sel.addRange(savedRange);
+    </style>
+    <script src="autox://sdk.v1.js"></script>
+    <style>
+        .u_add_div_s {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 30px;
+            line-height: 30px;
+            background-color: #ececec;
+            text-align: left;
+            border-left: 1px solid rgb(148, 148, 148);
+            border-right: 1px solid rgb(148, 148, 148);
+            outline: none;
+            font-size: 16px;
+            color: rgb(82, 82, 82);
+            z-index: 1000;
         }
-        document.execCommand("insertText", true, text);
-    }
-    const insertHtmlAtCursor = function (html) {
-        if (savedRange == undefined) {
-            return;
+
+
+        .u_add_div_s:hover {
+            background-color: #ececec;
         }
-        inputOnClick(document.getElementById("input"));
-        var sel = window.getSelection();
-        if (sel.rangeCount) {
-            var range = savedRange;
-            range.deleteContents();
-            var el = document.createElement("div");
-            el.innerHTML = html;
-            var frag = document.createDocumentFragment(), node, lastNode;
-            while ((node = el.firstChild)) {
-                lastNode = frag.appendChild(node);
+
+        .u_add_div_l {
+            display: inline-block;
+            margin: 0;
+            cursor: pointer;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .u_add_div_l:hover {
+            background-color: #e0e0e0;
+        }
+
+        .input {
+            width: 100%;
+            min-height: 600px;
+            background-color: #ffffff;
+            text-align: left;
+            color: #e0e0e0;
+            border: 1px solid rgb(148, 148, 148);
+            border-top: 30px solid transparent;
+            border-bottom: none;
+            outline: none;
+        }
+
+        hb {
+            background-color: black;
+            color: #000000;
+        }
+
+        hb:hover {
+            background-color: rgba(200, 200, 200, 127);
+        }
+    </style>
+    <script>
+        var savedRange;
+
+        const saveCurrentCursorPos = function () {
+            var sel = window.getSelection();
+            if (sel.rangeCount > 0) {
+                savedRange = sel.getRangeAt(0);
             }
-            range.insertNode(frag);
-            if (lastNode) {
-                range = range.cloneRange();
-                range.setStartAfter(lastNode);
-                range.collapse(true);
+        }
+        const insertTextAtCursor = function (text) {
+            if (savedRange == undefined) {
+                return;
+            }
+            inputOnClick(document.getElementById("input"));
+            var sel = window.getSelection();
+            if (savedRange) {
                 sel.removeAllRanges();
-                sel.addRange(range);
+                sel.addRange(savedRange);
+            }
+            document.execCommand("insertText", true, text);
+        }
+        const insertHtmlAtCursor = function (html) {
+            if (savedRange == undefined) {
+                return;
+            }
+            inputOnClick(document.getElementById("input"));
+            var sel = window.getSelection();
+            if (sel.rangeCount) {
+                var range = savedRange;
+                range.deleteContents();
+                var el = document.createElement("div");
+                el.innerHTML = html;
+                var frag = document.createDocumentFragment(), node, lastNode;
+                while ((node = el.firstChild)) {
+                    lastNode = frag.appendChild(node);
+                }
+                range.insertNode(frag);
+                if (lastNode) {
+                    range = range.cloneRange();
+                    range.setStartAfter(lastNode);
+                    range.collapse(true);
+                    sel.removeAllRanges();
+                    sel.addRange(range);
+                }
             }
         }
-    }
-    const inputOnClick = function (self) {
-        var attr = self.getAttribute("isblur");
-        if (attr == "false") {
-            self.innerHTML = "";
-            self.setAttribute("isblur", "true");
-            self.style.color = "#000000";
+        const inputOnClick = function (self) {
+            var attr = self.getAttribute("isblur");
+            if (attr == "false") {
+                self.innerHTML = "";
+                self.setAttribute("isblur", "true");
+                self.style.color = "#000000";
+            }
         }
-    }
-    const handlblur = function (self) {
-        saveCurrentCursorPos();
-        if (self.innerHTML == "") {
-            self.innerHTML = "写些什么吧";
-            self.setAttribute("isblur", "false");
-            self.style.color = "#e0e0e0";
+        const handlblur = function (self) {
+            saveCurrentCursorPos();
+            if (self.innerHTML == "") {
+                self.innerHTML = "写些什么吧";
+                self.setAttribute("isblur", "false");
+                self.style.color = "#e0e0e0";
+            }
         }
-    }
-    const onBlack = function () {
-        if (savedRange == undefined) {
-            return;
+        const onBlack = function () {
+            if (savedRange == undefined) {
+                return;
+            }
+            var text = savedRange.toString();
+            insertHtmlAtCursor('<b>' + text + '</b>');
         }
-        var text = savedRange.toString();
-        insertHtmlAtCursor('<b>' + text + '</b>');
-    }
 
-    const onInc = function () {
-        if (savedRange == undefined) {
-            return;
+        const onInc = function () {
+            if (savedRange == undefined) {
+                return;
+            }
+            var text = savedRange.toString();
+            insertHtmlAtCursor('<i>' + text + '</i>');
         }
-        var text = savedRange.toString();
-        insertHtmlAtCursor('<i>' + text + '</i>');
-    }
 
-    const onDel = function () {
-        if (savedRange == undefined) {
-            return;
+        const onDel = function () {
+            if (savedRange == undefined) {
+                return;
+            }
+            var text = savedRange.toString();
+            insertHtmlAtCursor('<del>' + text + '</del>');
         }
-        var text = savedRange.toString();
-        insertHtmlAtCursor('<del>' + text + '</del>');
-    }
 
-    const onHb = function () {
-        if (savedRange == undefined) {
-            return;
+        const onHb = function () {
+            if (savedRange == undefined) {
+                return;
+            }
+            var text = savedRange.toString();
+            insertHtmlAtCursor('<hb>' + text + '</hb>');
         }
-        var text = savedRange.toString();
-        insertHtmlAtCursor('<hb>' + text + '</hb>');
-    }
-</script>
-<div id="u_add_div_s" class="u_add_div_s">
-    <div class="u_add_div_l" onclick="onBlack()">
-        <t>&nbsp;<b>&nbsp;&nbsp;B&nbsp;&nbsp;</b>&nbsp;</t>
+
+        const getInputHtml = function () {
+            var inputDiv = document.getElementById("input");
+            return inputDiv.innerHTML;
+        }
+    </script>
+</head>
+<body>
+    <div id="u_add_div_s" class="u_add_div_s">
+        <div class="u_add_div_l" onclick="onBlack()">
+            <t>&nbsp;<b>&nbsp;&nbsp;B&nbsp;&nbsp;</b>&nbsp;</t>
+        </div>
+        <div class="u_add_div_l" onclick="onInc()">
+            <t>&nbsp;<i>&nbsp;&nbsp;I&nbsp;&nbsp;</i>&nbsp;</t>
+        </div>
+        <div class="u_add_div_l" onclick="onDel()">
+            <t>&nbsp;<del>划去</del>&nbsp;</t>
+        </div>
+        <div class="u_add_div_l" onclick="onHb()">
+            <t>&nbsp;防剧透&nbsp;</t>
+        </div>
     </div>
-    <div class="u_add_div_l" onclick="onInc()">
-        <t>&nbsp;<i>&nbsp;&nbsp;I&nbsp;&nbsp;</i>&nbsp;</t>
+    <div class="input" id="input" isblur="false" onblur="handlblur(this)" contenteditable="true"
+        onclick="inputOnClick(this)">写些什么罢
     </div>
-    <div class="u_add_div_l" onclick="onDel()">
-        <t>&nbsp;<del>划去</del>&nbsp;</t>
-    </div>
-    <div class="u_add_div_l" onclick="onHb()">
-        <t>&nbsp;防剧透&nbsp;</t>
-    </div>
-</div>
-<div class="input" id="input" isblur="false" onblur="handlblur(this)" contenteditable="true"
-    onclick="inputOnClick(this)">写些什么罢
-</div>
+    <script>
+        function runScript(script) {
+            const newScript = document.createElement('script');
+            newScript.innerHTML = script.innerHTML;
+            const src = script.getAttribute('src');
+            if (src) newScript.setAttribute('src', src);
+            document.head.appendChild(newScript);
+            document.head.removeChild(newScript);
+        }
+
+        function setHTMLWithScript(container, rawHTML) {
+            container.innerHTML = rawHTML;
+            const scripts = container.querySelectorAll('script');
+            for (let script of scripts) {
+                runScript(script);
+            }
+        }
+
+        $autox.registerHandler("getText", (data, callBack) => {
+            callBack(getInputHtml());
+        });
+
+        $autox.registerHandler("setText", (data, callBack) => {
+            setHTMLWithScript(document.getElementById("input"), data);
+      });
+    </script>
+    <script>
+        function insertBrAtCursor() {
+            var sel, range;
+            if (window.getSelection) {
+                // IE9 and non-IE
+                sel = window.getSelection();
+                if (sel.rangeCount) {
+                    range = sel.getRangeAt(0);
+                    range.deleteContents();
+                    var br = document.createElement("br");
+                    range.insertNode(br);
+
+                    // Move the caret immediately after the inserted <br>
+                    range.setStartAfter(br);
+                    range.setEndAfter(br);
+                    sel.removeAllRanges();
+                    sel.addRange(range);
+                }
+            } else if (document.selection && document.selection.createRange) {
+                // IE < 9
+                document.selection.createRange().pasteHTML('<br>');
+            }
+        }
+
+
+        document.addEventListener("DOMContentLoaded", () => {
+            var isKeydown = false;
+            var inputDiv = document.getElementById("input");
+            inputDiv.addEventListener("keydown", (event) => {
+                if (event.key == "Enter") {
+                    event.preventDefault();
+                    if (!isKeydown) {
+                        insertBrAtCursor();
+                    }
+                    isKeydown = true;
+                }
+            });
+            const resetDown = function () {
+                isKeydown = false;
+                setTimeout(resetDown, 50);
+            }
+            resetDown();
+        });
+    </script>
+</body>
+
+</html>

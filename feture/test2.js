@@ -1,8 +1,8 @@
 "ui";
 
-const HtmlView = require("./js/HtmlView.js");
-const EasyList = require("./js/EasyList.js");
-const Utils = require("./js/Utils.js");
+const HtmlView = require("../js/HtmlView.js");
+const EasyList = require("../js/EasyList.js");
+const Utils = require("../js/Utils.js");
 
 const DATA_CONTAINER = {};
 DATA_CONTAINER.page_number = 0;
@@ -39,11 +39,16 @@ ui.layout(
                 <text color="{{DATA_CONTAINER.normal_text_color}}" size="24sp" margin="0" padding="0" text="title" gravity="center" />
             </vertical>
             <button id="write_viar_tob_hidden_btn" style="Widget.AppCompat.Button.Borderless.Colored" margin="0" color="{{DATA_CONTAINER.button_color}}" size="10sp" w="160px" h="100px" layout_gravity="right" text="收起" />
-            <html-view id="write_viar_html" w="*" h="*" html="" />
+            <webview id="web" h="*" />
         </vertical>
     </frame>
 );
 
-var h = files.read("./res/text.html", [encoding = "utf-8"]);
-ui.write_viar_html.getSettings().setJavaScriptEnabled(true);
-ui.write_viar_html.attr("html", h);
+
+ui.web.loadUrl("file://" + files.path("../res/text.html"));
+
+ui.write_viar_tob_hidden_btn.on("click", () => {
+    ui.web.jsBridge.callHandler('getText', '', (data) => {
+        print(data);
+    })
+});
