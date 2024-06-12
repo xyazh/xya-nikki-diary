@@ -236,8 +236,12 @@ const PAGE = (
                         <vertical>
                             <vertical>
                                 <input id="viar_inp_tit" size="24sp" hint="标题" gravity="left" lines="1" />
-                                <input id="viar_inp" hint="编辑html" gravity="left" lines="10" margin-bottom="0" />
-                                <webview id="viar_inp_web" h="700px" w="*" visibility="gone" />
+                                <vertical id="viar_inp_c">
+                                    <input id="viar_inp" hint="编辑html"  h="700px" gravity="left" lines="10" margin-bottom="0" />
+                                </vertical>
+                                <vertical id="viar_inp_web_c">
+                                    <webview id="viar_inp_web" h="700px" w="*" visibility="gone" />
+                                </vertical>
                                 <vertical id="viar_inp_web_line" h="4px" w="*" bg="#848484" margin="4 0 4 0" visibility="gone"></vertical>
                                 <horizontal w="*" gravity="right">
                                     <button id="viar_inp_sec" style="Widget.AppCompat.Button.Borderless.Colored" color="{{DATA_CONTAINER.button_color}}" size="10sp" w="140px" h="100px" layout_gravity="right" text="切换" />

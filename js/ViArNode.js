@@ -2,13 +2,8 @@ const Utils = require("./Utils.js");
 
 const ROOT_CONTENT = `
 <h5>RootNode</h5>
-<p>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;根节点是所有其他节点的最上级节点，无法修改和删除。但是可以将根节点隐藏不显示在列表中。
-</p>
-<p>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;可以通过编辑节点的html代码来实现各种各样的效果。
-</p>
-
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;根节点是所有其他节点的最上级节点，无法修改和删除。但是可以将根节点隐藏不显示在列表中。<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;可以通过编辑节点的html代码来实现各种各样的效果。<br>
 `
 
 const ViArNode = function (data) {
@@ -127,12 +122,13 @@ ViArNode.newNode = function (title, content, tags, parent, links, meta, main_tag
 }
 
 ViArNode.loadNode = function (save_data) {
+
     var data = {
         title: save_data.title,
         date: save_data.date,
         creat_date: save_data.creat_date,
         id: save_data.id,
-        content: save_data.content,
+        content: save_data.id == "root" ? ROOT_CONTENT : save_data.content,
         tags: new Set(save_data.tags),
         main_tag: save_data.main_tag,
         parent: save_data.parent,

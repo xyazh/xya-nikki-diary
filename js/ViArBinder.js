@@ -60,6 +60,9 @@ const ViArBinder = function (page, app) {
     this.viar_inp_web = ui.viar_inp_web;
     this.viar_inp_sec_btn = ui.viar_inp_sec;
     this.viar_inp_web_line = ui.viar_inp_web_line;
+    this.viar_inp_full_btn = ui.viar_inp_full;
+    this.viar_inp_c = ui.viar_inp_c;
+    this.viar_inp_web_c = ui.viar_inp_web_c;
 
     this.list.setDataSource(this.viar.getRenderList())
     this.srh_tag_li.setDataSource(SRH_TAGS);
@@ -69,6 +72,53 @@ const ViArBinder = function (page, app) {
     this.tag_list.setDataSource(TAG_LIST);
     this.srh_tags.setDataSource(SRH_MAIN_TAG);
     this.viar_inp_web.loadUrl("file://" + files.path("./res/text.html"));
+
+    this.viar_inp_full_btn.on("click", () => {
+        var st = this.viar_inp_web.attr("visibility");
+        var is_inp = false;
+        var date_view = null;
+        if (st == "gone") {
+            is_inp = true;
+            date_view = this.inp;
+        } else {
+            is_inp = false;
+            date_view = this.viar_inp_web;
+        }
+        date_view.attr("h", `${device.height}px`);
+        sele_date = dialogs.build({
+            customView: date_view,
+            positive: "返回",
+            wrapInScrollView: false,
+            autoDismiss: false,
+            cancelable: false,
+            canceledOnTouchOutside: false
+        }).on("positive", (dialog) => {
+            dialog.dismiss();
+            date_view.parent.removeView(date_view);
+            if (is_inp) {
+                this.viar_inp_c.addView(date_view);
+            } else {
+                this.viar_inp_web_c.addView(date_view);
+            }
+            date_view.attr("h", "700px");
+        }).on("negative", (dialog) => {
+            dialog.dismiss();
+            date_view.parent.removeView(date_view);
+            if (is_inp) {
+                this.viar_inp_c.addView(date_view);
+            } else {
+                this.viar_inp_web_c.addView(date_view);
+            }
+            date_view.attr("h", "700px");
+        }).show();
+        var dialogWindow = sele_date.getWindow();
+        var layoutParams = dialogWindow.getAttributes();
+        layoutParams.width = device.width;
+        layoutParams.height = device.height;
+        layoutParams.horizontalMargin = 0.1;
+        layoutParams.verticalMargin = 0.1;
+        dialogWindow.setAttributes(layoutParams);
+    });
 
     this.link_node_btn.on("click", () => {
         var id = this.look_viar_id.text();
@@ -178,7 +228,6 @@ const ViArBinder = function (page, app) {
 
     this.viar_inp_sec_btn.on("click", () => {
         var st = this.viar_inp_web.attr("visibility");
-
         if (st == "gone") {
             this.viar_inp_web.attr("visibility", "visible");
             this.inp.attr("visibility", "gone");

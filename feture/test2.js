@@ -39,7 +39,7 @@ ui.layout(
                 <text color="{{DATA_CONTAINER.normal_text_color}}" size="24sp" margin="0" padding="0" text="title" gravity="center" />
             </vertical>
             <button id="write_viar_tob_hidden_btn" style="Widget.AppCompat.Button.Borderless.Colored" margin="0" color="{{DATA_CONTAINER.button_color}}" size="10sp" w="160px" h="100px" layout_gravity="right" text="收起" />
-            <webview id="web" h="*" />
+            <vertical id="cun"><webview id="web" h="{{device.height}}" /></vertical>
         </vertical>
     </frame>
 );
@@ -51,4 +51,28 @@ ui.write_viar_tob_hidden_btn.on("click", () => {
     ui.web.jsBridge.callHandler('getText', '', (data) => {
         print(data);
     })
+    var date_view = ui.web;
+    sele_date = dialogs.build({
+        customView: date_view,
+        positive: "返回",
+        wrapInScrollView: false,
+        autoDismiss: false,
+        cancelable: false,
+        canceledOnTouchOutside: false
+    }).on("positive", (dialog) => {
+        dialog.dismiss();
+        date_view.parent.removeView(date_view);
+        ui.cun.addView(date_view);
+    }).on("negative", (dialog) => {
+        dialog.dismiss();
+        date_view.parent.removeView(date_view);
+        ui.cun.addView(date_view);
+    }).show();
+    var dialogWindow = sele_date.getWindow();
+    var layoutParams = dialogWindow.getAttributes();
+    layoutParams.width = device.width;
+    layoutParams.height = device.height;
+    layoutParams.horizontalMargin = 0.1;
+    layoutParams.verticalMargin = 0.1;
+    dialogWindow.setAttributes(layoutParams);
 });
