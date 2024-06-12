@@ -64,6 +64,8 @@
             border-top: 30px solid transparent;
             border-bottom: none;
             outline: none;
+            word-break: break-all;
+            white-space: pre-wrap;
         }
 
         hb {
@@ -129,6 +131,7 @@
                 self.style.color = "#000000";
             }
         }
+
         const handlblur = function (self) {
             saveCurrentCursorPos();
             if (self.innerHTML == "") {
@@ -175,6 +178,7 @@
         }
     </script>
 </head>
+
 <body>
     <div id="u_add_div_s" class="u_add_div_s">
         <div class="u_add_div_l" onclick="onBlack()">
@@ -216,8 +220,10 @@
         });
 
         $autox.registerHandler("setText", (data, callBack) => {
-            setHTMLWithScript(document.getElementById("input"), data);
-      });
+            var inp = document.getElementById("input");
+            inputOnClick(inp)
+            setHTMLWithScript(inp, data);
+        });
     </script>
     <script>
         function insertBrAtCursor() {

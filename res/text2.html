@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="cn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <style>
+        html {
+            margin: 0;
+            height: 100%;
+            width: 100%;
+        }
+
+        body {
+            margin: 0;
+            height: 100%;
+            width: 100%;
+            overflow-x: hidden;
+            word-break: break-all;
+            white-space: pre-wrap;
+        }
+
+        hb {
+            background-color: black;
+            color: #000000;
+        }
+
+        hb:hover {
+            background-color: rgba(200, 200, 200, 127);
+        }
+    </style>
+    <script src="autox://sdk.v1.js"></script>
+    <script>
+        function runScript(script) {
+            const newScript = document.createElement('script');
+            newScript.innerHTML = script.innerHTML;
+            const src = script.getAttribute('src');
+            if (src) newScript.setAttribute('src', src);
+            document.head.appendChild(newScript);
+            document.head.removeChild(newScript);
+        }
+
+        function setHTMLWithScript(container, rawHTML) {
+            container.innerHTML = rawHTML;
+            const scripts = container.querySelectorAll('script');
+            for (let script of scripts) {
+                runScript(script);
+            }
+        }
+    </script>
+    <script>$autox.callHandler("ajx", "web_ready", (data) => { setHTMLWithScript(document.body, data); }); document.addEventListener("AutoxJsBridgeReady", () => { });</script>
+</head>
+
+<body></body>
+
+</html>

@@ -122,7 +122,7 @@ const PAGE = (
                             <vertical h="2px" w="*" bg="{{DATA_CONTAINER.line_color}}"></vertical>
                             <button textColor="{{DATA_CONTAINER.normal_text_color}}" id="export_one_day" style="Widget.AppCompat.Button.Borderless" gravity="left|center_vertical" text="导出为Day one日记文件"></button>
                             <vertical h="2px" w="*" bg="{{DATA_CONTAINER.line_color}}"></vertical>
-                            
+
                             <text text="日记" color="{{DATA_CONTAINER.setting_title_text_color}}" textSize="12sp" margin="8" textStyle="bold"></text>
                             <button textColor="{{DATA_CONTAINER.normal_text_color}}" id="cheak_nikki_time" style="Widget.AppCompat.Button.Borderless" gravity="left|center_vertical" text="校验日记时间错误"></button>
                             <vertical h="2px" w="*" bg="{{DATA_CONTAINER.line_color}}"></vertical>
@@ -142,7 +142,7 @@ const PAGE = (
                             <text text="安全" color="{{DATA_CONTAINER.setting_title_text_color}}" textSize="12sp" margin="8" textStyle="bold"></text>
                             <button textColor="{{DATA_CONTAINER.normal_text_color}}" id="delete_password" style="Widget.AppCompat.Button.Borderless" gravity="left|center_vertical" text="删除密码"></button>
                             <vertical h="2px" w="*" bg="{{DATA_CONTAINER.line_color}}"></vertical>
-                            
+
                             <text text="其他" color="{{DATA_CONTAINER.setting_title_text_color}}" textSize="12sp" margin="8" textStyle="bold"></text>
                             <button textColor="{{DATA_CONTAINER.normal_text_color}}" id="git" style="Widget.AppCompat.Button.Borderless" gravity="left|center_vertical" text="仓库地址"></button>
                             <vertical h="2px" w="*" bg="{{DATA_CONTAINER.line_color}}"></vertical>
@@ -158,7 +158,7 @@ const PAGE = (
                     <vertical>
                         <vertical id="viar_tob" visibility="gone">
                             <text color="{{DATA_CONTAINER.dis_text_color}}" size="10sp" margin="4 0 0 0" text="搜索条件" />
-                            <input id="viar_srh_kw" hint="无" color="{{DATA_CONTAINER.normal_text_color}}" size="12sp" margin="4 0 0 0"/>
+                            <input id="viar_srh_kw" hint="无" color="{{DATA_CONTAINER.normal_text_color}}" size="12sp" margin="4 0 0 0" />
                             <text color="{{DATA_CONTAINER.dis_text_color}}" size="10sp" margin="4 0 0 0" text="Tags" />
                             <horizontal>
                                 <input id="srh_tag_inp_main" size="10sp" w="{{device.width-60}}px" hint="搜索" lines="1" />
@@ -236,7 +236,13 @@ const PAGE = (
                         <vertical>
                             <vertical>
                                 <input id="viar_inp_tit" size="24sp" hint="标题" gravity="left" lines="1" />
-                                <input id="viar_inp" hint="编辑html" gravity="left" lines="10" />
+                                <input id="viar_inp" hint="编辑html" gravity="left" lines="10" margin-bottom="0" />
+                                <webview id="viar_inp_web" h="700px" w="*" visibility="gone" />
+                                <vertical id="viar_inp_web_line" h="4px" w="*" bg="#848484" margin="4 0 4 0" visibility="gone"></vertical>
+                                <horizontal w="*" gravity="right">
+                                    <button id="viar_inp_sec" style="Widget.AppCompat.Button.Borderless.Colored" color="{{DATA_CONTAINER.button_color}}" size="10sp" w="140px" h="100px" layout_gravity="right" text="切换" />
+                                    <button id="viar_inp_full" style="Widget.AppCompat.Button.Borderless.Colored" color="{{DATA_CONTAINER.button_color}}" size="10sp" w="140px" h="100px" layout_gravity="right" text="全屏" />
+                                </horizontal>
                             </vertical>
                             <text color="{{DATA_CONTAINER.dis_text_color}}" size="10sp" margin="0" text="Tags" />
                             <horizontal>

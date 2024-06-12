@@ -56,7 +56,10 @@ const ViArBinder = function (page, app) {
     this.reset_btn = ui.viar_reset;
     this.srh_tags = ui.viar_srh_tags;
     this.srh_tag_btn_main = ui.srh_tag_btn_main;
-    this.srh_tag_inp_main = ui.srh_tag_inp_main
+    this.srh_tag_inp_main = ui.srh_tag_inp_main;
+    this.viar_inp_web = ui.viar_inp_web;
+    this.viar_inp_sec_btn = ui.viar_inp_sec;
+    this.viar_inp_web_line = ui.viar_inp_web_line;
 
     this.list.setDataSource(this.viar.getRenderList())
     this.srh_tag_li.setDataSource(SRH_TAGS);
@@ -65,6 +68,7 @@ const ViArBinder = function (page, app) {
     this.look_tag_list.setDataSource(LOOK_TAGS);
     this.tag_list.setDataSource(TAG_LIST);
     this.srh_tags.setDataSource(SRH_MAIN_TAG);
+    this.viar_inp_web.loadUrl("file://" + files.path("./res/text.html"));
 
     this.link_node_btn.on("click", () => {
         var id = this.look_viar_id.text();
@@ -172,6 +176,42 @@ const ViArBinder = function (page, app) {
         }
     });
 
+    this.viar_inp_sec_btn.on("click", () => {
+        var st = this.viar_inp_web.attr("visibility");
+
+        if (st == "gone") {
+            this.viar_inp_web.attr("visibility", "visible");
+            this.inp.attr("visibility", "gone");
+            this.viar_inp_web_line.attr("visibility", "visible");
+            this.viar_inp_web.jsBridge.callHandler('setText', this.inp.text(), () => { });
+        } else {
+            this.viar_inp_web.attr("visibility", "gone");
+            this.inp.attr("visibility", "visible");
+            this.viar_inp_web_line.attr("visibility", "gone");
+
+            const fetchWebContent = () => {
+                return new Promise((resolve, reject) => {
+                    this.viar_inp_web.jsBridge.callHandler('getText', '', (data) => {
+                        if (data) {
+                            resolve(data);
+                        } else {
+                            reject(new Error("Failed to get content from jsBridge"));
+                        }
+                    });
+                });
+            };
+
+            fetchWebContent()
+                .then((content) => {
+                    this.inp.setText(content);
+                })
+                .catch((error) => {
+                    toast(error);
+                });
+        }
+    });
+
+
     this.add_btn.on("click", () => {
         this.page.openWriteViAr();
         this.nofityTags();
@@ -191,10 +231,7 @@ const ViArBinder = function (page, app) {
         this.clearSrhMainTag();
     });
 
-    this.write_btn.on("click", () => {
-        var parent = this.write_parent;
-        var title = this.inp_tit.text();
-        var content = this.inp.text();
+    this.writeViar = (content, parent, title) => {
         if (content == "" && this.write_node != null) {
             confirm("正文留空代表删除该项以及所有子项，是否继续？").then((status) => {
                 if (status) {
@@ -233,7 +270,39 @@ const ViArBinder = function (page, app) {
         this.clearWritePage();
         this.app.data_manager.saveViAr();
         this.write_node = null;
+    }
+
+    this.write_btn.on("click", () => {
+        var parent = this.write_parent;
+        var title = this.inp_tit.text();
+        var content = null;
+
+        var fetchContent = () => {
+            return new Promise((resolve, reject) => {
+                var st = this.viar_inp_web.attr("visibility");
+                if (st == "gone") {
+                    resolve(this.inp.text());
+                } else {
+                    this.viar_inp_web.jsBridge.callHandler('getText', '', (data) => {
+                        if (data) {
+                            resolve(data);
+                        } else {
+                            reject(new Error("Failed to get content from jsBridge"));
+                        }
+                    });
+                }
+            });
+        };
+
+        fetchContent()
+            .then((content) => {
+                this.writeViar(content, parent, title);
+            })
+            .catch((error) => {
+                toast(error);
+            });
     });
+
 
     this.srh_tag_btn_main.on("click", () => {
         var kw = this.srh_tag_inp_main.text();
@@ -397,7 +466,7 @@ const ViArBinder = function (page, app) {
         SRH_MAIN_TAGS_SET.clear();
     }
 
-    this.clearWritePage = function () {
+    this.clearWritePage = () => {
         this.inp_tit.setText("");
         this.inp.setText("");
         this.inp_meta.setText("");
