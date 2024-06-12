@@ -164,6 +164,7 @@ const ViArBinder = function (page, app) {
         this.write_parent = parent;
         this.inp_tit.setText(node.title);
         this.inp.setText(node.content);
+        this.viar_inp_web.jsBridge.callHandler('setText', node.content, () => { });
         this.inp_meta.setText(node.meta);
         var tags = node.tags;
         for (var tag of tags) {

@@ -26,6 +26,7 @@
   "ignoredDirs": [
     "build"
   ],
+  "encrypt-code": false,
   "launchConfig": {
     "displaySplash": true,
     "hideAccessibilityServices": true,
@@ -53,10 +54,10 @@
   "projectDirectory": "/storage/emulated/0/Pictures/js/xya-nikki-diary",
   "scripts": {},
   "signingConfig": {
-    "alias": "xyazh-nikki",
-    "keystore": "/storage/emulated/0/Pictures/js/.keyStore/AutoX.keystore"
+    "alias": "xya_nikki",
+    "keystore": "/storage/emulated/0/Pictures/js/.keyStore/xya_nikki.keystore"
   },
   "sourcePath": "/storage/emulated/0/Pictures/js/nikki/xya-nikki-diary/build",
-  "versionCode": 6,
-  "versionName": "0.5.4"
+  "versionCode": 9,
+  "versionName": "0.5.7"
 }
