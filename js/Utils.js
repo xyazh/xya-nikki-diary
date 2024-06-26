@@ -1,5 +1,6 @@
 importClass(java.util.TimeZone);
 importClass(java.util.UUID);
+importClass(java.lang.System);
 
 const Utils = {};
 
@@ -42,8 +43,8 @@ Utils.getDaysInMonth = function (year, month) {
 }
 
 Utils.getFirstDayOfWeek = function (year, month) {
-    var firstDayOfMonth = new Date(year, month - 1, 1);
-    return firstDayOfMonth.getDay();
+    var first_day_of_month = new Date(year, month - 1, 1);
+    return first_day_of_month.getDay();
 }
 
 Utils.objIsEmpty = function (obj) {
@@ -146,12 +147,32 @@ Utils.invertColor = function (hex) {
     r = 255 - r;
     g = 255 - g;
     b = 255 - b;
-    let invertedHex = "#" +
+    let inverted_hex = "#" +
         ("0" + r.toString(16)).slice(-2) +
         ("0" + g.toString(16)).slice(-2) +
         ("0" + b.toString(16)).slice(-2);
-    return invertedHex;
+    return inverted_hex;
 }
+
+Utils.getSystemName = function () {
+    var os_name = "Unknown";
+    try {
+        os_name = System.getProperty("os.name");
+        if (os_name.toLowerCase().indexOf("linux") !== -1) {
+            if (System.getProperty("java.vendor").toLowerCase().indexOf("android") !== -1) {
+                os_name = "Android";
+            }
+            else if (System.getProperty("java.vm.name").toLowerCase().indexOf("harmony") !== -1) {
+                os_name = "HarmonyOS";
+            }
+            else {
+                os_name = "Linux";
+            }
+        }
+    } catch (e) {
+    }
+    return os_name;
+};
 
 
 module.exports = Utils;

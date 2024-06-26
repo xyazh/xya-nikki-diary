@@ -18,6 +18,48 @@ const CRYPT_VRESION = 1;
 const DataMnager = function (app) {
     this.app = app;
     this.password = "";
+    this.sl_ing = false;
+
+    this.exportDecorator = (fuc) => {
+        return (full_path) => {
+            if (this.sl_ing) {
+                toast("正在导出...请勿重复点击...");
+            } else {
+                this.sl_ing = true;
+                toast("正在导出...可能会花费一些时间...");
+                threads.start(() => {
+                    try {
+                        fuc.call(this, full_path);
+                        toast("导出完成");
+                    } catch (e) {
+                        toast("导出失败");
+                    }
+                    this.sl_ing = false;
+                });
+            }
+        }
+    }
+
+    this.importDecorator = (fuc) => {
+        return (full_path) => {
+            if (this.sl_ing) {
+                toast("正在导入...请勿重复点击...");
+            } else {
+                this.sl_ing = true;
+                toast("正在导入...可能会花费一些时间...");
+                threads.start(() => {
+                    try {
+                        fuc.call(this, full_path);
+                        toast("导入完成");
+                    } catch (e) {
+                        toast("导入失败");
+                    }
+                    this.sl_ing = false;
+                });
+            }
+        }
+    }
+
     this.getNikkis = function () {
         return NIKKIS;
     }
@@ -262,7 +304,6 @@ const DataMnager = function (app) {
     }
 
     this.export = function (full_path) {
-        toast("正在导出...可能会花费一些时间...");
         var data = {
             out_nikki: NIKKIS,
             out_tekoki: TEKOKIS,
@@ -275,11 +316,11 @@ const DataMnager = function (app) {
         data = JSON.stringify(data);
         files.ensureDir(full_path);
         files.write(full_path, data, [encoding = "utf-8"]);
-        toast("已导出文件到:" + full_path);
     }
+    this.export = this.exportDecorator(this.export);
+
 
     this.exportPlain = function (full_path) {
-        toast("正在导出...可能会花费一些时间...");
         var data = {
             out_nikki: NIKKIS,
             out_tekoki: TEKOKIS,
@@ -296,11 +337,59 @@ const DataMnager = function (app) {
         data = JSON.stringify(data);
         files.ensureDir(full_path);
         files.write(full_path, data, [encoding = "utf-8"]);
-        toast("已导出文件到:" + full_path);
     }
+    this.exportPlain = this.exportDecorator(this.exportPlain);
+
+    this.exportOneDay = function (full_path) {
+        var result = {
+            metadata: {
+                version: "2023.25",
+                xya_info: "This is export from xya-nikki"
+            },
+            entries: []
+        }
+        for (var nikki of NIKKIS) {
+            var text = nikki.text;
+            var text_data = {
+                contents: [{
+                    text: text
+                }
+                ],
+                meta: {
+                    created: {
+                        platform: "com.bloombuilt.dayone-android",
+                        version: 407
+                    },
+                    "small-lines-removed": true,
+                    version: 1
+                }
+            };
+            text_data = JSON.stringify(text_data);
+            var date = Utils.formatTimestampUTC(nikki.date);
+            var data = {
+                uuid: $crypto.digest(text_data, "MD5").toUpperCase(),
+                starred: false,
+                pinned: false,
+                text: text,
+                richText: text_data,
+                creationDate: date,
+                modifiedDate: date,
+                creationDevice: device.model,
+                creationOSName: Utils.getSystemName(),
+                creationOSVersion: Utils.getAndroidVersion(),
+                creationDeviceType: device.brand,
+                timeZone: Utils.getTimeZone(),
+                v: {}
+            };
+            result.entries.push(data);
+        }
+        result = JSON.stringify(result);
+        files.ensureDir(full_path);
+        files.write(full_path, result, [encoding = "utf-8"]);
+    }
+    this.exportOneDay = this.exportDecorator(this.exportOneDay);
 
     this.import = function (full_path) {
-        toast("正在导入...可能会花费一些时间...");
         var load_backup_json = files.read(full_path, [, encoding = "utf-8"])
         var load_backup = null;
         try {
@@ -317,8 +406,8 @@ const DataMnager = function (app) {
             default:
                 this._importVBeta(load_backup);
         }
-        toast("导入完成");
     }
+    this.import = this.importDecorator(this.import);
 
     this._importV1 = function (load_backup) {
         var data = this.decrypt(load_backup);
@@ -339,7 +428,6 @@ const DataMnager = function (app) {
         TEKOKIS.data = data.out_tekoki.data;
         TEKOKIS.events = data.out_tekoki.events;
         var viar = data.out_viar;
-        print(viar);
         if (viar != undefined) {
             try {
                 VIAR.loadFromJson(viar);
@@ -500,55 +588,7 @@ const DataMnager = function (app) {
         this.saveNikki();
     }
 
-    this.exportOneDay = function (full_path) {
-        toast("正在导出...可能会花费一些时间...");
-        var result = {
-            metadata: {
-                version: "2023.25",
-                xya_info: "This is export from xya-nikki"
-            },
-            entries: []
-        }
-        for (var nikki of NIKKIS) {
-            var text = nikki.text;
-            var text_data = {
-                contents: [{
-                    text: text
-                }
-                ],
-                meta: {
-                    created: {
-                        platform: "com.bloombuilt.dayone-android",
-                        version: 407
-                    },
-                    "small-lines-removed": true,
-                    version: 1
-                }
-            };
-            text_data = JSON.stringify(text_data);
-            var date = Utils.formatTimestampUTC(nikki.date);
-            var data = {
-                uuid: $crypto.digest(text_data, "MD5").toUpperCase(),
-                starred: false,
-                pinned: false,
-                text: text,
-                richText: text_data,
-                creationDate: date,
-                modifiedDate: date,
-                creationDevice: device.model,
-                creationOSName: "Android",
-                creationOSVersion: Utils.getAndroidVersion(),
-                creationDeviceType: device.brand,
-                timeZone: Utils.getTimeZone(),
-                v: {}
-            };
-            result.entries.push(data);
-        }
-        result = JSON.stringify(result);
-        files.ensureDir(full_path);
-        files.write(full_path, result, [encoding = "utf-8"]);
-        toast("已导出文件到:" + full_path);
-    }
+
 
     return this;
 }
