@@ -22,6 +22,10 @@ const MENU_LIST = [{
     icon: "@drawable/ic_device_hub_black_48dp"
 },
 {
+    title: "密码簿",
+    icon: "@drawable/ic_style_black_48dp"
+},
+{
     title: PasswordManager.hasPassword() ? "修改密码" : "创建密码",
     icon: "@drawable/ic_https_black_48dp"
 },
@@ -44,6 +48,7 @@ const MENU_LIST = [{
 
 const Page = function (app) {
     this.app = app;
+    
     this.is_main_page = false;
     this.is_nikki = false;
     this.is_look_nikki = false;
@@ -53,13 +58,16 @@ const Page = function (app) {
     this.is_viar = false;
     this.is_look_viar = false;
     this.is_write_viar = false;
-    this.looking_nikki = null;
-    this.temp_nikki = null;
     this.is_select_viar_for_parent = false;
     this.is_select_viar_for_links = false;
+    this.is_password_book = false;
+
+    this.looking_nikki = null;
+    this.temp_nikki = null;
 
     this.init = function () {
         this.fh = ui.fh;
+
         this.main_page = ui.main_page;
         this.nikki = ui.nikki;
         this.look_nikki = ui.look_nikki;
@@ -75,6 +83,8 @@ const Page = function (app) {
         this.viar = ui.viar;
         this.look_viar = ui.look_viar;
         this.write_viar = ui.write_viar;
+        this.password_book = ui.password_book;
+
         this.initLookNikki();
         this.loadManagers();
         this.bindMenu();
@@ -115,6 +125,7 @@ const Page = function (app) {
         this.viar.attr("h", "0");
         this.look_viar.attr("h", "0");
         this.write_viar.attr("h", "0");
+        this.password_book.attr("h", "0");
 
         this.main_page.attr("visibility", "gone");
         this.nikki.attr("visibility", "gone");
@@ -125,6 +136,7 @@ const Page = function (app) {
         this.viar.attr("visibility", "gone");
         this.look_viar.attr("visibility", "gone");
         this.write_viar.attr("visibility", "gone");
+        this.password_book.attr("visibility", "gone");
 
         this.is_main_page = false;
         this.is_nikki = false;
@@ -135,9 +147,9 @@ const Page = function (app) {
         this.is_viar = false;
         this.is_look_viar = false;
         this.is_write_viar = false;
-
         this.is_select_viar_for_parent = false;
         this.is_select_viar_for_links = false;
+        this.is_password_book = false;
     }
 
     this.setNikkiCount = function (page_n) {
@@ -238,6 +250,14 @@ const Page = function (app) {
         this.viar_manager.hiddenAdd();
     }
 
+    this.openPasswordBook = function () {
+        this.allHidden();
+        this.password_book.attr("h", this.getHeight());
+        this.password_book.attr("visibility", "visible");
+        this.toolbar.title = "密码簿";
+        this.is_password_book = true;
+    }
+
     this.loadWriteNikki = function () {
         var date;
         var year;
@@ -303,8 +323,8 @@ const Page = function (app) {
             title: PasswordManager.hasPassword() ? "修改密码" : "创建密码",
             icon: "@drawable/ic_https_black_48dp"
         };
-        MENU_LIST.splice(4, 1);
-        MENU_LIST.splice(4, 0, appd);
+        MENU_LIST.splice(5, 1);
+        MENU_LIST.splice(5, 0, appd);
     }
 
     this.import = function () {
@@ -347,6 +367,9 @@ const Page = function (app) {
                 case "故事集":
                     this.openViAr();
                     this.viar_manager.viarUpdate();
+                    break;
+                case "密码簿":
+                    this.openPasswordBook();
                     break;
                 case "创建密码":
                     this.app.password_manager.create();

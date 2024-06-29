@@ -279,6 +279,9 @@ const PAGE = (
                         <img w="170px" h="170px" gravity="center" src="@drawable/ic_check_black_48dp" tint="{{DATA_CONTAINER.tine_color}}" />
                     </card>
                 </frame>
+                <frame id="password_book" w="*" h="*">
+
+                </frame>
             </frame>
         </vertical>
         <vertical layout_gravity="left" bg="{{DATA_CONTAINER.main_bg_color}}" w="260">
