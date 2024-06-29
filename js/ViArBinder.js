@@ -242,7 +242,7 @@ const ViArBinder = function (page, app) {
             const fetchWebContent = () => {
                 return new Promise((resolve, reject) => {
                     this.viar_inp_web.jsBridge.callHandler('getText', '', (data) => {
-                        if (data) {
+                        if (data || data === "") {
                             resolve(data);
                         } else {
                             reject(new Error("Failed to get content from jsBridge"));
@@ -334,7 +334,7 @@ const ViArBinder = function (page, app) {
                     resolve(this.inp.text());
                 } else {
                     this.viar_inp_web.jsBridge.callHandler('getText', '', (data) => {
-                        if (data) {
+                        if (data || data === "") {
                             resolve(data);
                         } else {
                             reject(new Error("Failed to get content from jsBridge"));
@@ -521,6 +521,7 @@ const ViArBinder = function (page, app) {
         this.inp.setText("");
         this.inp_meta.setText("");
         this.srh_tag_inp.setText("");
+        this.viar_inp_web.jsBridge.callHandler('clearText', "", () => { });
         this.clearWriteLinks();
         this.clearWriteTags();
     }

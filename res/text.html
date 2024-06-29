@@ -135,7 +135,7 @@
         const handlblur = function (self) {
             saveCurrentCursorPos();
             if (self.innerHTML == "") {
-                self.innerHTML = "写些什么吧";
+                self.innerHTML = "写些什么罢";
                 self.setAttribute("isblur", "false");
                 self.style.color = "#e0e0e0";
             }
@@ -173,8 +173,11 @@
         }
 
         const getInputHtml = function () {
-            var inputDiv = document.getElementById("input");
-            return inputDiv.innerHTML;
+            var inp = document.getElementById("input");
+            if (inp.innerHTML == "写些什么罢" && (inp.style.color == "#e0e0e0" || inp.style.color == "rgb(224, 224, 224)")) {
+                return "";
+            }
+            return inp.innerHTML;
         }
     </script>
 </head>
@@ -207,9 +210,15 @@
             document.head.removeChild(newScript);
         }
 
-        function setHTMLWithScript(container, rawHTML) {
-            container.innerHTML = rawHTML;
-            const scripts = container.querySelectorAll('script');
+        function setHTMLWithScript(inp, rawHTML) {
+            if(rawHTML == ""){
+                inp.innerHTML = "写些什么罢";
+                inp.setAttribute("isblur", "false");
+                inp.style.color = "#e0e0e0";
+                return;
+            }
+            inp.innerHTML = rawHTML;
+            const scripts = inp.querySelectorAll('script');
             for (let script of scripts) {
                 runScript(script);
             }
@@ -223,6 +232,13 @@
             var inp = document.getElementById("input");
             inputOnClick(inp)
             setHTMLWithScript(inp, data);
+        });
+
+        $autox.registerHandler("clearText", (data, callBack) => {
+            var inp = document.getElementById("input");
+            inp.innerHTML = "写些什么罢";
+            inp.setAttribute("isblur", "false");
+            inp.style.color = "#e0e0e0";
         });
     </script>
     <script>
@@ -252,8 +268,8 @@
 
         document.addEventListener("DOMContentLoaded", () => {
             var isKeydown = false;
-            var inputDiv = document.getElementById("input");
-            inputDiv.addEventListener("keydown", (event) => {
+            var inp = document.getElementById("input");
+            inp.addEventListener("keydown", (event) => {
                 if (event.key == "Enter") {
                     event.preventDefault();
                     if (!isKeydown) {
