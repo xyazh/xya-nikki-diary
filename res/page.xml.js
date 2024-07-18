@@ -280,7 +280,27 @@ const PAGE = (
                     </card>
                 </frame>
                 <frame id="password_book" w="*" h="*">
-
+                    <vertical>
+                        <vertical id="pb_tob">
+                            <text color="{{DATA_CONTAINER.dis_text_color}}" size="10sp" margin="4 0 0 0" text="搜索条件" />
+                            <input id="pb_srh_kw" hint="无" color="{{DATA_CONTAINER.normal_text_color}}" size="12sp" margin="4 0 0 0" />
+                            <horizontal w="*" gravity="right">
+                                <button id="pb_add" style="Widget.AppCompat.Button.Borderless.Colored" color="{{DATA_CONTAINER.button_color}}" size="10sp" w="140px" h="100px" layout_gravity="right" text="添加" />
+                                <button id="pb_srh" style="Widget.AppCompat.Button.Borderless.Colored" color="{{DATA_CONTAINER.button_color}}" size="10sp" w="140px" h="100px" layout_gravity="right" text="搜索" />
+                            </horizontal>
+                        </vertical>
+                        <vertical h="2px" w="*" bg="{{DATA_CONTAINER.line_color}}"></vertical>
+                        <list id="pb_li">
+                            <card id="pb_card" clickable="true" foreground="?selectableItemBackground" w="*" h="auto" margin="10 5">
+                                <vertical>
+                                    <text color="{{DATA_CONTAINER.normal_text_color}}" size="20sp" margin="4 0 0 0" text="{{this.name}}" ellipsize="end" maxLines="1" />
+                                    <text color="{{DATA_CONTAINER.dis_text_color}}" size="18sp" margin="4 0 0 0" text="{{this.pw}}" ellipsize="end" />
+                                    <vertical h="2px" w="*" bg="{{DATA_CONTAINER.line_color}}"></vertical>
+                                    <text color="{{DATA_CONTAINER.dis_text_color}}" size="12sp" margin="4 0 0 0" text="{{this.meta}}" />
+                                </vertical>
+                            </card>
+                        </list>
+                    </vertical>
                 </frame>
             </frame>
         </vertical>

@@ -3,6 +3,7 @@ const TekokiBinder = require("./TekokiBinder.js");
 const NikkiBinder = require("./NikkiBinder.js");
 const SettingBinder = require("./SettingBinder.js");
 const ViArBinder = require("./ViArBinder.js");
+const PasswordBookBinder = require("./PasswordBookBinder.js");
 const Utils = require("./Utils.js");
 
 const MENU_LIST = [{
@@ -108,6 +109,7 @@ const Page = function (app) {
         this.nikki_manager.bindChangeInput();
         this.Setting_manager = new SettingBinder(this, this.app);
         this.viar_manager = new ViArBinder(this, this.app);
+        this.password_book_manager = new PasswordBookBinder(this, this.app);
     }
 
 

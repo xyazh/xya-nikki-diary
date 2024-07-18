@@ -9,9 +9,12 @@ const TEKOKIS = {
 };
 const VIAR = new ViArTree();
 
+const PASSWORD_BOOK = [];
+
 const TEKOKIS_PATH = "./data/tekoki/tekoki.json";
 const NIKKIS_PATH = "./data/nikki/nikki.json";
 const VIAR_PATH = "./data/viar/viar.json";
+const PASSWORD_BOOK_PATH = "./data/passwordbook/passwordbook.json";
 
 const CRYPT_VRESION = 1;
 
@@ -72,6 +75,10 @@ const DataMnager = function (app) {
         return VIAR;
     }
 
+    this.getPasswordBook = function () {
+        return PASSWORD_BOOK;
+    }
+
     this.getTekokiData = function (key, event_name) {
         var result = [];
         if (TEKOKIS.data[key] === undefined) {
@@ -101,6 +108,10 @@ const DataMnager = function (app) {
     this.clearTekokis = function () {
         TEKOKIS.data = {};
         TEKOKIS.events.length = 0;
+    }
+
+    this.clearPasswordBook = function () {
+        PASSWORD_BOOKS.length = 0;
     }
 
     this.addTekoki = function (event_name, year, month, day, number) {
@@ -161,6 +172,19 @@ const DataMnager = function (app) {
             }
         }
         this.sortNikki();
+    }
+
+    this.addPasswordBook = function (password_book) {
+        PASSWORD_BOOKS.push(password_book);
+    }
+
+    this.delPasswordBook = function (id) {
+        for (let i = 0; i < PASSWORD_BOOKS.length; i++) {
+            if (PASSWORD_BOOKS[i].id === id) {
+                PASSWORD_BOOKS.splice(i, 1);
+                break;
+            }
+        }
     }
 
 
@@ -259,10 +283,37 @@ const DataMnager = function (app) {
         }
     }
 
+    this.loadPasswordBook = function () {
+        this.createEnptyFile(PASSWORD_BOOK_PATH);
+        var password_book_data = files.read(PASSWORD_BOOK_PATH, [encoding = "utf-8"]);
+        var password_book = null;
+        try {
+            password_book = JSON.parse(password_book_data);
+        } catch (e) {
+            toast("加载密码簿发生异常:" + e);
+            return;
+        }
+        if (password_book !== null) {
+            password_book = this.decrypt(password_book);
+        }
+        try {
+            password_book = JSON.parse(password_book);
+        } catch (e) {
+            toast("加载密码簿发生异常:" + e);
+        }
+        if (password_book !== null) {
+            password_book = password_book.data;
+            password_book.forEach(element => {
+                PASSWORD_BOOK.push(element);
+            });
+        }
+    }
+
     this.load = function () {
         this.loadNikki();
         this.loadTekoki();
         this.loadViAr();
+        this.loadPasswordBook();
     }
 
     this.saveNikki = function () {
@@ -297,10 +348,23 @@ const DataMnager = function (app) {
         files.write(VIAR_PATH, viar_data, [encoding = "utf-8"]);
     }
 
+    this.savePasswordBook = function () {
+        this.createEnptyFile(PASSWORD_BOOK_PATH);
+        var password_book_data = {
+            salt: Math.floor(Math.random() * 1000000000) + 1,
+            data: PASSWORD_BOOK
+        };
+        password_book_data = JSON.stringify(password_book_data);
+        password_book_data = this.encrypt(password_book_data);
+        password_book_data = JSON.stringify(password_book_data);
+        files.write(PASSWORD_BOOK_PATH, password_book_data, [encoding = "utf-8"]);
+    }
+
     this.save = function () {
         this.saveTekoki();
         this.saveNikki();
         this.saveViAr();
+        this.savePasswordBook();
     }
 
     this.export = function (full_path) {
@@ -308,6 +372,7 @@ const DataMnager = function (app) {
             out_nikki: NIKKIS,
             out_tekoki: TEKOKIS,
             out_viar: VIAR.saveToJson(),
+            out_password_book: PASSWORD_BOOK,
             salt: Math.floor(Math.random() * 1000000000) + 1
         }
         data = JSON.stringify(data);
@@ -324,7 +389,8 @@ const DataMnager = function (app) {
         var data = {
             out_nikki: NIKKIS,
             out_tekoki: TEKOKIS,
-            out_viar: VIAR.saveToJson()
+            out_viar: VIAR.saveToJson(),
+            out_password_book: PASSWORD_BOOK
         }
         data = JSON.stringify(data);
         data = {
@@ -434,6 +500,10 @@ const DataMnager = function (app) {
             } catch (e) {
                 toast("加载故事集发生异常:" + e);
             }
+        }
+        this.clearPasswordBook();
+        for (var i of data.out_password_book) {
+            PASSWORD_BOOK.push(i);
         }
         this.save();
     }
@@ -568,7 +638,7 @@ const DataMnager = function (app) {
         return dedata;
     }
 
-    this.cheakNikkiTime = function () {
+    this.checkNikkiTime = function () {
         var nikkis = [];
         for (var nikki of NIKKIS) {
             var date = new Date(nikki.date);

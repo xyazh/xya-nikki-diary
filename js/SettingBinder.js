@@ -20,7 +20,7 @@ const SettingBinder = function (page, a) {
     });
 
     this.cheak_nikki_time_btn.on("click", () => {
-        this.app.data_manager.cheakNikkiTime();
+        this.app.data_manager.checkNikkiTime();
         toast("校验完成");
     });
 
