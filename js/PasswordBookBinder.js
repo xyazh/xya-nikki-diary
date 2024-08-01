@@ -1,4 +1,32 @@
+const RENDER_LIST = [];
+
 const PasswordBookBinder = function (page, a) {
+    this.INPUT_VIEW = ui.inflate(
+        <vertical>
+            <appbar bg="{{DATA_CONTAINER.ui_color}}">
+                <toolbar title="新增项目" />
+            </appbar>
+            <text size="12sp" margin="4 0 4 3" text="" />
+            <input hint="用户名" id="pb_add_un" />
+            <input hint="密码" id="pb_add_pw" />
+            <input hint="备注" id="pb_add_meta" />
+        </vertical>
+    );
+
+    this.SHOW_VIEW = ui.inflate(
+        <vertical>
+            <appbar bg="{{DATA_CONTAINER.ui_color}}">
+                <toolbar title="密码" />
+            </appbar>
+            <text size="12sp" margin="4 0 4 3" text="" />
+            <text text="" margin="4 4 4 8" id="pb_show_un" />
+            <vertical h="2px" w="*" bg="{{DATA_CONTAINER.line_color}}"></vertical>
+            <text text="" margin="4 4 4 8" id="pb_show_pw" />
+            <vertical h="2px" w="*" bg="{{DATA_CONTAINER.line_color}}"></vertical>
+            <text text="" margin="4 4 4 8" id="pb_show_meta" />
+        </vertical>
+    );
+
     this.app = a;
     this.page = page;
     this.tob = ui.pb_tob;
@@ -7,20 +35,26 @@ const PasswordBookBinder = function (page, a) {
     this.srh_btn = ui.pb_srh;
     this.ui_list = ui.pb_li;
 
-    this.ui_list.setDataSource(this.app.data_manager.getPasswordBook());
+    this.clearRenderList = function () {
+        if (RENDER_LIST.length > 1) {
+            RENDER_LIST.length = 1;
+        }
+        if (RENDER_LIST.length = 1) {
+            RENDER_LIST.pop();
+        }
+    }
+
+    this.initRenderList = function () {
+        this.clearRenderList();
+        this.app.data_manager.getPasswordBook().forEach(item => {
+            RENDER_LIST.push(item);
+        });
+    };
+    this.ui_list.setDataSource(RENDER_LIST);
+
 
     this.create = () => {
-        var input_view = ui.inflate(
-            <vertical>
-                <appbar bg="{{DATA_CONTAINER.ui_color}}">
-                    <toolbar title="新增项目" />
-                </appbar>
-                <text size="12sp" margin="4 0 4 3" text="" />
-                <input hint="用户名" id="pb_add_un" />
-                <input hint="密码" id="pb_add_pw" />
-                <input hint="备注" id="pb_add_meta" />
-            </vertical>
-        );
+        var input_view = this.INPUT_VIEW;
         dialogs.build({
             customView: input_view,
             positive: "确定",
@@ -40,14 +74,51 @@ const PasswordBookBinder = function (page, a) {
             var password_book = this.app.data_manager.getPasswordBook();
             password_book.push(pb_data);
             this.app.data_manager.savePasswordBook();
+            this.initRenderList();
             dialog.dismiss();
         }).on("negative", (dialog) => {
             dialog.dismiss();
         }).show();
     }
 
+    this.show = (item) => {
+        var show_view = this.SHOW_VIEW;
+        show_view.pb_show_un.text("用户名:" + item.name);
+        show_view.pb_show_pw.text("密码:" + item.pw);
+        show_view.pb_show_meta.text("备注:" + item.meta);
+
+        dialogs.build({
+            customView: show_view,
+            positive: "复制密码",
+            negative: "复制账号",
+            neutral: "删除",
+            neutralColor: "#ff0000",
+            wrapInScrollView: false,
+            autoDismiss: false
+        }).on("positive", (dialog) => {
+            var content = item.pw;
+            setClip(content);
+            toast("密码已复制到剪切板");
+            dialog.dismiss();
+        }).on("negative", (dialog) => {
+            var content = item.name;
+            setClip(content);
+            toast("用户名已复制到剪切板");
+            dialog.dismiss();
+        }).on("neutral", (dialog) => {
+            dialog.dismiss();
+            this.app.data_manager.delPasswordBook(item.id);
+            this.app.data_manager.savePasswordBook();
+            this.initRenderList();
+        }).show();
+    }
+
     this.add_btn.on("click", () => {
         this.create();
+    });
+
+    this.ui_list.on("item_click", item => {
+        this.show(item);
     });
 
     return this;

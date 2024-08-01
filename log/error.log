@@ -1,0 +1,8 @@
+InternalError: Can't find method com.stardust.autojs.core.ui.widget.JsListView.setDataSource(). (/mnt/shared/Pictures/js/xya-nikki-diary/js/PasswordBookBinder.js#54)
+	at /mnt/shared/Pictures/js/xya-nikki-diary/js/PasswordBookBinder.js:54
+	at /mnt/shared/Pictures/js/xya-nikki-diary/js/Page.js:112
+	at /mnt/shared/Pictures/js/xya-nikki-diary/js/Page.js:90
+	at /mnt/shared/Pictures/js/xya-nikki-diary/App.js:99
+	at /mnt/shared/Pictures/js/xya-nikki-diary/App.js:83
+	at /mnt/shared/Pictures/js/xya-nikki-diary/js/PasswordManager.js:8
+	at /storage/emulated/0/Pictures/js/xya-nikki-diary/main.js:6

@@ -258,6 +258,7 @@ const Page = function (app) {
         this.password_book.attr("visibility", "visible");
         this.toolbar.title = "密码簿";
         this.is_password_book = true;
+        this.password_book_manager.initRenderList();
     }
 
     this.loadWriteNikki = function () {

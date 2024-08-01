@@ -111,7 +111,7 @@ const DataMnager = function (app) {
     }
 
     this.clearPasswordBook = function () {
-        PASSWORD_BOOKS.length = 0;
+        PASSWORD_BOOK.length = 0;
     }
 
     this.addTekoki = function (event_name, year, month, day, number) {
@@ -175,13 +175,13 @@ const DataMnager = function (app) {
     }
 
     this.addPasswordBook = function (password_book) {
-        PASSWORD_BOOKS.push(password_book);
+        PASSWORD_BOOK.push(password_book);
     }
 
     this.delPasswordBook = function (id) {
-        for (let i = 0; i < PASSWORD_BOOKS.length; i++) {
-            if (PASSWORD_BOOKS[i].id === id) {
-                PASSWORD_BOOKS.splice(i, 1);
+        for (let i = 0; i < PASSWORD_BOOK.length; i++) {
+            if (PASSWORD_BOOK[i].id === id) {
+                PASSWORD_BOOK.splice(i, 1);
                 break;
             }
         }

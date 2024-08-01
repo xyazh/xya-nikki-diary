@@ -294,9 +294,9 @@ const PAGE = (
                             <card id="pb_card" clickable="true" foreground="?selectableItemBackground" w="*" h="auto" margin="10 5">
                                 <vertical>
                                     <text color="{{DATA_CONTAINER.normal_text_color}}" size="20sp" margin="4 0 0 0" text="{{this.name}}" ellipsize="end" maxLines="1" />
-                                    <text color="{{DATA_CONTAINER.dis_text_color}}" size="18sp" margin="4 0 0 0" text="{{this.pw}}" ellipsize="end" />
+                                    <text color="{{DATA_CONTAINER.dis_text_color}}" size="16sp" margin="4 4 0 0" text="{{this.pw.replace(/./g, '*')}}" ellipsize="end" />
                                     <vertical h="2px" w="*" bg="{{DATA_CONTAINER.line_color}}"></vertical>
-                                    <text color="{{DATA_CONTAINER.dis_text_color}}" size="12sp" margin="4 0 0 0" text="{{this.meta}}" />
+                                    <text color="{{DATA_CONTAINER.normal_text_color}}" size="10sp" margin="4 0 0 0" text="{{this.meta}}" />
                                 </vertical>
                             </card>
                         </list>
