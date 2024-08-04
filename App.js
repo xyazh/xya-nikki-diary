@@ -79,7 +79,6 @@ const App = function (DATA_CONTAINER) {
     }
 
     this.main = () => {
-        this.seleTheme();
         this.uiLoadFream();
         this.page.openMainPage();
     }
@@ -88,11 +87,11 @@ const App = function (DATA_CONTAINER) {
     }
 
     this.loadUI = function () {
+        this.seleTheme();
         ui.layout(PAGE_XML);
     }
 
     this.uiLoadFream = function () {
-        this.loadUI();
         ui.statusBarColor(this.DATA_CONTAINER.ui_color);
         //让工具栏左上角可以打开侧拉菜单
         ui.toolbar.setupWithDrawer(ui.drawer);

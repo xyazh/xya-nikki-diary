@@ -3,7 +3,7 @@ try {
     const DATA_CONTAINER = {};
     const App = require("./App.js");
     var app = new App(DATA_CONTAINER);
-    app.password_manager.inputPassword(app.main);
+    app.password_manager.inputPassword(app, app.main);
 } catch (e) {
     console.error(e);
     var stack_trace = "" + e + "\n" + e.stack.toString();

@@ -2,20 +2,33 @@ const PasswordManager = function (app) {
     this.app = app
     this.password = "";
     this.has_password = PasswordManager.hasPassword();
+    this.password_page = undefined;
+    this.main_page = undefined;
+    this.pw_btn = undefined;
+    this.pw_inp = undefined;
+    this._loadFuc = null;
 
-    this.inputPassword = function (loadFuc) {
+    this.inputPassword = (app,loadFuc) => {
+        app.loadUI();
+        this.password_page = ui.first_page;
+        this.main_page = ui.drawer;
+        this.pw_btn = ui.password_ok;
+        this.pw_inp = ui.password_inp;
         if (!PasswordManager.hasPassword()) {
             loadFuc();
+            this.password_page.attr("visibility", "gone");
             return;
         }
-        dialogs.rawInput("输入密码", "", (str) => {
-            var str = String(str);
+        this.pw_btn.on("click", () => {
+            var str = this.pw_inp.text();
+            str = String(str);
             var f = open("./data/ccpw.cc");
             var mpw = f.read();
             f.close();
             if ($crypto.digest(str, "SHA-256") == mpw) {
                 this.password = $crypto.digest(str, "MD5");
                 loadFuc();
+                this.password_page.attr("visibility", "gone");
                 toast("密码正确");
             } else {
                 toast("密码错误");
@@ -23,8 +36,9 @@ const PasswordManager = function (app) {
                     ui.finish();
                 }, 500);
             }
-        })
+        });
     };
+
 
     this.deletePassword = function () {
         files.remove("./data/ccpw.cc")
