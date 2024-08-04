@@ -10,11 +10,42 @@ const PAGE = (
                 </frame>
                 <frame id="nikki">
                     <vertical>
+                        <vertical id="nikki_tob">
+                            <vertical id="nikki_sub_tob" visibility="gone">
+                                <text color="{{DATA_CONTAINER.dis_text_color}}" size="10sp" margin="4 0 0 0" text="搜索条件" />
+                                <input id="nikki_srh_kw" hint="无" color="{{DATA_CONTAINER.normal_text_color}}" size="12sp" margin="4 0 0 0" />
+                            </vertical>
+                            <horizontal w="*" gravity="right">
+                                <button id="nikki_srh" style="Widget.AppCompat.Button.Borderless.Colored" color="{{DATA_CONTAINER.button_color}}" size="10sp" w="140px" h="100px" layout_gravity="right" text="搜索" visibility="gone" />
+                                <button id="nikki_reset" style="Widget.AppCompat.Button.Borderless.Colored" color="{{DATA_CONTAINER.button_color}}" size="10sp" w="140px" h="100px" layout_gravity="right" text="重置" visibility="gone" />
+                                <button id="nikki_updown" style="Widget.AppCompat.Button.Borderless.Colored" color="{{DATA_CONTAINER.button_color}}" size="10sp" w="140px" h="100px" layout_gravity="right" text="展开" />
+                            </horizontal>
+                            <vertical h="2px" w="*" bg="{{DATA_CONTAINER.line_color}}"></vertical>
+                        </vertical>
                         <vertical>
                             <text color="{{DATA_CONTAINER.dis_text_color}}" id="tj" margin="25px" gravity="center_horizontal" text="共{{DATA_CONTAINER.page_number}}篇" />
                         </vertical>
                         <vertical>
                             <list id="texts_list">
+                                <card bg="{{DATA_CONTAINER.card_bg_color}}" id="msg_card" clickable="true" foreground="?selectableItemBackground" w="*" margin="10 5">
+                                    <vertical>
+                                        <horizontal>
+                                            <vertical>
+                                                <text color="{{DATA_CONTAINER.dis_text_color}}" size="30sp" gravity="center_horizontal" margin="4 3 4 0" text="{{this.day}}" />
+                                                <text color="{{DATA_CONTAINER.dis_text_color}}" size="12sp" gravity="center_horizontal" margin="4 3 4 0" text="{{this.month +'月 ' + this.week}}" />
+                                            </vertical>
+                                            <horizontal w="*" gravity="left">
+                                                <vertical>
+                                                    <text color="{{DATA_CONTAINER.dis_text_color}}" size="12sp" margin="4 0 4 3" text="{{this.year==DATA_CONTAINER.year?'':this.year}}" />
+                                                    <text color="{{DATA_CONTAINER.normal_text_color}}" size="17sp" margin="4 0 4 3" ellipsize="end" text="{{this.text}}" maxLines="10" />
+                                                    <text color="{{DATA_CONTAINER.dis_text_color}}" size="12sp" margin="4 0 4 3" text="{{DATA_CONTAINER.addZero(this.hours) + ':' +DATA_CONTAINER.addZero(this.minu)}}" />
+                                                </vertical>
+                                            </horizontal>
+                                        </horizontal>
+                                    </vertical>
+                                </card>
+                            </list>
+                            <list id="texts_srh_list" visibility="gone">
                                 <card bg="{{DATA_CONTAINER.card_bg_color}}" id="msg_card" clickable="true" foreground="?selectableItemBackground" w="*" margin="10 5">
                                     <vertical>
                                         <horizontal>
@@ -287,6 +318,7 @@ const PAGE = (
                             <horizontal w="*" gravity="right">
                                 <button id="pb_add" style="Widget.AppCompat.Button.Borderless.Colored" color="{{DATA_CONTAINER.button_color}}" size="10sp" w="140px" h="100px" layout_gravity="right" text="添加" />
                                 <button id="pb_srh" style="Widget.AppCompat.Button.Borderless.Colored" color="{{DATA_CONTAINER.button_color}}" size="10sp" w="140px" h="100px" layout_gravity="right" text="搜索" />
+                                <button id="pb_reset" style="Widget.AppCompat.Button.Borderless.Colored" color="{{DATA_CONTAINER.button_color}}" size="10sp" w="140px" h="100px" layout_gravity="right" text="重置" />
                             </horizontal>
                         </vertical>
                         <vertical h="2px" w="*" bg="{{DATA_CONTAINER.line_color}}"></vertical>
@@ -294,7 +326,7 @@ const PAGE = (
                             <card id="pb_card" clickable="true" foreground="?selectableItemBackground" w="*" h="auto" margin="10 5">
                                 <vertical>
                                     <text color="{{DATA_CONTAINER.normal_text_color}}" size="20sp" margin="4 0 0 0" text="{{this.name}}" ellipsize="end" maxLines="1" />
-                                    <text color="{{DATA_CONTAINER.dis_text_color}}" size="16sp" margin="4 4 0 0" text="{{this.pw.replace(/./g, '*')}}" ellipsize="end" />
+                                    <text color="{{DATA_CONTAINER.dis_text_color}}" size="16sp" margin="4 4 0 0" text="{{this.pw}}" ellipsize="end" />
                                     <vertical h="2px" w="*" bg="{{DATA_CONTAINER.line_color}}"></vertical>
                                     <text color="{{DATA_CONTAINER.normal_text_color}}" size="10sp" margin="4 0 0 0" text="{{this.meta}}" />
                                 </vertical>

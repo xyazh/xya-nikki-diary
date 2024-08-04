@@ -174,5 +174,30 @@ Utils.getSystemName = function () {
     return os_name;
 };
 
+Utils.parseTimeString = function (time_string) {
+    const regexes = [
+        /^(\d{4})(?:-(\d{1,2}))?(?:-(\d{1,2}))?(?:\s(\d{1,2}):(\d{1,2}):(\d{1,2}))?$/,
+        /^(\d{4})年(?:-(\d{1,2})月)?(?:-(\d{1,2})日)?(?:\s(\d{1,2})时(\d{1,2})分(\d{1,2})秒)?$/,
+        /^(\d{4})年(\d{1,2})月(\d{1,2})日(?:\s(\d{1,2})时(\d{1,2})分(\d{1,2})秒)?$/
+    ];
+    for (var regex of regexes) {
+        var match = time_string.match(regex);
+        if (match) {
+            var [_, year, month, day, hour, minute, second] = match;
+            var result = {
+                year: year || null,
+                month: month || null,
+                day: day || null,
+                hour: hour || null,
+                minute: minute || null,
+                second: second || null
+            };
+            return result;
+        }
+    }
+    return null;
+}
+
+
 
 module.exports = Utils;

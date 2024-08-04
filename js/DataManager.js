@@ -1,7 +1,6 @@
 const Utils = require("./Utils.js");
 const LZString = require("./LZString");
 const ViArTree = require("./ViArTree.js")
-
 const NIKKIS = [];
 const TEKOKIS = {
     events: [],

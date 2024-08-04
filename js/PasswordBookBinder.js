@@ -1,3 +1,5 @@
+const Utils = require("./Utils.js");
+
 const RENDER_LIST = [];
 
 const PasswordBookBinder = function (page, a) {
@@ -34,6 +36,7 @@ const PasswordBookBinder = function (page, a) {
     this.add_btn = ui.pb_add;
     this.srh_btn = ui.pb_srh;
     this.ui_list = ui.pb_li;
+    this.src_reset = ui.pb_reset;
 
     this.clearRenderList = function () {
         if (RENDER_LIST.length > 1) {
@@ -55,6 +58,9 @@ const PasswordBookBinder = function (page, a) {
 
     this.create = () => {
         var input_view = this.INPUT_VIEW;
+        input_view.pb_add_un.text("");
+        input_view.pb_add_pw.text("");
+        input_view.pb_add_meta.text("");
         dialogs.build({
             customView: input_view,
             positive: "确定",
@@ -119,6 +125,55 @@ const PasswordBookBinder = function (page, a) {
 
     this.ui_list.on("item_click", item => {
         this.show(item);
+    });
+
+    this.search = function (keyword) {
+        var result = [];
+        if (keyword == undefined || keyword == "" || keyword == null) {
+            return result;
+        }
+        var keywords = Utils.splitKeyword(keyword);
+        var items = this.app.data_manager.getPasswordBook();
+        for (var item of items) {
+            var n = 0;
+            for (keyword of keywords) {
+                if (item.name.includes(keyword)) {
+                    n += 1;
+                }
+                if (item.pw.includes(keyword)) {
+                    n += 1;
+                }
+                if (item.meta.includes(keyword)) {
+                    n += 2;
+                }
+            }
+            if (n <= 0) {
+                continue;
+            }
+            result.push({
+                item: item,
+                score: n,
+            });
+        }
+        result.sort((a, b) => b.score - a.score);
+        return result;
+    }
+
+    this.useSearch = function (keyword) {
+        var items = this.search(keyword);
+        this.clearRenderList();
+        for (var item of items) {
+            RENDER_LIST.push(item.item);
+        }
+    }
+
+    this.srh_btn.on("click", () => {
+        var keyword = this.src_inp.text();
+        this.useSearch(keyword);
+    });
+
+    this.src_reset.on("click", () => {
+        this.initRenderList();
     });
 
     return this;

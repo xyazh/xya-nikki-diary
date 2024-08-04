@@ -1,3 +1,5 @@
+const Utils = require("./Utils");
+
 const DATA_VIEW = ui.inflate(
     <vertical>
         <datepicker id="datepicker" />
@@ -9,6 +11,8 @@ const TIME_VIEW = ui.inflate(
         <timepicker id="timepicker" />
     </vertical>
 );
+
+const RENDER_LIST = [];
 
 const NikkiBinder = function (page, app) {
     this.page = page;
@@ -25,6 +29,114 @@ const NikkiBinder = function (page, app) {
     });
     this.write_nikki_btn = ui.nikki_but;
     this.rewrite_nikki_btn = ui.look_nikki_but;
+
+    this.tob = ui.nikki_tob;
+    this.sub_tob = ui.nikki_sub_tob;
+    this.src_inp = ui.nikki_srh_kw;
+    this.srh_btn = ui.nikki_srh;
+    this.reset_btn = ui.nikki_reset;
+    this.updown_btn = ui.nikki_updown;
+    this.nikki_count = ui.tj;
+    this.srh_list = ui.texts_srh_list;
+    this.srh_list.setDataSource(RENDER_LIST);
+    this.srh_list.on("item_click", item => {
+        this.page.loadLookNikki(item);
+        this.page.openLookNikki();
+    });
+
+    this.updown_btn.on("click", () => {
+        var t = this.sub_tob.attr("visibility");
+        if (t == "gone") {
+            this.sub_tob.attr("visibility", "visible");
+            this.srh_btn.attr("visibility", "visible");
+            this.reset_btn.attr("visibility", "visible");
+            this.updown_btn.text("收起");
+        } else {
+            this.sub_tob.attr("visibility", "gone");
+            this.srh_btn.attr("visibility", "gone");
+            this.reset_btn.attr("visibility", "gone");
+            this.updown_btn.text("展开");
+        }
+    });
+
+    this.reset_btn.on("click", () => {
+        this.srh_list.attr("visibility", "gone");
+        this.ui_list.attr("visibility", "visible");
+        this.nikki_count.attr("visibility", "visible");
+    });
+
+    this.clearRenderList = function () {
+        if (RENDER_LIST.length > 1) {
+            RENDER_LIST.length = 1;
+        }
+        if (RENDER_LIST.length = 1) {
+            RENDER_LIST.pop();
+        }
+    }
+
+    this.search = function (keyword) {
+        var result = [];
+        if (keyword == undefined || keyword == "" || keyword == null) {
+            return result;
+        }
+
+        var times = Utils.parseTimeString(keyword);
+        var keywords = Utils.splitKeyword(keyword);
+        var items = this.app.data_manager.getNikkis();
+        for (var item of items) {
+            var n = 0;
+            if (times != null) {
+                if (item.year == times.year) {
+                    n += 500;
+                }
+                if (item.month == times.month) {
+                    n += 500;
+                }
+                if (item.day == times.day) {
+                    n += 500;
+                }
+                if (item.hours == times.hour) {
+                    n += 500;
+                }
+                if (item.minu == times.minute) {
+                    n += 500;
+                }
+            }
+            if (keyword == item.week) {
+                n += 500;
+            }
+            for (keyword of keywords) {
+                if (item.text.includes(keyword)) {
+                    n += 1;
+                }
+            }
+            if (n <= 0) {
+                continue;
+            }
+            result.push({
+                item: item,
+                score: n,
+            });
+        }
+        result.sort((a, b) => b.score - a.score);
+        return result;
+    }
+
+    this.useSearch = function (keyword) {
+        var items = this.search(keyword);
+        this.clearRenderList();
+        for (var item of items) {
+            RENDER_LIST.push(item.item);
+        }
+        this.srh_list.attr("visibility", "visible");
+        this.ui_list.attr("visibility", "gone");
+        this.nikki_count.attr("visibility", "gone");
+    }
+
+    this.srh_btn.on("click", () => {
+        var keyword = this.src_inp.text();
+        this.useSearch(keyword);
+    });
 
     this.bindDateSele = function () {
         var date_view = DATA_VIEW;
