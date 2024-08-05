@@ -49,7 +49,7 @@ const MENU_LIST = [{
 
 const Page = function (app) {
     this.app = app;
-    
+
     this.is_main_page = false;
     this.is_nikki = false;
     this.is_look_nikki = false;
@@ -155,7 +155,9 @@ const Page = function (app) {
     }
 
     this.setNikkiCount = function (page_n) {
-        this.nikki_count.setText("共" + page_n + "篇");
+        ui.run(() => { 
+            this.nikki_count.setText("共" + page_n + "篇"); 
+        });
     }
 
     this.openMainPage = function () {

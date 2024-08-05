@@ -43,7 +43,6 @@
     "splashText": "xya日记"
   },
   "libs": [
-    "libp7zip.so",
     "libjackpal-androidterm5.so",
     "libjackpal-termexec2.so"
   ],
@@ -54,10 +53,10 @@
   "projectDirectory": "/storage/emulated/0/Pictures/js/xya-nikki-diary",
   "scripts": {},
   "signingConfig": {
-    "alias": "xya_nikki",
-    "keystore": "/storage/emulated/0/Pictures/js/.keyStore/xya_nikki.keystore"
+    "alias": null,
+    "keystore": null
   },
   "sourcePath": "/storage/emulated/0/Pictures/js/nikki/xya-nikki-diary/build",
-  "versionCode": 8,
-  "versionName": "0.5.6"
+  "versionCode": 11,
+  "versionName": "0.5.9"
 }

@@ -34,6 +34,9 @@ const DataMnager = function (app) {
                         fuc.call(this, full_path);
                         toast("导出完成");
                     } catch (e) {
+                        console.error(e);
+                        var stack_trace = "" + e + "\n" + e.stack.toString();
+                        console.error(stack_trace);
                         toast("导出失败");
                     }
                     this.sl_ing = false;
@@ -54,6 +57,9 @@ const DataMnager = function (app) {
                         fuc.call(this, full_path);
                         toast("导入完成");
                     } catch (e) {
+                        console.error(e);
+                        var stack_trace = "" + e + "\n" + e.stack.toString();
+                        console.error(stack_trace);
                         toast("导入失败");
                     }
                     this.sl_ing = false;
@@ -501,8 +507,11 @@ const DataMnager = function (app) {
             }
         }
         this.clearPasswordBook();
-        for (var i of data.out_password_book) {
-            PASSWORD_BOOK.push(i);
+        var password_book = data.out_password_book;
+        if (password_book != undefined) {
+            for (var i of data.out_password_book) {
+                PASSWORD_BOOK.push(i);
+            }
         }
         this.save();
     }
