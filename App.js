@@ -34,6 +34,7 @@ const App = function (DATA_CONTAINER) {
     this.DATA_CONTAINER.week = "周" + "日一二三四五六".charAt(this.date.getDay());
     this.DATA_CONTAINER.tekoki_event = "默认";
     this.DATA_CONTAINER.stringToColor = Utils.stringToColor;
+    this.DATA_CONTAINER.stringToColorLight = Utils.stringToColorLight;
 
     this.seleTheme = function () {
         var theme_name = this.config.get("theme", "dis");

@@ -185,7 +185,7 @@ const ViArBinder = function (page, app) {
         var kw = this.srh_tag_inp.text();
         this.clearSrhTags();
         if (kw == "") {
-            for (let v of this.viar.tags) {
+            for (var v of this.viar.tags) {
                 this.addSrhTag(v);
             }
             return;
@@ -358,7 +358,7 @@ const ViArBinder = function (page, app) {
         var kw = this.srh_tag_inp_main.text();
         this.clearTagList();
         if (kw == "") {
-            for (let v of this.viar.tags) {
+            for (var v of this.viar.tags) {
                 this.addTagList(v);
             }
             return;
@@ -564,7 +564,7 @@ const ViArBinder = function (page, app) {
 
     this.delSrhTag = function (tag) {
         SRH_TAGS_SET.delete(tag);
-        for (let i = SRH_TAGS.length - 1; i >= 0; i--) {
+        for (var i = SRH_TAGS.length - 1; i >= 0; i--) {
             if (SRH_TAGS[i] == tag) {
                 SRH_TAGS.splice(i, 1);
             }
@@ -573,7 +573,7 @@ const ViArBinder = function (page, app) {
 
     this.delWriteTag = function (tag) {
         WRITE_TAGS_SET.delete(tag);
-        for (let i = WRITE_TAGS.length - 1; i >= 0; i--) {
+        for (var i = WRITE_TAGS.length - 1; i >= 0; i--) {
             if (WRITE_TAGS[i] == tag) {
                 WRITE_TAGS.splice(i, 1);
             }
@@ -583,7 +583,7 @@ const ViArBinder = function (page, app) {
     this.delWriteLink = function (link) {
         var key = `<node:${link.title}|id=${link.id}>`;
         delete WRITE_LINKS_MAP[key];
-        for (let i = WRITE_LINKS.length - 1; i >= 0; i--) {
+        for (var i = WRITE_LINKS.length - 1; i >= 0; i--) {
             if (WRITE_LINKS[i] == key) {
                 WRITE_LINKS.splice(i, 1);
             }
@@ -592,7 +592,7 @@ const ViArBinder = function (page, app) {
 
     this.delWriteLinkWithKey = function (key) {
         delete WRITE_LINKS_MAP[key];
-        for (let i = WRITE_LINKS.length - 1; i >= 0; i--) {
+        for (var i = WRITE_LINKS.length - 1; i >= 0; i--) {
             if (WRITE_LINKS[i] == key) {
                 WRITE_LINKS.splice(i, 1);
             }
@@ -601,7 +601,7 @@ const ViArBinder = function (page, app) {
 
     this.delTagList = function (tag) {
         TAGS_SET.delete(tag);
-        for (let i = TAG_LIST.length - 1; i >= 0; i--) {
+        for (var i = TAG_LIST.length - 1; i >= 0; i--) {
             if (TAG_LIST[i] == tag) {
                 TAG_LIST.splice(i, 1);
             }
@@ -610,7 +610,7 @@ const ViArBinder = function (page, app) {
 
     this.delSrhMainTag = function (tag) {
         SRH_MAIN_TAGS_SET.delete(tag);
-        for (let i = SRH_MAIN_TAG.length - 1; i >= 0; i--) {
+        for (var i = SRH_MAIN_TAG.length - 1; i >= 0; i--) {
             if (SRH_MAIN_TAG[i] == tag) {
                 SRH_MAIN_TAG.splice(i, 1);
             }
@@ -631,7 +631,7 @@ const ViArBinder = function (page, app) {
 
     this.nofityTags = function () {
         this.clearSrhTags();
-        for (let tag of this.viar.tags) {
+        for (var tag of this.viar.tags) {
             this.addSrhTag(tag);
         }
     }

@@ -10,6 +10,7 @@ const PasswordBookBinder = function (page, a) {
             </appbar>
             <text size="12sp" margin="4 0 4 3" text="" />
             <input hint="用户名" id="pb_add_un" />
+            <input hint="邮箱" id="pb_add_em" />
             <input hint="密码" id="pb_add_pw" />
             <input hint="备注" id="pb_add_meta" />
         </vertical>
@@ -21,11 +22,25 @@ const PasswordBookBinder = function (page, a) {
                 <toolbar title="密码" />
             </appbar>
             <text size="12sp" margin="4 0 4 3" text="" />
-            <text text="" margin="4 4 4 8" id="pb_show_un" />
+            <linear>
+                <text text="用户名:" margin="4" />
+                <text text="" margin="4" id="pb_show_un" />
+            </linear>
             <vertical h="2px" w="*" bg="{{DATA_CONTAINER.line_color}}"></vertical>
-            <text text="" margin="4 4 4 8" id="pb_show_pw" />
+            <linear>
+                <text text="邮箱:" margin="4" />
+                <text text="" margin="4" id="pb_show_em" />
+            </linear>
             <vertical h="2px" w="*" bg="{{DATA_CONTAINER.line_color}}"></vertical>
-            <text text="" margin="4 4 4 8" id="pb_show_meta" />
+            <linear>
+                <text text="密码:" margin="4" />
+                <text text="" margin="4" id="pb_show_pw" />
+            </linear>
+            <vertical h="2px" w="*" bg="{{DATA_CONTAINER.line_color}}"></vertical>
+            <linear>
+                <text text="备注:" margin="4" />
+                <text text="" margin="4" id="pb_show_meta" />
+            </linear>
         </vertical>
     );
 
@@ -38,7 +53,7 @@ const PasswordBookBinder = function (page, a) {
     this.ui_list = ui.pb_li;
     this.src_reset = ui.pb_reset;
 
-    this.clearRenderList = function () {
+    this._clearRenderList = function () {
         if (RENDER_LIST.length > 1) {
             RENDER_LIST.length = 1;
         }
@@ -47,20 +62,34 @@ const PasswordBookBinder = function (page, a) {
         }
     }
 
-    this.initRenderList = function () {
-        this.clearRenderList();
+    this.clearRenderList = function () {
+        ui.run(() => {
+            this._clearRenderList();
+        });
+    }
+
+    this._initRenderList = function () {
+        this._clearRenderList();
         this.app.data_manager.getPasswordBook().forEach(item => {
             RENDER_LIST.push(item);
         });
+
     };
+
+    this.initRenderList = function () {
+        ui.run(() => {
+            this._initRenderList();
+        });
+    };
+
     this.ui_list.setDataSource(RENDER_LIST);
 
-
-    this.create = () => {
+    this.create = (item) => {
         var input_view = this.INPUT_VIEW;
-        input_view.pb_add_un.text("");
-        input_view.pb_add_pw.text("");
-        input_view.pb_add_meta.text("");
+        input_view.pb_add_un.text(item == undefined ? "" : String(item.name));
+        input_view.pb_add_em.text(item == undefined ? "" : String(item.email));
+        input_view.pb_add_pw.text(item == undefined ? "" : String(item.pw));
+        input_view.pb_add_meta.text(item == undefined ? "" : String(item.meta));
         dialogs.build({
             customView: input_view,
             positive: "确定",
@@ -69,53 +98,82 @@ const PasswordBookBinder = function (page, a) {
             autoDismiss: false
         }).on("positive", (dialog) => {
             var username = input_view.pb_add_un.text();
+            var email = input_view.pb_add_em.text();
             var password = input_view.pb_add_pw.text();
             var meta = input_view.pb_add_meta.text();
             var pb_data = {
                 name: username,
+                email: email,
                 pw: password,
                 meta: meta,
-                id: Date.parse(new Date())
+                id: item == undefined ? Date.parse(new Date()) : item.id
             };
             var password_book = this.app.data_manager.getPasswordBook();
-            password_book.push(pb_data);
-            this.app.data_manager.savePasswordBook();
-            this.initRenderList();
+            ui.run(() => {
+                if (item != undefined) {
+                    this.app.data_manager._delPasswordBook(item.id);
+                }
+                password_book.push(pb_data);
+                this.app.data_manager.savePasswordBook();
+                this._initRenderList();
+            });
             dialog.dismiss();
         }).on("negative", (dialog) => {
             dialog.dismiss();
         }).show();
     }
 
+    this.SHOW_VIEW.pb_show_un.on("click", () => {
+        var str = this.SHOW_VIEW.pb_show_un.text();
+        setClip(str);
+        toast("用户名已复制到剪切板");
+    });
+
+    this.SHOW_VIEW.pb_show_em.on("click", () => {
+        var str = this.SHOW_VIEW.pb_show_em.text();
+        setClip(str);
+        toast("邮件已复制到剪切板");
+    });
+
+    this.SHOW_VIEW.pb_show_pw.on("click", () => {
+        var str = this.SHOW_VIEW.pb_show_pw.text();
+        setClip(str);
+        toast("密码已复制到剪切板");
+    });
+
+    this.SHOW_VIEW.pb_show_meta.on("click", () => {
+        var str = this.SHOW_VIEW.pb_show_meta.text();
+        setClip(str);
+        toast("备注已复制到剪切板");
+    });
+
     this.show = (item) => {
         var show_view = this.SHOW_VIEW;
-        show_view.pb_show_un.text("用户名:" + item.name);
-        show_view.pb_show_pw.text("密码:" + item.pw);
-        show_view.pb_show_meta.text("备注:" + item.meta);
+        show_view.pb_show_un.text(String(item.name));
+        show_view.pb_show_em.text(String(item.em));
+        show_view.pb_show_pw.text(String(item.pw));
+        show_view.pb_show_meta.text(String(item.meta));
 
         dialogs.build({
             customView: show_view,
-            positive: "复制密码",
-            negative: "复制账号",
+            positive: "返回",
+            negative: "修改",
             neutral: "删除",
             neutralColor: "#ff0000",
             wrapInScrollView: false,
             autoDismiss: false
         }).on("positive", (dialog) => {
-            var content = item.pw;
-            setClip(content);
-            toast("密码已复制到剪切板");
             dialog.dismiss();
         }).on("negative", (dialog) => {
-            var content = item.name;
-            setClip(content);
-            toast("用户名已复制到剪切板");
             dialog.dismiss();
+            this.create(item);
         }).on("neutral", (dialog) => {
             dialog.dismiss();
-            this.app.data_manager.delPasswordBook(item.id);
-            this.app.data_manager.savePasswordBook();
-            this.initRenderList();
+            ui.run(() => {
+                this.app.data_manager._delPasswordBook(item.id);
+                this.app.data_manager.savePasswordBook();
+                this._initRenderList();
+            });
         }).show();
     }
 
@@ -161,10 +219,12 @@ const PasswordBookBinder = function (page, a) {
 
     this.useSearch = function (keyword) {
         var items = this.search(keyword);
-        this.clearRenderList();
-        for (var item of items) {
-            RENDER_LIST.push(item.item);
-        }
+        ui.run(() => {
+            this._clearRenderList();
+            for (var item of items) {
+                RENDER_LIST.push(item.item);
+            }
+        });
     }
 
     this.srh_btn.on("click", () => {

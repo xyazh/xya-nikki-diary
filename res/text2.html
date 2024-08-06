@@ -44,7 +44,7 @@
         function setHTMLWithScript(container, rawHTML) {
             container.innerHTML = rawHTML;
             const scripts = container.querySelectorAll('script');
-            for (let script of scripts) {
+            for (var script of scripts) {
                 runScript(script);
             }
         }

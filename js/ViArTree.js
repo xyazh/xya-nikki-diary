@@ -15,14 +15,20 @@ const ViArTree = function () {
     }
 
     this.addDisTags();
-    
 
-    this.initRenderList = function () {
-        this.clearRenderList();
+
+    this._initRenderList = function () {
+        this._clearRenderList();
         this.forEachNode((node) => {
             if (node instanceof ViArNode) {
                 RENDER_LIST.push(node.getRenderNode());
             }
+        });
+    };
+
+    this.initRenderList = function () {
+        ui.run(() => {
+            this._initRenderList();
         });
     };
 
@@ -34,7 +40,7 @@ const ViArTree = function () {
         return this.tags;
     }
 
-    this.clearRenderList = function () {
+    this._clearRenderList = function () {
         if (RENDER_LIST.length > 1) {
             RENDER_LIST.length = 1;
         }
@@ -43,66 +49,78 @@ const ViArTree = function () {
         }
     }
 
+    this.clearRenderList = function () {
+        ui.run(() => {
+            this._clearRenderList();
+        });
+    }
+
     this.getRenderList = function () {
         return RENDER_LIST;
     }
 
     this.useNodeLinks = function (node) {
-        this.clearRenderList();
-        if (typeof node == "string") {
-            node = this.getNode(node);
-        }
-        if (!(node instanceof ViArNode)) {
-            return;
-        }
-        for (var link of node.links) {
-            if (typeof link == "string") {
-                link = this.getNode(link);
+        ui.run(() => {
+            this._clearRenderList();
+            if (typeof node == "string") {
+                node = this.getNode(node);
             }
-            if (!(link instanceof ViArNode)) {
-                continue;
+            if (!(node instanceof ViArNode)) {
+                return;
             }
-            RENDER_LIST.push(link.getRenderNode());
-        }
+            for (var link of node.links) {
+                if (typeof link == "string") {
+                    link = this.getNode(link);
+                }
+                if (!(link instanceof ViArNode)) {
+                    continue;
+                }
+                RENDER_LIST.push(link.getRenderNode());
+            }
+        });
     }
 
     this.useNodeChilds = function (node) {
-        this.clearRenderList();
-        if (typeof node == "string") {
-            node = this.getNode(node);
-        }
-        if (!(node instanceof ViArNode)) {
-            return;
-        }
-        for (var child of node.childs) {
-            if (typeof child == "string") {
-                child = this.getNode(child);
+        ui.run(() => {
+            this._clearRenderList();
+            if (typeof node == "string") {
+                node = this.getNode(node);
             }
-            if (!(child instanceof ViArNode)) {
-                continue;
+            if (!(node instanceof ViArNode)) {
+                return;
             }
-            RENDER_LIST.push(child.getRenderNode());
-        }
+            for (var child of node.childs) {
+                if (typeof child == "string") {
+                    child = this.getNode(child);
+                }
+                if (!(child instanceof ViArNode)) {
+                    continue;
+                }
+                RENDER_LIST.push(child.getRenderNode());
+            }
+        });
     }
 
     this.useNodeParent = function (node) {
-        this.clearRenderList();
-        if (typeof node == "string") {
-            node = this.getNode(node);
-        }
-        if (!(node instanceof ViArNode)) {
-            return;
-        }
-        if (node.parent != null) {
-            var parent = node.parent;
-            if (typeof parent == "string") {
-                parent = this.getNode(parent);
+        ui.run(() => {
+            this._clearRenderList();
+            if (typeof node == "string") {
+                node = this.getNode(node);
             }
-            if (!(parent instanceof ViArNode)) {
+            if (!(node instanceof ViArNode)) {
                 return;
             }
-            RENDER_LIST.push(parent.getRenderNode());
-        }
+            if (node.parent != null) {
+                var parent = node.parent;
+                if (typeof parent == "string") {
+                    parent = this.getNode(parent);
+                }
+                if (!(parent instanceof ViArNode)) {
+                    return;
+                }
+                RENDER_LIST.push(parent.getRenderNode());
+            }
+        });
     }
 
     this.newNode = function (parent, title, content, tags, links, meta, main_tag) {
@@ -308,8 +326,17 @@ const ViArTree = function () {
         this.initRenderList();
     }
 
-    this.loadFromJson = function (data) {
+    this._loadFromJson = (data) => {
         this.load(JSON.parse(data));
+    }
+
+    this.loadFromJson = (data, callbackFuc) => {
+        threads.start(() => {
+            this._loadFromJson(data);
+            if (callbackFuc != undefined) {
+                callbackFuc();
+            }
+        });
     }
 
     this.forEachNode = function (callback, args) {
@@ -321,10 +348,12 @@ const ViArTree = function () {
 
     this.useSearch = function (keyword, tags) {
         var nodes = this.search(keyword, tags);
-        this.clearRenderList();
-        for (var node of nodes) {
-            RENDER_LIST.push(node.node.getRenderNode());
-        }
+        ui.run(() => {
+            this._clearRenderList();
+            for (var node of nodes) {
+                RENDER_LIST.push(node.node.getRenderNode());
+            }
+        });
     }
 
     this.search = function (keyword, tags) {

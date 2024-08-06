@@ -16,7 +16,7 @@ const EasyList = (function () {
             }
             view._list.length = 0;
             var list = JSON.parse(value);
-            for (let item of list) {
+            for (var item of list) {
                 view._list.push(item);
             }
         });

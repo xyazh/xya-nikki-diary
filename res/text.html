@@ -219,7 +219,7 @@
             }
             inp.innerHTML = rawHTML;
             const scripts = inp.querySelectorAll('script');
-            for (let script of scripts) {
+            for (var script of scripts) {
                 runScript(script);
             }
         }

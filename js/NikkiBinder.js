@@ -65,13 +65,19 @@ const NikkiBinder = function (page, app) {
         this.nikki_count.attr("visibility", "visible");
     });
 
-    this.clearRenderList = function () {
+    this._clearRenderList = function () {
         if (RENDER_LIST.length > 1) {
             RENDER_LIST.length = 1;
         }
         if (RENDER_LIST.length = 1) {
             RENDER_LIST.pop();
         }
+    }
+
+    this.clearRenderList = function () {
+        ui.run(() => {
+            this._clearRenderList();
+        });
     }
 
     this.search = function (keyword) {
@@ -124,13 +130,15 @@ const NikkiBinder = function (page, app) {
 
     this.useSearch = function (keyword) {
         var items = this.search(keyword);
-        this.clearRenderList();
-        for (var item of items) {
-            RENDER_LIST.push(item.item);
-        }
-        this.srh_list.attr("visibility", "visible");
-        this.ui_list.attr("visibility", "gone");
-        this.nikki_count.attr("visibility", "gone");
+        ui.run(() => {
+            this._clearRenderList();
+            for (var item of items) {
+                RENDER_LIST.push(item.item);
+            }
+            this.srh_list.attr("visibility", "visible");
+            this.ui_list.attr("visibility", "gone");
+            this.nikki_count.attr("visibility", "gone");
+        });
     }
 
     this.srh_btn.on("click", () => {

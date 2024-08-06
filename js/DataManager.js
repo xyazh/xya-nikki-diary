@@ -105,21 +105,39 @@ const DataMnager = function (app) {
         return TEKOKIS.events;
     }
 
-    this.clearNikkis = function () {
+    this._clearNikkis = function () {
         NIKKIS.length = 0;
         this.app.page.setNikkiCount(NIKKIS.length);
     }
 
-    this.clearTekokis = function () {
+    this.clearNikkis = function () {
+        ui.run(() => {
+            this._clearNikkis();
+        });
+    }
+
+    this._clearTekokis = function () {
         TEKOKIS.data = {};
         TEKOKIS.events.length = 0;
     }
 
-    this.clearPasswordBook = function () {
+    this.clearTekokis = function () {
+        ui.run(() => {
+            this._clearTekokis();
+        });
+    }
+
+    this._clearPasswordBook = function () {
         PASSWORD_BOOK.length = 0;
     }
 
-    this.addTekoki = function (event_name, year, month, day, number) {
+    this.clearPasswordBook = function () {
+        ui.run(() => {
+            this._clearPasswordBook();
+        });
+    }
+
+    this._addTekoki = function (event_name, year, month, day, number) {
         var key = year + "-" + month;
         if (!TEKOKIS.events.includes(event_name)) {
             TEKOKIS.events.push(event_name);
@@ -137,7 +155,13 @@ const DataMnager = function (app) {
         this.saveTekoki();
     }
 
-    this.reCreateTekoki = function () {
+    this.addTekoki = function (event_name, year, month, day, number) {
+        ui.run(() => {
+            this._addTekoki(event_name, year, month, day, number);
+        });
+    }
+
+    this._reCreateTekoki = function () {
         var re_events = new Set();
         for (var year_mouth in TEKOKIS.data) {
             var days = TEKOKIS.data[year_mouth];
@@ -155,36 +179,65 @@ const DataMnager = function (app) {
         this.saveTekoki();
     }
 
+    this.reCreateTekoki = function () {
+        ui.run(() => {
+            this._reCreateTekoki();
+        });
+    }
 
-    this.sortNikki = function () {
+    this._sortNikki = function () {
         NIKKIS.sort((a, b) => b.date - a.date);
         this.app.page.setNikkiCount(NIKKIS.length);
     }
 
-    this.insertNikki = function (nikki) {
-        this.delNikki(nikki.id);
+    this.sortNikki = function () {
+        ui.run(() => {
+            this._sortNikki();
+        });
+    }
+
+    this._insertNikki = function (nikki) {
+        this._delNikki(nikki.id);
         if (nikki.text.length > 0) {
             NIKKIS.push(nikki);
         }
-        this.sortNikki();
+        this._sortNikki();
     }
 
-    this.delNikki = function (id) {
-        for (let i = 0; i < NIKKIS.length; i++) {
+    this.insertNikki = function (nikki) {
+        ui.run(() => {
+            this._insertNikki(nikki);
+        });
+    }
+
+    this._delNikki = function (id) {
+        for (var i = 0; i < NIKKIS.length; i++) {
             if (NIKKIS[i].id === id) {
                 NIKKIS.splice(i, 1);
                 break;
             }
         }
-        this.sortNikki();
+        this._sortNikki();
     }
 
-    this.addPasswordBook = function (password_book) {
+    this.delNikki = function (id) {
+        ui.run(() => {
+            this._delNikki(id);
+        });
+    }
+
+    this._addPasswordBook = function (password_book) {
         PASSWORD_BOOK.push(password_book);
     }
 
-    this.delPasswordBook = function (id) {
-        for (let i = 0; i < PASSWORD_BOOK.length; i++) {
+    this.addPasswordBook = function (password_book) {
+        ui.run(() => {
+            this._addPasswordBook(password_book);
+        });
+    }
+
+    this._delPasswordBook = function (id) {
+        for (var i = 0; i < PASSWORD_BOOK.length; i++) {
             if (PASSWORD_BOOK[i].id === id) {
                 PASSWORD_BOOK.splice(i, 1);
                 break;
@@ -192,6 +245,53 @@ const DataMnager = function (app) {
         }
     }
 
+    this.delPasswordBook = function (id) {
+        ui.run(() => {
+            this._delPasswordBook(id);
+        });
+    }
+
+    this._setNikki = function (nikki) {
+        this._clearNikkis();
+        for (var i of nikki) {
+            NIKKIS.push(i);
+        }
+        this._sortNikki();
+        this.saveNikki();
+    }
+
+    this.setNikki = function (nikki) {
+        ui.run(() => {
+            this._setNikki(nikki);
+        });
+    }
+
+    this._setTekoki = function (tekoki){
+        this._clearTekokis();
+        TEKOKIS.events = tekoki.events;
+        TEKOKIS.data = tekoki.data;
+        this.saveTekoki();
+    }
+
+    this.setTekoki = function (tekoki) {
+        ui.run(() => {
+            this._setTekoki(tekoki);
+        });
+    }
+
+    this._setPasswordBook = function (password_books) {
+        this._clearPasswordBook();
+        for (var i of password_books) {
+            PASSWORD_BOOK.push(i);
+        }
+        this.savePasswordBook();
+    }
+
+    this.setPasswordBook = function (password_books) {
+        ui.run(() => {
+            this._setPasswordBook(password_books);
+        });
+    }
 
     this.createEnptyFile = function (path, data_tmp) {
         if (files.exists(path)) {
@@ -229,11 +329,7 @@ const DataMnager = function (app) {
             toast("加载日记发生异常:" + e);
         }
         if (nikki !== null) {
-            nikki = nikki.data;
-            nikki.forEach(element => {
-                NIKKIS.push(element);
-            });
-            this.sortNikki();
+            this.setNikki(nikki.data);
         }
     }
 
@@ -265,8 +361,7 @@ const DataMnager = function (app) {
         if (tekoki.data === undefined) {
             tekoki.data = {};
         }
-        TEKOKIS.events = tekoki.events;
-        TEKOKIS.data = tekoki.data;
+        this.setTekoki(tekoki);
     }
 
     this.loadViAr = function () {
@@ -307,10 +402,7 @@ const DataMnager = function (app) {
             toast("加载密码簿发生异常:" + e);
         }
         if (password_book !== null) {
-            password_book = password_book.data;
-            password_book.forEach(element => {
-                PASSWORD_BOOK.push(element);
-            });
+            this.setPasswordBook(password_book.data);
         }
     }
 
@@ -321,7 +413,7 @@ const DataMnager = function (app) {
         this.loadPasswordBook();
     }
 
-    this.saveNikki = function () {
+    this._saveNikki = () => {
         this.createEnptyFile(NIKKIS_PATH);
         var nikki_data = {
             salt: Math.floor(Math.random() * 1000000000) + 1,
@@ -333,7 +425,11 @@ const DataMnager = function (app) {
         files.write(NIKKIS_PATH, nikki_data, [encoding = "utf-8"]);
     }
 
-    this.saveTekoki = function () {
+    this.saveNikki = () => {
+        threads.start(this._saveNikki);
+    }
+
+    this._saveTekoki = () => {
         this.createEnptyFile(TEKOKIS_PATH);
         var tekoki_data = {
             salt: Math.floor(Math.random() * 1000000000) + 1,
@@ -345,7 +441,11 @@ const DataMnager = function (app) {
         files.write(TEKOKIS_PATH, tekoki_data, [encoding = "utf-8"]);
     }
 
-    this.saveViAr = function () {
+    this.saveTekoki = () => {
+        threads.start(this._saveTekoki);
+    }
+
+    this._saveViAr = () => {
         this.createEnptyFile(VIAR_PATH, {});
         var viar_data = VIAR.saveToJson();
         viar_data = this.encrypt(viar_data);
@@ -353,7 +453,11 @@ const DataMnager = function (app) {
         files.write(VIAR_PATH, viar_data, [encoding = "utf-8"]);
     }
 
-    this.savePasswordBook = function () {
+    this.saveViAr = () => {
+        threads.start(this._saveViAr);
+    }
+
+    this._savePasswordBook = () => {
         this.createEnptyFile(PASSWORD_BOOK_PATH);
         var password_book_data = {
             salt: Math.floor(Math.random() * 1000000000) + 1,
@@ -365,11 +469,19 @@ const DataMnager = function (app) {
         files.write(PASSWORD_BOOK_PATH, password_book_data, [encoding = "utf-8"]);
     }
 
-    this.save = function () {
-        this.saveTekoki();
-        this.saveNikki();
-        this.saveViAr();
-        this.savePasswordBook();
+    this.savePasswordBook = () => {
+        threads.start(this._savePasswordBook);
+    }
+
+    this._save = () => {
+        this._saveTekoki();
+        this._saveNikki();
+        this._saveViAr();
+        this._savePasswordBook();
+    }
+
+    this.save = () => {
+        threads.start(this._save);
     }
 
     this.export = function (full_path) {
@@ -482,26 +594,23 @@ const DataMnager = function (app) {
 
     this._importV1 = function (load_backup) {
         var data = this.decrypt(load_backup);
-        if (load_backup.is_plain !== true) {
-            data = LZString.decompressFromBase64(data);
-        }
         try {
+            if (load_backup.is_plain !== true) {
+                data = LZString.decompressFromBase64(data);
+            }
             data = JSON.parse(data);
         } catch (e) {
             toast("导入文件发生异常:" + e);
             return;
         }
-        this.clearNikkis();
-        for (var i of data.out_nikki) {
-            NIKKIS.push(i);
-        }
-        this.sortNikki();
-        TEKOKIS.data = data.out_tekoki.data;
-        TEKOKIS.events = data.out_tekoki.events;
+        this.setNikki(data.out_nikki);
+        this.setTekoki(data.out_tekoki);
         var viar = data.out_viar;
         if (viar != undefined) {
             try {
-                VIAR.loadFromJson(viar);
+                VIAR.loadFromJson(viar,()=>{
+                    this.saveViAr();
+                });
             } catch (e) {
                 toast("加载故事集发生异常:" + e);
             }
@@ -509,11 +618,8 @@ const DataMnager = function (app) {
         this.clearPasswordBook();
         var password_book = data.out_password_book;
         if (password_book != undefined) {
-            for (var i of data.out_password_book) {
-                PASSWORD_BOOK.push(i);
-            }
+            this.setPasswordBook(password_book);
         }
-        this.save();
     }
 
     this._importVBeta = function (load_backup) {
@@ -533,12 +639,11 @@ const DataMnager = function (app) {
             toast("导入日记发生异常:" + e);
             return;
         }
-        this.clearNikkis();
+        var nikki_list = []
         for (var i in nikki) {
-            NIKKIS.push(nikki[i]);
+            nikki_list.push(nikki[i]);
         }
-        this.sortNikki();
-        this.saveNikki();
+        this.setNikki(nikki_list)
     }
 
     this._importTekokiVBeta = function (load_tekoki, load_event) {
@@ -558,7 +663,10 @@ const DataMnager = function (app) {
             toast("导入记录发生异常:" + e);
             return;
         }
-        this.clearTekokis();
+        var new_tekoki = {
+            events: [],
+            data: {}
+        };
         for (var key in tekoki) {
             var tds = tekoki[key];
             for (var td of tds) {
@@ -575,13 +683,13 @@ const DataMnager = function (app) {
                     if (Utils.objIsEmpty(td.n_event)) {
                         continue;
                     }
-                    if (TEKOKIS.data[key] === undefined) {
-                        TEKOKIS.data[key] = {};
+                    if (new_tekoki.data[key] === undefined) {
+                        new_tekoki.data[key] = {};
                     }
                     for (var eve_key in td.n_event) {
                         td.n_event[eve_key] = parseInt(td.n_event[eve_key]);
                     }
-                    TEKOKIS.data[key][td.day] = {
+                    new_tekoki.data[key][td.day] = {
                         day: parseInt(td.day),
                         events: td.n_event
                     };
@@ -589,9 +697,9 @@ const DataMnager = function (app) {
             }
         }
         for (var e of event) {
-            TEKOKIS.events.push(e);
+            new_tekoki.events.push(e);
         }
-        this.saveTekoki();
+        this.setTekoki(new_tekoki);
     }
 
     this.encrypt = function (data) {
@@ -658,15 +766,8 @@ const DataMnager = function (app) {
             nikki.week = "周" + "日一二三四五六".charAt(date.getDay());
             nikkis.push(nikki);
         }
-        this.clearNikkis();
-        for (var nikki of nikkis) {
-            NIKKIS.push(nikki);
-        }
-        this.sortNikki();
-        this.saveNikki();
+        this.setNikki(nikkis);
     }
-
-
 
     return this;
 }

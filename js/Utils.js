@@ -63,13 +63,13 @@ Utils.formatTimestampUTC = function (timestamp) {
 }
 
 Utils.formatTimestamp = function (timestamp) {
-    let date = new Date(timestamp);
-    let year = date.getFullYear();
-    let month = (date.getMonth() + 1).toString().padStart(2, '0');
-    let day = date.getDate().toString().padStart(2, '0');
-    let hours = date.getHours().toString().padStart(2, '0');
-    let minutes = date.getMinutes().toString().padStart(2, '0');
-    let seconds = date.getSeconds().toString().padStart(2, '0');
+    var date = new Date(timestamp);
+    var year = date.getFullYear();
+    var month = (date.getMonth() + 1).toString().padStart(2, '0');
+    var day = date.getDate().toString().padStart(2, '0');
+    var hours = date.getHours().toString().padStart(2, '0');
+    var minutes = date.getMinutes().toString().padStart(2, '0');
+    var seconds = date.getSeconds().toString().padStart(2, '0');
     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 }
 
@@ -122,9 +122,9 @@ Utils.createUUID = function () {
     return uuid.toString();
 }
 Utils.splitKeyword = function (str) {
-    let result = [];
-    for (let len = 1; len <= str.length; len++) {
-        for (let start = 0; start <= str.length - len; start++) {
+    var result = [];
+    for (var len = 1; len <= str.length; len++) {
+        for (var start = 0; start <= str.length - len; start++) {
             result.push(str.substring(start, start + len));
         }
     }
@@ -139,15 +139,31 @@ Utils.stringToColor = function (str) {
     return STR_COLOR_MAP[str];
 }
 
+Utils.stringToColorLight = function (str) {
+    color = Utils.stringToColor(str);
+    var hex = color.substring(1);
+    var r = parseInt(hex.substring(0, 2), 16);
+    var g = parseInt(hex.substring(2, 4), 16);
+    var b = parseInt(hex.substring(4, 6), 16);
+    r = parseInt(127 + r / 2);
+    g = parseInt(127 + g / 2);
+    b = parseInt(127 + b / 2);
+    var new_color = "#" +
+        ("0" + r.toString(16)).slice(-2) +
+        ("0" + g.toString(16)).slice(-2) +
+        ("0" + b.toString(16)).slice(-2);
+    return new_color;
+}
+
 Utils.invertColor = function (hex) {
     hex = hex.substring(1);
-    let r = parseInt(hex.substring(0, 2), 16);
-    let g = parseInt(hex.substring(2, 4), 16);
-    let b = parseInt(hex.substring(4, 6), 16);
+    var r = parseInt(hex.substring(0, 2), 16);
+    var g = parseInt(hex.substring(2, 4), 16);
+    var b = parseInt(hex.substring(4, 6), 16);
     r = 255 - r;
     g = 255 - g;
     b = 255 - b;
-    let inverted_hex = "#" +
+    var inverted_hex = "#" +
         ("0" + r.toString(16)).slice(-2) +
         ("0" + g.toString(16)).slice(-2) +
         ("0" + b.toString(16)).slice(-2);
