@@ -150,7 +150,7 @@ const PasswordBookBinder = function (page, a) {
     this.show = (item) => {
         var show_view = this.SHOW_VIEW;
         show_view.pb_show_un.text(String(item.name));
-        show_view.pb_show_em.text(String(item.em));
+        show_view.pb_show_em.text(String(item.email));
         show_view.pb_show_pw.text(String(item.pw));
         show_view.pb_show_meta.text(String(item.meta));
 
@@ -199,6 +199,9 @@ const PasswordBookBinder = function (page, a) {
                     n += 1;
                 }
                 if (item.pw.includes(keyword)) {
+                    n += 1;
+                }
+                if (item.email.includes(keyword)) {
                     n += 1;
                 }
                 if (item.meta.includes(keyword)) {

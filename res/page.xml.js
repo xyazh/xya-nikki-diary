@@ -174,6 +174,8 @@ const PAGE = (
                                 <text text="安全" color="{{DATA_CONTAINER.setting_title_text_color}}" textSize="12sp" margin="8" textStyle="bold"></text>
                                 <button textColor="{{DATA_CONTAINER.normal_text_color}}" id="delete_password" style="Widget.AppCompat.Button.Borderless" gravity="left|center_vertical" text="删除密码"></button>
                                 <vertical h="2px" w="*" bg="{{DATA_CONTAINER.line_color}}"></vertical>
+                                <button textColor="{{DATA_CONTAINER.normal_text_color}}" id="clear_all" style="Widget.AppCompat.Button.Borderless" gravity="left|center_vertical" text="清除数据"></button>
+                                <vertical h="2px" w="*" bg="{{DATA_CONTAINER.line_color}}"></vertical>
 
                                 <text text="其他" color="{{DATA_CONTAINER.setting_title_text_color}}" textSize="12sp" margin="8" textStyle="bold"></text>
                                 <button textColor="{{DATA_CONTAINER.normal_text_color}}" id="git" style="Widget.AppCompat.Button.Borderless" gravity="left|center_vertical" text="仓库地址"></button>

@@ -1,7 +1,8 @@
 const PasswordManager = function (app) {
     this.app = app
+    this.APP_PATH = this.app.APP_PATH;
     this.password = "";
-    this.has_password = PasswordManager.hasPassword();
+    this.has_password = PasswordManager.hasPassword(this.APP_PATH);
     this.password_page = undefined;
     this.main_page = undefined;
     this.pw_btn = undefined;
@@ -14,7 +15,7 @@ const PasswordManager = function (app) {
         this.main_page = ui.drawer;
         this.pw_btn = ui.password_ok;
         this.pw_inp = ui.password_inp;
-        if (!PasswordManager.hasPassword()) {
+        if (!PasswordManager.hasPassword(this.APP_PATH)) {
             loadFuc();
             this.password_page.attr("visibility", "gone");
             return;
@@ -22,7 +23,7 @@ const PasswordManager = function (app) {
         this.pw_btn.on("click", () => {
             var str = this.pw_inp.text();
             str = String(str);
-            var f = open("./data/ccpw.cc");
+            var f = open(this.APP_PATH + "/data/ccpw.cc");
             var mpw = f.read();
             f.close();
             if ($crypto.digest(str, "SHA-256") == mpw) {
@@ -41,7 +42,7 @@ const PasswordManager = function (app) {
 
 
     this.deletePassword = function () {
-        files.remove("./data/ccpw.cc")
+        files.remove(this.APP_PATH + "/data/ccpw.cc")
         this.password = "";
         this.has_password = false;
         this.app.data_manager.save();
@@ -64,7 +65,7 @@ const PasswordManager = function (app) {
         if (!this.has_password) {
             return str;
         }
-        var f = open("./js/data/ccpw.cc");
+        var f = open(this.APP_PATH + "/data/ccpw.cc");
         var ccpw = f.read();
         f.close();
         return ccpw;
@@ -105,7 +106,7 @@ const PasswordManager = function (app) {
                     input_view.cp.setError("密码不一致");
                     return;
                 }
-                files.write("./data/ccpw.cc", $crypto.digest(pw, "SHA-256"), [encoding = "utf-8"]);
+                files.write(this.APP_PATH + "/data/ccpw.cc", $crypto.digest(pw, "SHA-256"), [encoding = "utf-8"]);
                 this.password = $crypto.digest(pw, "MD5");
                 this.has_password = true;
                 this.app.data_manager.save();
@@ -148,7 +149,7 @@ const PasswordManager = function (app) {
                     input_view.cp.setError("密码不一致");
                     return;
                 }
-                files.write("./data/ccpw.cc", $crypto.digest(pw, "SHA-256"), [encoding = "utf-8"]);
+                files.write(this.APP_PATH + "/data/ccpw.cc", $crypto.digest(pw, "SHA-256"), [encoding = "utf-8"]);
                 this.password = $crypto.digest(pw, "MD5");
                 this.has_password = true;
                 this.app.data_manager.save();
@@ -162,8 +163,8 @@ const PasswordManager = function (app) {
     }
 };
 
-PasswordManager.hasPassword = function () {
-    return files.exists("./data/ccpw.cc");
+PasswordManager.hasPassword = function (app_path) {
+    return files.exists(app_path + "/data/ccpw.cc");
 };
 
 

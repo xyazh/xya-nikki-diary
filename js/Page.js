@@ -6,49 +6,52 @@ const ViArBinder = require("./ViArBinder.js");
 const PasswordBookBinder = require("./PasswordBookBinder.js");
 const Utils = require("./Utils.js");
 
-const MENU_LIST = [{
-    title: "主页",
-    icon: "@drawable/ic_home_black_48dp"
-},
-{
-    title: "日记",
-    icon: "@drawable/ic_class_black_48dp"
-},
-{
-    title: "记录",
-    icon: "@drawable/ic_create_black_48dp"
-},
-{
-    title: "故事集",
-    icon: "@drawable/ic_device_hub_black_48dp"
-},
-{
-    title: "密码簿",
-    icon: "@drawable/ic_style_black_48dp"
-},
-{
-    title: PasswordManager.hasPassword() ? "修改密码" : "创建密码",
-    icon: "@drawable/ic_https_black_48dp"
-},
-{
-    title: "导出",
-    icon: "@drawable/ic_file_upload_black_48dp"
-},
-{
-    title: "导入",
-    icon: "@drawable/ic_file_download_black_48dp"
-},
-{
-    title: "设置",
-    icon: "@drawable/ic_settings_black_48dp"
-},
-{
-    title: "退出",
-    icon: "@drawable/ic_exit_to_app_black_48dp"
-}];
+
 
 const Page = function (app) {
     this.app = app;
+    this.APP_PATH = this.app.APP_PATH;
+
+    this.MENU_LIST = [{
+        title: "主页",
+        icon: "@drawable/ic_home_black_48dp"
+    },
+    {
+        title: "日记",
+        icon: "@drawable/ic_class_black_48dp"
+    },
+    {
+        title: "记录",
+        icon: "@drawable/ic_create_black_48dp"
+    },
+    {
+        title: "故事集",
+        icon: "@drawable/ic_device_hub_black_48dp"
+    },
+    {
+        title: "密码簿",
+        icon: "@drawable/ic_style_black_48dp"
+    },
+    {
+        title: PasswordManager.hasPassword(this.APP_PATH) ? "修改密码" : "创建密码",
+        icon: "@drawable/ic_https_black_48dp"
+    },
+    {
+        title: "导出",
+        icon: "@drawable/ic_file_upload_black_48dp"
+    },
+    {
+        title: "导入",
+        icon: "@drawable/ic_file_download_black_48dp"
+    },
+    {
+        title: "设置",
+        icon: "@drawable/ic_settings_black_48dp"
+    },
+    {
+        title: "退出",
+        icon: "@drawable/ic_exit_to_app_black_48dp"
+    }];
 
     this.is_main_page = false;
     this.is_nikki = false;
@@ -355,11 +358,11 @@ const Page = function (app) {
     this.changeMenuPW = function () {
         ui.run(() => {
             var appd = {
-                title: PasswordManager.hasPassword() ? "修改密码" : "创建密码",
+                title: PasswordManager.hasPassword(this.APP_PATH) ? "修改密码" : "创建密码",
                 icon: "@drawable/ic_https_black_48dp"
             };
-            MENU_LIST.splice(5, 1);
-            MENU_LIST.splice(5, 0, appd);
+            this.MENU_LIST.splice(5, 1);
+            this.MENU_LIST.splice(5, 0, appd);
         });
     }
 
@@ -390,7 +393,7 @@ const Page = function (app) {
 
     this.bindMenu = function () {
         ui.run(() => {
-            var menu_list = MENU_LIST;
+            var menu_list = this.MENU_LIST;
             this.menu.setDataSource(menu_list);
             this.menu.on("item_click", item => {
                 switch (item.title) {

@@ -10,10 +10,10 @@ const VIAR = new ViArTree();
 
 const PASSWORD_BOOK = [];
 
-const TEKOKIS_PATH = "./data/tekoki/tekoki.json";
-const NIKKIS_PATH = "./data/nikki/nikki.json";
-const VIAR_PATH = "./data/viar/viar.json";
-const PASSWORD_BOOK_PATH = "./data/passwordbook/passwordbook.json";
+const TEKOKIS_PATH = "/data/tekoki/tekoki.json";
+const NIKKIS_PATH = "/data/nikki/nikki.json";
+const VIAR_PATH = "/data/viar/viar.json";
+const PASSWORD_BOOK_PATH = "/data/passwordbook/passwordbook.json";
 
 const CRYPT_VRESION = 1;
 
@@ -21,6 +21,7 @@ const DataMnager = function (app) {
     this.app = app;
     this.password = "";
     this.sl_ing = false;
+    this.APP_PATH = this.app.APP_PATH;
 
     this.exportDecorator = (fuc) => {
         return (full_path) => {
@@ -297,6 +298,7 @@ const DataMnager = function (app) {
         if (files.exists(path)) {
             return;
         }
+        print(path);
         files.ensureDir(path);
         if (data_tmp == undefined) {
             data_tmp = [];
@@ -312,8 +314,8 @@ const DataMnager = function (app) {
     }
 
     this.loadNikki = function () {
-        this.createEnptyFile(NIKKIS_PATH);
-        var nikki_data = files.read(NIKKIS_PATH, [encoding = "utf-8"]);
+        this.createEnptyFile(this.APP_PATH + NIKKIS_PATH);
+        var nikki_data = files.read(this.APP_PATH + NIKKIS_PATH, [encoding = "utf-8"]);
         var nikki = null;
         try {
             nikki = JSON.parse(nikki_data);
@@ -334,8 +336,8 @@ const DataMnager = function (app) {
     }
 
     this.loadTekoki = function () {
-        this.createEnptyFile(TEKOKIS_PATH);
-        var tekoki_data = files.read(TEKOKIS_PATH, [encoding = "utf-8"]);
+        this.createEnptyFile(this.APP_PATH + TEKOKIS_PATH);
+        var tekoki_data = files.read(this.APP_PATH + TEKOKIS_PATH, [encoding = "utf-8"]);
         var tekoki = null;
         try {
             tekoki = JSON.parse(tekoki_data);
@@ -352,21 +354,22 @@ const DataMnager = function (app) {
             toast("加载记录发生异常:" + e);
             return;
         }
-        if (tekoki !== null) {
+        print(tekoki);
+        if (tekoki != null) {
             tekoki = tekoki.data;
         }
-        if (tekoki.events === undefined) {
+        if (tekoki.events == undefined) {
             tekoki.events = [];
         }
-        if (tekoki.data === undefined) {
+        if (tekoki.data == undefined) {
             tekoki.data = {};
         }
         this.setTekoki(tekoki);
     }
 
     this.loadViAr = function () {
-        this.createEnptyFile(VIAR_PATH);
-        var viar_data = files.read(VIAR_PATH, [encoding = "utf-8"]);
+        this.createEnptyFile(this.APP_PATH + VIAR_PATH);
+        var viar_data = files.read(this.APP_PATH + VIAR_PATH, [encoding = "utf-8"]);
         var viar = null;
         try {
             viar = JSON.parse(viar_data);
@@ -384,8 +387,8 @@ const DataMnager = function (app) {
     }
 
     this.loadPasswordBook = function () {
-        this.createEnptyFile(PASSWORD_BOOK_PATH);
-        var password_book_data = files.read(PASSWORD_BOOK_PATH, [encoding = "utf-8"]);
+        this.createEnptyFile(this.APP_PATH + PASSWORD_BOOK_PATH);
+        var password_book_data = files.read(this.APP_PATH + PASSWORD_BOOK_PATH, [encoding = "utf-8"]);
         var password_book = null;
         try {
             password_book = JSON.parse(password_book_data);
@@ -414,7 +417,7 @@ const DataMnager = function (app) {
     }
 
     this._saveNikki = () => {
-        this.createEnptyFile(NIKKIS_PATH);
+        this.createEnptyFile(this.APP_PATH + NIKKIS_PATH);
         var nikki_data = {
             salt: Math.floor(Math.random() * 1000000000) + 1,
             data: NIKKIS
@@ -422,7 +425,7 @@ const DataMnager = function (app) {
         nikki_data = JSON.stringify(nikki_data);
         nikki_data = this.encrypt(nikki_data);
         nikki_data = JSON.stringify(nikki_data);
-        files.write(NIKKIS_PATH, nikki_data, [encoding = "utf-8"]);
+        files.write(this.APP_PATH + NIKKIS_PATH, nikki_data, [encoding = "utf-8"]);
     }
 
     this.saveNikki = () => {
@@ -430,7 +433,7 @@ const DataMnager = function (app) {
     }
 
     this._saveTekoki = () => {
-        this.createEnptyFile(TEKOKIS_PATH);
+        this.createEnptyFile(this.APP_PATH + TEKOKIS_PATH);
         var tekoki_data = {
             salt: Math.floor(Math.random() * 1000000000) + 1,
             data: TEKOKIS
@@ -438,7 +441,7 @@ const DataMnager = function (app) {
         tekoki_data = JSON.stringify(tekoki_data);
         tekoki_data = this.encrypt(tekoki_data);
         tekoki_data = JSON.stringify(tekoki_data);
-        files.write(TEKOKIS_PATH, tekoki_data, [encoding = "utf-8"]);
+        files.write(this.APP_PATH + TEKOKIS_PATH, tekoki_data, [encoding = "utf-8"]);
     }
 
     this.saveTekoki = () => {
@@ -446,11 +449,11 @@ const DataMnager = function (app) {
     }
 
     this._saveViAr = () => {
-        this.createEnptyFile(VIAR_PATH, {});
+        this.createEnptyFile(this.APP_PATH + VIAR_PATH, {});
         var viar_data = VIAR.saveToJson();
         viar_data = this.encrypt(viar_data);
         viar_data = JSON.stringify(viar_data);
-        files.write(VIAR_PATH, viar_data, [encoding = "utf-8"]);
+        files.write(this.APP_PATH + VIAR_PATH, viar_data, [encoding = "utf-8"]);
     }
 
     this.saveViAr = () => {
@@ -458,7 +461,7 @@ const DataMnager = function (app) {
     }
 
     this._savePasswordBook = () => {
-        this.createEnptyFile(PASSWORD_BOOK_PATH);
+        this.createEnptyFile(this.APP_PATH + PASSWORD_BOOK_PATH);
         var password_book_data = {
             salt: Math.floor(Math.random() * 1000000000) + 1,
             data: PASSWORD_BOOK
@@ -466,7 +469,7 @@ const DataMnager = function (app) {
         password_book_data = JSON.stringify(password_book_data);
         password_book_data = this.encrypt(password_book_data);
         password_book_data = JSON.stringify(password_book_data);
-        files.write(PASSWORD_BOOK_PATH, password_book_data, [encoding = "utf-8"]);
+        files.write(this.APP_PATH + PASSWORD_BOOK_PATH, password_book_data, [encoding = "utf-8"]);
     }
 
     this.savePasswordBook = () => {

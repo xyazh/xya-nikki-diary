@@ -10,6 +10,8 @@ const SettingBinder = function (page, a) {
     this.theme_btn = ui.theme;
     this.re_create_tags_btn = ui.re_create_tags_btn;
     this.tekoki_re_create_events_btn = ui.re_create_events_btn;
+    this.clear_all_btn = ui.clear_all;
+
     this.theme_btn.setText(this.app.config.get("theme", "dis") == "dark" ? "使用默认主题" : "使用深色主题");
     this.git_btn.on("click", () => {
         $app.openUrl("https://github.com/xyazh/xya-nikki-diary");
@@ -17,6 +19,24 @@ const SettingBinder = function (page, a) {
 
     this.about_btn.on("click", () => {
         toast("v" + this.app.VERSION);
+    });
+
+    this.clear_all_btn.on("click", () => {
+        dialogs.confirm("警告", "确定要清空所有数据，此操作无法恢复", (cheak) => {
+            if (!cheak) {
+                return;
+            }
+            this.app.APP_PATH;
+            var flag = files.removeDir(this.app.APP_PATH + "/data/");
+            if (flag) {
+                toast("已清空所有数据");
+                setTimeout(() => {
+                    ui.finish();
+                }, 500);
+            } else {
+                toast("清空失败");
+            }
+        });
     });
 
     this.cheak_nikki_time_btn.on("click", () => {
