@@ -11,6 +11,7 @@ const SettingBinder = function (page, a) {
     this.re_create_tags_btn = ui.re_create_tags_btn;
     this.tekoki_re_create_events_btn = ui.re_create_events_btn;
     this.clear_all_btn = ui.clear_all;
+    this.del_event_btn = ui.del_events_btn;
 
     this.theme_btn.setText(this.app.config.get("theme", "dis") == "dark" ? "使用默认主题" : "使用深色主题");
     this.git_btn.on("click", () => {
@@ -19,6 +20,22 @@ const SettingBinder = function (page, a) {
 
     this.about_btn.on("click", () => {
         toast("v" + this.app.VERSION);
+    });
+
+    this.del_event_btn.on("click", () => {
+        dialogs.select("你要删除哪件事？删除后无法恢复！！！）", this.app.data_manager.getTekokiEvents(), (i) => {
+            var tekoki_events = this.app.data_manager.getTekokiEvents();
+            if (tekoki_events[i] == undefined) {
+                return;
+            }
+            dialogs.confirm("警告", `确定要删除${tekoki_events[i]}的所有记录，此操作无法恢复`, (cheak) => {
+                if (!cheak) {
+                    return;
+                }
+                this.app.data_manager.delTekoki(tekoki_events[i]);
+                toast("已删除事件");
+            });
+        });
     });
 
     this.clear_all_btn.on("click", () => {

@@ -128,6 +128,38 @@ const DataMnager = function (app) {
         });
     }
 
+    this._delTekoki = function(event_name) {
+        var index = TEKOKIS.events.indexOf(event_name);
+        if (index !== -1) {
+            TEKOKIS.events.splice(index, 1);
+        }
+        for (var key in TEKOKIS.data) {
+            if (TEKOKIS.data.hasOwnProperty(key)) {
+                for (var day in TEKOKIS.data[key]) {
+                    if (TEKOKIS.data[key].hasOwnProperty(day)) {
+                        if (TEKOKIS.data[key][day].events.hasOwnProperty(event_name)) {
+                            delete TEKOKIS.data[key][day].events[event_name];
+                        }
+                        if (Object.keys(TEKOKIS.data[key][day].events).length === 0) {
+                            delete TEKOKIS.data[key][day];
+                        }
+                    }
+                }
+                if (Object.keys(TEKOKIS.data[key]).length === 0) {
+                    delete TEKOKIS.data[key];
+                }
+            }
+        }
+        this.saveTekoki();
+    };
+
+    this.delTekoki = function (event_name) {
+        ui.run(() => {
+            this._delTekoki(event_name);
+        });
+    };
+    
+
     this._clearPasswordBook = function () {
         PASSWORD_BOOK.length = 0;
     }

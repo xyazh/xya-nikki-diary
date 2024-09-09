@@ -19,6 +19,7 @@ const PAGE = (
                                 <horizontal w="*" gravity="right">
                                     <button id="nikki_srh" style="Widget.AppCompat.Button.Borderless.Colored" color="{{DATA_CONTAINER.button_color}}" size="10sp" w="140px" h="100px" layout_gravity="right" text="搜索" visibility="gone" />
                                     <button id="nikki_reset" style="Widget.AppCompat.Button.Borderless.Colored" color="{{DATA_CONTAINER.button_color}}" size="10sp" w="140px" h="100px" layout_gravity="right" text="重置" visibility="gone" />
+                                    <button id="nikki_stat" style="Widget.AppCompat.Button.Borderless.Colored" color="{{DATA_CONTAINER.button_color}}" size="10sp" w="140px" h="100px" layout_gravity="right" text="统计"/>
                                     <button id="nikki_updown" style="Widget.AppCompat.Button.Borderless.Colored" color="{{DATA_CONTAINER.button_color}}" size="10sp" w="140px" h="100px" layout_gravity="right" text="展开" />
                                 </horizontal>
                                 <vertical h="2px" w="*" bg="{{DATA_CONTAINER.line_color}}"></vertical>
@@ -162,6 +163,8 @@ const PAGE = (
                                 <text text="记录" color="{{DATA_CONTAINER.setting_title_text_color}}" textSize="12sp" margin="8" textStyle="bold"></text>
                                 <button textColor="{{DATA_CONTAINER.normal_text_color}}" id="re_create_events_btn" style="Widget.AppCompat.Button.Borderless" gravity="left|center_vertical" text="清理事件"></button>
                                 <vertical h="2px" w="*" bg="{{DATA_CONTAINER.line_color}}"></vertical>
+                                <button textColor="{{DATA_CONTAINER.normal_text_color}}" id="del_events_btn" style="Widget.AppCompat.Button.Borderless" gravity="left|center_vertical" text="删除事件"></button>
+                                <vertical h="2px" w="*" bg="{{DATA_CONTAINER.line_color}}"></vertical>
 
                                 <text text="故事集" color="{{DATA_CONTAINER.setting_title_text_color}}" textSize="12sp" margin="8" textStyle="bold"></text>
                                 <button textColor="{{DATA_CONTAINER.normal_text_color}}" id="re_create_tags_btn" style="Widget.AppCompat.Button.Borderless" gravity="left|center_vertical" text="清理Tag"></button>
@@ -211,7 +214,8 @@ const PAGE = (
                             </vertical>
                             <horizontal w="*" gravity="right">
                                 <button id="viar_reset" visibility="gone" style="Widget.AppCompat.Button.Borderless.Colored" color="{{DATA_CONTAINER.button_color}}" size="10sp" w="140px" h="100px" layout_gravity="right" text="重置" />
-                                <button id="viar_tob_hidden_btn" style="Widget.AppCompat.Button.Borderless.Colored" color="{{DATA_CONTAINER.button_color}}" size="10sp" w="160px" h="100px" layout_gravity="right" text="展开" />
+                                <button id="viar_stat" style="Widget.AppCompat.Button.Borderless.Colored" color="{{DATA_CONTAINER.button_color}}" size="10sp" w="140px" h="100px" layout_gravity="right" text="统计" />
+                                <button id="viar_tob_hidden_btn" style="Widget.AppCompat.Button.Borderless.Colored" color="{{DATA_CONTAINER.button_color}}" size="10sp" w="140px" h="100px" layout_gravity="right" text="展开" />
                             </horizontal>
                             <vertical h="2px" w="*" bg="{{DATA_CONTAINER.line_color}}"></vertical>
                             <list id="viar_list">
