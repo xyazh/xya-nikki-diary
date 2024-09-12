@@ -15,7 +15,7 @@ const App = function (DATA_CONTAINER) {
     this.VERSION_ID = VERSION_ID;
     this.DATA_CONTAINER = DATA_CONTAINER;
     this.PACKAGE_NAME = PACKAGE_NAME;
-
+    this.config = storages.create(PACKAGE_NAME + ".config");
     this.APP_PATH = context.getFilesDir().getAbsolutePath();
     //this.APP_PATH = ".";
 
@@ -23,7 +23,7 @@ const App = function (DATA_CONTAINER) {
     this.password_manager = new PasswordManager(this);
     this.page = new Page(this);
     this.data_manager = new DataManager(this);
-    this.config = storages.create(PACKAGE_NAME + ".config");
+
 
     this.DATA_CONTAINER.page_number = 0;
     this.DATA_CONTAINER.title = "主页";

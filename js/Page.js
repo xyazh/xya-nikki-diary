@@ -11,6 +11,8 @@ const Utils = require("./Utils.js");
 const Page = function (app) {
     this.app = app;
     this.APP_PATH = this.app.APP_PATH;
+    this.has_page_lock = this.app.config.get("has_page_lock", false);
+    this.page_lock_token = this.app.config.get("page_token", "");
 
     this.MENU_LIST = [{
         title: "主页",
@@ -90,6 +92,7 @@ const Page = function (app) {
         this.password_book = ui.password_book;
         this.page_lock = ui.page_lock;
         this.page_lock_inp = ui.page_lock_inp;
+        this.page_lock_btn = ui.page_lock_ok;
 
         this.initLookNikki();
         this.loadManagers();
@@ -112,7 +115,7 @@ const Page = function (app) {
         this.nikki_manager.bindDateSele();
         this.nikki_manager.bindOnBtn();
         this.nikki_manager.bindChangeInput();
-        this.Setting_manager = new SettingBinder(this, this.app);
+        this.setting_manager = new SettingBinder(this, this.app);
         this.viar_manager = new ViArBinder(this, this.app);
         this.password_book_manager = new PasswordBookBinder(this, this.app);
     }
@@ -157,6 +160,16 @@ const Page = function (app) {
             this.is_select_viar_for_parent = false;
             this.is_select_viar_for_links = false;
             this.is_password_book = false;
+
+            if(this.has_page_lock){
+                if(this.app.password_manager.has_password){
+                    this.page_lock.attr("visibility", "visible");
+                }else{
+                    this.setting_manager.clearPageLock();
+                }
+            }else{
+                this.page_lock.attr("visibility", "gone");
+            }
         });
     }
 
@@ -224,6 +237,7 @@ const Page = function (app) {
             this.setting.attr("visibility", "visible");
             this.toolbar.title = "设置";
             this.is_setting = true;
+            this.page_lock.attr("visibility", "gone");
         });
     }
 
@@ -397,6 +411,17 @@ const Page = function (app) {
         ui.run(() => {
             var menu_list = this.MENU_LIST;
             this.menu.setDataSource(menu_list);
+            this.page_lock_btn.on("click", () => {
+                var token_pw = this.page_lock_inp.text();
+                if(token_pw == this.page_lock_token){
+                    this.page_lock.attr("visibility","gone");
+                    this.page_lock_inp.text("");
+                }else{
+                    print(token_pw,)
+                    this.page_lock_inp.setError("密码错误");
+                    this.page_lock_inp.text("");
+                }
+            });
             this.menu.on("item_click", item => {
                 switch (item.title) {
                     case "主页":

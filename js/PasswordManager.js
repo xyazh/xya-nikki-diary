@@ -9,6 +9,7 @@ const PasswordManager = function (app) {
     this.pw_inp = undefined;
     this._loadFuc = null;
 
+
     this.inputPassword = (app,loadFuc) => {
         app.loadUI();
         this.password_page = ui.first_page;
@@ -53,7 +54,7 @@ const PasswordManager = function (app) {
         if (!this.has_password) {
             return true;
         }
-        if (this.cheakPassword()) {
+        if (this.cheakPassword(str)) {
             this.password = str;
             return true;
         }
@@ -71,8 +72,8 @@ const PasswordManager = function (app) {
         return ccpw;
     };
 
-    this.cheakPassword = function () {
-        var ccpw = PasswordManager.getCcpw();
+    this.cheakPassword = function (str) {
+        var ccpw = this.getCcpw();
         return $crypto.digest(str, "SHA-256") == ccpw;
     };
 

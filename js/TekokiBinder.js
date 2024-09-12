@@ -21,8 +21,6 @@ const TekokiBinder = function (page, app) {
     this.year = this.app.DATA_CONTAINER.year;
     this.month = this.app.DATA_CONTAINER.month;
 
-    this.has_page_lock.this.app.config.get("has_page_lock", "dis")
-
     this.tekoki_year = ui.tekoki_year;
     this.tekoki_month = ui.tekoki_month;
     this.tekoki_last_year = ui.tekoki_last_year;
