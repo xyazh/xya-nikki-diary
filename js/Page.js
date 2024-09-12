@@ -88,6 +88,8 @@ const Page = function (app) {
         this.look_viar = ui.look_viar;
         this.write_viar = ui.write_viar;
         this.password_book = ui.password_book;
+        this.page_lock = ui.page_lock;
+        this.page_lock_inp = ui.page_lock_inp;
 
         this.initLookNikki();
         this.loadManagers();

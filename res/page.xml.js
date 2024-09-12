@@ -19,7 +19,7 @@ const PAGE = (
                                 <horizontal w="*" gravity="right">
                                     <button id="nikki_srh" style="Widget.AppCompat.Button.Borderless.Colored" color="{{DATA_CONTAINER.button_color}}" size="10sp" w="140px" h="100px" layout_gravity="right" text="搜索" visibility="gone" />
                                     <button id="nikki_reset" style="Widget.AppCompat.Button.Borderless.Colored" color="{{DATA_CONTAINER.button_color}}" size="10sp" w="140px" h="100px" layout_gravity="right" text="重置" visibility="gone" />
-                                    <button id="nikki_stat" style="Widget.AppCompat.Button.Borderless.Colored" color="{{DATA_CONTAINER.button_color}}" size="10sp" w="140px" h="100px" layout_gravity="right" text="统计"/>
+                                    <button id="nikki_stat" style="Widget.AppCompat.Button.Borderless.Colored" color="{{DATA_CONTAINER.button_color}}" size="10sp" w="140px" h="100px" layout_gravity="right" text="统计" />
                                     <button id="nikki_updown" style="Widget.AppCompat.Button.Borderless.Colored" color="{{DATA_CONTAINER.button_color}}" size="10sp" w="140px" h="100px" layout_gravity="right" text="展开" />
                                 </horizontal>
                                 <vertical h="2px" w="*" bg="{{DATA_CONTAINER.line_color}}"></vertical>
@@ -342,6 +342,17 @@ const PAGE = (
                                     </vertical>
                                 </card>
                             </list>
+                        </vertical>
+                    </frame>
+                    <frame id="page_lock" w="*" h="*" bg="#ffffff">
+                        <vertical h="auto" align="center" margin="0 50">
+                            <linear>
+                                <text w="56" gravity="center" color="#111111" size="16">密码</text>
+                                <input id="page_lock_inp" w="*" h="40" password="true" />
+                            </linear>
+                            <linear gravity="center">
+                                <button id="page_lock_ok" text="确定" />
+                            </linear>
                         </vertical>
                     </frame>
                 </frame>
