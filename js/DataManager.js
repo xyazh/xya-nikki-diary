@@ -330,7 +330,6 @@ const DataMnager = function (app) {
         if (files.exists(path)) {
             return;
         }
-        print(path);
         files.ensureDir(path);
         if (data_tmp == undefined) {
             data_tmp = [];
@@ -386,7 +385,6 @@ const DataMnager = function (app) {
             toast("加载记录发生异常:" + e);
             return;
         }
-        print(tekoki);
         if (tekoki != null) {
             tekoki = tekoki.data;
         }

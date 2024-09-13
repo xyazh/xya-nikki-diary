@@ -30,6 +30,18 @@ const TekokiBinder = function (page, app) {
     this.tekoki_event_set = ui.tekoki_event_set;
     this.tekoki_month_all = ui.tekoki_month_all;
 
+    this.ui_all_year = ui.stat_all_year;
+    this.ui_all_month = ui.stat_all_month;
+    this.ui_all_day = ui.stat_all_day;
+    this.ui_all_count = ui.stat_all_count;
+    this.ui_all_max_count = ui.stat_all_max_count;
+    this.ui_year_day = ui.stat_year_day;
+    this.ui_year_count = ui.stat_year_count;
+    this.ui_year_max_count = ui.stat_year_max_count;
+    this.ui_month_day = ui.stat_month_day;
+    this.ui_month_count = ui.stat_month_count;
+    this.ui_month_max_count = ui.stat_month_max_count;
+
     this.clearDayList = function () {
         for (var i = 0; i < 42; i++) {
             TEKOKI_DAY_LIST[i] = ENPTY;
@@ -52,6 +64,18 @@ const TekokiBinder = function (page, app) {
     this.tekokiUpdate = function () {
         this.getThisTimeData();
         this.tekoki_event_set.setText(this.event);
+        var stat = this.stat();
+        this.ui_all_year.text(String(stat.all_year));
+        this.ui_all_month.text(String(stat.all_month));
+        this.ui_all_day.text(String(stat.all_day));
+        this.ui_all_count.text(String(stat.all_count));
+        this.ui_all_max_count.text(String(stat.all_max_count));
+        this.ui_year_day.text(String(stat.year_day));
+        this.ui_year_count.text(String(stat.year_count));
+        this.ui_year_max_count.text(String(stat.year_max_count));
+        this.ui_month_day.text(String(stat.month_day));
+        this.ui_month_count.text(String(stat.month_count));
+        this.ui_month_max_count.text(String(stat.month_max_count));
     }
 
     this.getThisTimeData = function () {
@@ -79,6 +103,73 @@ const TekokiBinder = function (page, app) {
         }
         this.tekoki_month_all.setText("本月共" + n_day + "天 " + n_number + "次");
     }
+
+    this.stat = function () {
+        var result = {};
+        result.all_year = 0;
+        result.all_month = 0;
+        result.all_day = 0;
+        result.all_count = 0;
+        result.all_max_count = 0;
+
+        result.year_day = 0;
+        result.year_count = 0;
+        result.year_max_count = 0;
+
+        result.month_day = 0;
+        result.month_count = 0;
+        result.month_max_count = 0;
+
+        for (var year = 1995; year <= 2124; year++) {
+            var has_year = false;
+            for (var month = 1; month <= 12; month++) {
+                var key = year + "-" + month;
+                var event_datas = this.app.data_manager.getTekokiData(key, this.event);
+                var month_day = 0;
+                var month_count = 0;
+                for (var i of event_datas) {
+                    var day_count = i.events[this.event];
+                    month_count += day_count;
+                    month_day += day_count > 0 ? 1 : 0;
+                    result.all_count += day_count;
+                    if (year == this.year) {
+                        result.year_count += day_count;
+                        if (day_count > result.year_max_count) {
+                            result.year_max_count = day_count;
+                        }
+                        if (month == this.month) {
+                            result.month_count += day_count;
+                            if (day_count > result.month_max_count) {
+                                result.month_max_count = day_count;
+                            }
+                        }
+                    }
+                    if (day_count > result.all_max_count) {
+                        result.all_max_count = day_count;
+                    }
+                    if (day_count > 0) {
+                        result.all_day += 1;
+                        if (year == this.year) {
+                            result.year_day += 1;
+                            if (month == this.month) {
+                                result.month_day += 1;
+                            }
+                        }
+                    }
+                }
+
+                if (month_day > 0) {
+                    result.all_month++;
+                    has_year = true;
+                }
+            }
+            if (has_year) {
+                result.all_year++;
+            }
+        }
+        return result;
+    }
+
 
     this.bindSele = function () {
         this.tekoki_year.on("click", () => {
@@ -175,6 +266,7 @@ const TekokiBinder = function (page, app) {
                     </appbar>
                     <text size="12sp" margin="4 0 4 3" text="" />
                     <input hint="次数" inputType="number" text="" id="n" />
+                    <input hint="次数增量" inputType="number" text="" id="add_n" />
                     <input hint="事件" text="" id="ev" />
                     <text size="12sp" margin="4 0 4 3" text="" />
                     <list id="es">
@@ -198,14 +290,18 @@ const TekokiBinder = function (page, app) {
                 wrapInScrollView: false,
                 autoDismiss: false
             }).on("positive", (dialog) => {
-                var event_name = String(input_view.ev.getText());
-                var number = String(input_view.n.getText());
-                if (event_name == "" || number == "") {
+                var event_name = input_view.ev.text();
+                var number = input_view.n.text();
+                var add_number = input_view.add_n.text();
+                if (event_name == "") {
                     dialog.dismiss();
                     return;
                 }
+                number = number == "" ? "0" : number;
+                add_number = add_number == "" ? "0" : add_number;
                 try {
                     number = parseInt(number);
+                    add_number = parseInt(add_number);
                 } catch (e) {
                     input_view.setError("不是一个次数");
                     return;
@@ -214,6 +310,7 @@ const TekokiBinder = function (page, app) {
                     input_view.setError("不是能小于0");
                     return
                 }
+                number += add_number;
                 this.app.data_manager.addTekoki(event_name, this.year, this.month, item.day, number);
                 this.event = event_name;
                 this.tekokiUpdate();

@@ -417,7 +417,6 @@ const Page = function (app) {
                     this.page_lock.attr("visibility","gone");
                     this.page_lock_inp.text("");
                 }else{
-                    print(token_pw,)
                     this.page_lock_inp.setError("密码错误");
                     this.page_lock_inp.text("");
                 }

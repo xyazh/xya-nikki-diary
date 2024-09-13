@@ -111,37 +111,88 @@ const PAGE = (
                         </card>
                     </frame>
                     <frame id="tekoki">
-                        <vertical gravity="center_horizontal" w="*">
-                            <horizontal gravity="center_horizontal" w="*">
-                                <button id="tekoki_last_year" textColor="{{this.DATA_CONTAINER.tekoki_btn_text_color}}" textSize="{{DATA_CONTAINER.TEKOKI_TEXT_SIZE*1.5}}px" text="＜" style="Widget.AppCompat.Button.Borderless" w="120px" />
-                                <button id="tekoki_year" textColor="{{this.DATA_CONTAINER.tekoki_btn_text_color}}" textSize="{{DATA_CONTAINER.TEKOKI_TEXT_SIZE}}px" text="{{DATA_CONTAINER.year}}年" style="Widget.AppCompat.Button.Borderless" w="240px" />
-                                <button id="tekoki_next_year" textColor="{{this.DATA_CONTAINER.tekoki_btn_text_color}}" textSize="{{DATA_CONTAINER.TEKOKI_TEXT_SIZE*1.5}}px" text="＞" style="Widget.AppCompat.Button.Borderless" w="120px" />
-                                <button id="tekoki_last_month" textColor="{{this.DATA_CONTAINER.tekoki_btn_text_color}}" textSize="{{DATA_CONTAINER.TEKOKI_TEXT_SIZE*1.5}}px" text="＜" style="Widget.AppCompat.Button.Borderless" w="120px" />
-                                <button id="tekoki_month" textColor="{{this.DATA_CONTAINER.tekoki_btn_text_color}}" textSize="{{DATA_CONTAINER.TEKOKI_TEXT_SIZE}}px" text="{{DATA_CONTAINER.month}}月" style="Widget.AppCompat.Button.Borderless" w="180px" />
-                                <button id="tekoki_next_month" textColor="{{this.DATA_CONTAINER.tekoki_btn_text_color}}" textSize="{{DATA_CONTAINER.TEKOKI_TEXT_SIZE*1.5}}px" text="＞" style="Widget.AppCompat.Button.Borderless" w="120px" />
-                            </horizontal>
-                            <horizontal gravity="center_horizontal" w="*">
-                                <text color="{{DATA_CONTAINER.dis_text_color}}" id="tekoki_month_all" margin="0 0 0 10" text="本月共x天 x次" />
-                            </horizontal>
-                            <horizontal>
-                                <vertical h="*" w="{{(device.width/8-DATA_CONTAINER.TEKOKI_TEXT_SIZE>=0)?(device.width/8-DATA_CONTAINER.TEKOKI_TEXT_SIZE):0}}px"></vertical>
-                                <vertical w="*">
-                                    <grid margin="0 0 0 20" id="tekoki_week" spanCount="7">
-                                        <frame w="64px" h="64px">
-                                            <text color="{{DATA_CONTAINER.dis_text_color}}" layout_gravity="center" textSize="{{DATA_CONTAINER.TEKOKI_TEXT_SIZE}}px" text="{{this}}" w="auto" h="auto" />
-                                        </frame>
-                                    </grid>
-                                    <grid id="tekoki_day" spanCount="7">
-                                        <frame margin="0 5" w="64px" h="64px">
-                                            <frame w="*" h="*" bg="{{DATA_CONTAINER.ui_color}}"></frame>
-                                            <frame w="*" h="{{parseInt((1-this.p)*64)}}px" bg="{{DATA_CONTAINER.main_bg_color}}"></frame>
-                                            <text color="{{DATA_CONTAINER.dis_text_color}}" layout_gravity="center" textSize="{{DATA_CONTAINER.TEKOKI_TEXT_SIZE}}px" text="{{this.day}}" w="auto" h="auto" />
-                                        </frame>
-                                    </grid>
-                                    <button backgroundTint="{{DATA_CONTAINER.button_color}}" color="{{DATA_CONTAINER.btn_text_color}}" id="tekoki_event_set" text="{{DATA_CONTAINER.tekoki_event}}" style="Widget.AppCompat.Button.Colored" w="auto" />
-                                </vertical>
-                            </horizontal>
-                        </vertical>
+                        <ScrollView>
+                            <vertical gravity="center_horizontal" w="*">
+                                <horizontal gravity="center_horizontal" w="*">
+                                    <button id="tekoki_last_year" textColor="{{this.DATA_CONTAINER.tekoki_btn_text_color}}" textSize="{{DATA_CONTAINER.TEKOKI_TEXT_SIZE*1.5}}px" text="＜" style="Widget.AppCompat.Button.Borderless" w="120px" />
+                                    <button id="tekoki_year" textColor="{{this.DATA_CONTAINER.tekoki_btn_text_color}}" textSize="{{DATA_CONTAINER.TEKOKI_TEXT_SIZE}}px" text="{{DATA_CONTAINER.year}}年" style="Widget.AppCompat.Button.Borderless" w="240px" />
+                                    <button id="tekoki_next_year" textColor="{{this.DATA_CONTAINER.tekoki_btn_text_color}}" textSize="{{DATA_CONTAINER.TEKOKI_TEXT_SIZE*1.5}}px" text="＞" style="Widget.AppCompat.Button.Borderless" w="120px" />
+                                    <button id="tekoki_last_month" textColor="{{this.DATA_CONTAINER.tekoki_btn_text_color}}" textSize="{{DATA_CONTAINER.TEKOKI_TEXT_SIZE*1.5}}px" text="＜" style="Widget.AppCompat.Button.Borderless" w="120px" />
+                                    <button id="tekoki_month" textColor="{{this.DATA_CONTAINER.tekoki_btn_text_color}}" textSize="{{DATA_CONTAINER.TEKOKI_TEXT_SIZE}}px" text="{{DATA_CONTAINER.month}}月" style="Widget.AppCompat.Button.Borderless" w="180px" />
+                                    <button id="tekoki_next_month" textColor="{{this.DATA_CONTAINER.tekoki_btn_text_color}}" textSize="{{DATA_CONTAINER.TEKOKI_TEXT_SIZE*1.5}}px" text="＞" style="Widget.AppCompat.Button.Borderless" w="120px" />
+                                </horizontal>
+                                <horizontal gravity="center_horizontal" w="*">
+                                    <text color="{{DATA_CONTAINER.dis_text_color}}" id="tekoki_month_all" margin="0 0 0 10" text="本月共x天 x次" />
+                                </horizontal>
+                                <horizontal>
+                                    <vertical h="*" w="{{(device.width/8-DATA_CONTAINER.TEKOKI_TEXT_SIZE>=0)?(device.width/8-DATA_CONTAINER.TEKOKI_TEXT_SIZE):0}}px"></vertical>
+                                    <vertical w="*">
+                                        <grid margin="0 0 0 20" id="tekoki_week" spanCount="7">
+                                            <frame w="64px" h="64px">
+                                                <text color="{{DATA_CONTAINER.dis_text_color}}" layout_gravity="center" textSize="{{DATA_CONTAINER.TEKOKI_TEXT_SIZE}}px" text="{{this}}" w="auto" h="auto" />
+                                            </frame>
+                                        </grid>
+                                        <grid id="tekoki_day" spanCount="7">
+                                            <frame margin="0 5" w="64px" h="64px">
+                                                <frame w="*" h="*" bg="{{DATA_CONTAINER.ui_color}}"></frame>
+                                                <frame w="*" h="{{parseInt((1-this.p)*64)}}px" bg="{{DATA_CONTAINER.main_bg_color}}"></frame>
+                                                <text color="{{DATA_CONTAINER.dis_text_color}}" layout_gravity="center" textSize="{{DATA_CONTAINER.TEKOKI_TEXT_SIZE}}px" text="{{this.day}}" w="auto" h="auto" />
+                                            </frame>
+                                        </grid>
+                                        <button backgroundTint="{{DATA_CONTAINER.button_color}}" color="{{DATA_CONTAINER.btn_text_color}}" id="tekoki_event_set" text="{{DATA_CONTAINER.tekoki_event}}" style="Widget.AppCompat.Button.Colored" w="auto" />
+                                    </vertical>
+                                </horizontal>
+                                <vertical h="2px" w="*" bg="{{DATA_CONTAINER.line_color}}"></vertical>
+                                <text text="统计" color="{{DATA_CONTAINER.setting_title_text_color}}" textSize="13sp" margin="8" textStyle="bold"></text>
+                                <text text="-总计" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}" textSize="12sp" margin="8 0 8 0" textStyle="bold"></text>
+                                <linear>
+                                    <text text="总年数：" margin="8 0 0 0"textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}"/>
+                                    <text text="114" id="stat_all_year" textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}"/>
+                                </linear>
+                                <linear>
+                                    <text text="总月数：" margin="8 0 0 0"textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}"/>
+                                    <text text="114" id="stat_all_month" textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}"/>
+                                </linear>
+                                <linear>
+                                    <text text="总天数：" margin="8 0 0 0"textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}"/>
+                                    <text text="114" id="stat_all_day" textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}"/>
+                                </linear>
+                                <linear>
+                                    <text text="总次数：" margin="8 0 0 0"textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}"/>
+                                    <text text="114" id="stat_all_count" textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}"/>
+                                </linear>
+                                <linear>
+                                    <text text="总单日最高：" margin="8 0 0 0"textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}"/>
+                                    <text text="114" id="stat_all_max_count" textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}"/>
+                                </linear>
+                                <text text="-按年" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}" textSize="12sp" margin="8 0 8 0" textStyle="bold"></text>
+                                <linear>
+                                    <text text="年日数：" margin="8 0 0 0"textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}"/>
+                                    <text text="114" id="stat_year_day" textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}"/>
+                                </linear>
+                                <linear>
+                                    <text text="年次数：" margin="8 0 0 0"textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}"/>
+                                    <text text="114" id="stat_year_count" textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}"/>
+                                </linear>
+                                <linear>
+                                    <text text="年单日最高：" margin="8 0 0 0"textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}"/>
+                                    <text text="114" id="stat_year_max_count" textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}"/>
+                                </linear>
+                                <text text="-按月" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}" textSize="12sp" margin="8 0 8 0" textStyle="bold"></text>
+                                <linear>
+                                    <text text="月日数：" margin="8 0 0 0"textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}"/>
+                                    <text text="114" id="stat_month_day" textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}"/>
+                                </linear>
+                                <linear>
+                                    <text text="月次数：" margin="8 0 0 0"textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}"/>
+                                    <text text="114" id="stat_month_count" textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}"/>
+                                </linear>
+                                <linear>
+                                    <text text="月单日最高：" margin="8 0 0 0"textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}"/>
+                                    <text text="114" id="stat_month_max_count" textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}"/>
+                                </linear>
+                            </vertical>
+                        </ScrollView>
                     </frame>
                     <frame id="setting" w="*" h="*">
                         <ScrollView>
