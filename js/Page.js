@@ -126,17 +126,6 @@ const Page = function (app) {
 
     this.allHidden = function () {
         ui.run(() => {
-            this.main_page.attr("h", "0");
-            this.nikki.attr("h", "0");
-            this.look_nikki.attr("h", "0");
-            this.write_nikki.attr("h", "0");
-            this.tekoki.attr("h", "0");
-            this.setting.attr("h", "0");
-            this.viar.attr("h", "0");
-            this.look_viar.attr("h", "0");
-            this.write_viar.attr("h", "0");
-            this.password_book.attr("h", "0");
-
             this.main_page.attr("visibility", "gone");
             this.nikki.attr("visibility", "gone");
             this.look_nikki.attr("visibility", "gone");
@@ -175,6 +164,7 @@ const Page = function (app) {
 
     this.setNikkiCount = function (page_n) {
         ui.run(() => {
+            this.nikki_manager.useStat();
             this.nikki_count.setText("共" + page_n + "篇");
         });
     }

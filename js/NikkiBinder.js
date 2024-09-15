@@ -29,9 +29,12 @@ const NikkiBinder = function (page, app) {
     });
     this.write_nikki_btn = ui.nikki_but;
     this.rewrite_nikki_btn = ui.look_nikki_but;
+    this.stat_btn = ui.nikki_stat;
+    this.all_words_count = ui.stat_all_nikki_word;
 
     this.tob = ui.nikki_tob;
     this.sub_tob = ui.nikki_sub_tob;
+    this.sub_tob1 = ui.nikki_sub_tob1;
     this.src_inp = ui.nikki_srh_kw;
     this.srh_btn = ui.nikki_srh;
     this.reset_btn = ui.nikki_reset;
@@ -50,12 +53,24 @@ const NikkiBinder = function (page, app) {
             this.sub_tob.attr("visibility", "visible");
             this.srh_btn.attr("visibility", "visible");
             this.reset_btn.attr("visibility", "visible");
+            this.stat_btn.attr("visibility", "visible");
             this.updown_btn.text("收起");
         } else {
             this.sub_tob.attr("visibility", "gone");
             this.srh_btn.attr("visibility", "gone");
             this.reset_btn.attr("visibility", "gone");
+            this.stat_btn.attr("visibility", "gone");
             this.updown_btn.text("展开");
+            this.sub_tob1.attr("visibility", "gone");
+        }
+    });
+
+    this.stat_btn.on("click", () => {
+        var t = this.sub_tob1.attr("visibility");
+        if (t == "gone") {
+            this.sub_tob1.attr("visibility", "visible");
+        } else {
+            this.sub_tob1.attr("visibility", "gone");
         }
     });
 
@@ -78,6 +93,21 @@ const NikkiBinder = function (page, app) {
         ui.run(() => {
             this._clearRenderList();
         });
+    }
+
+    this.stat = function(){
+        var result = {};
+        result.all_words = 0;
+        var items = this.app.data_manager.getNikkis();
+        for(var item of items){
+            result.all_words += item.text.length;
+        }
+        return result;
+    }
+
+    this.useStat = function(){
+        var stat = this.stat();
+        this.all_words_count.text(String(stat.all_words));
     }
 
     this.search = function (keyword) {

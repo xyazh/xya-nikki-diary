@@ -1,6 +1,6 @@
-const VERSION = "0.6.1";
+const VERSION = "0.6.2";
 const PACKAGE_NAME = "xyz.xyazh.nikki";
-const VERSION_ID = 12;
+const VERSION_ID = 13;
 
 const PAGE_XML = require("./res/page.xml.js");
 const Utils = require("./js/Utils.js");

@@ -16,10 +16,20 @@ const PAGE = (
                                     <text color="{{DATA_CONTAINER.dis_text_color}}" size="10sp" margin="4 0 0 0" text="搜索条件" />
                                     <input id="nikki_srh_kw" hint="无" color="{{DATA_CONTAINER.normal_text_color}}" size="12sp" margin="4 0 0 0" />
                                 </vertical>
+                                <vertical id="nikki_sub_tob1" visibility="gone">
+                                    <ScrollView>
+                                        <text text="统计" color="{{DATA_CONTAINER.setting_title_text_color}}" textSize="13sp" margin="8" textStyle="bold"></text>
+                                        <text text="-总计" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}" textSize="12sp" margin="8 0 8 0" textStyle="bold"></text>
+                                        <linear>
+                                            <text text="总字数：" margin="8 0 0 0" textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}" />
+                                            <text text="114" id="stat_all_nikki_word" textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}" />
+                                        </linear>
+                                    </ScrollView>
+                                </vertical>
                                 <horizontal w="*" gravity="right">
+                                    <button id="nikki_stat" style="Widget.AppCompat.Button.Borderless.Colored" color="{{DATA_CONTAINER.button_color}}" size="10sp" w="140px" h="100px" layout_gravity="right" text="统计" visibility="gone" />
                                     <button id="nikki_srh" style="Widget.AppCompat.Button.Borderless.Colored" color="{{DATA_CONTAINER.button_color}}" size="10sp" w="140px" h="100px" layout_gravity="right" text="搜索" visibility="gone" />
                                     <button id="nikki_reset" style="Widget.AppCompat.Button.Borderless.Colored" color="{{DATA_CONTAINER.button_color}}" size="10sp" w="140px" h="100px" layout_gravity="right" text="重置" visibility="gone" />
-                                    <button id="nikki_stat" style="Widget.AppCompat.Button.Borderless.Colored" color="{{DATA_CONTAINER.button_color}}" size="10sp" w="140px" h="100px" layout_gravity="right" text="统计" />
                                     <button id="nikki_updown" style="Widget.AppCompat.Button.Borderless.Colored" color="{{DATA_CONTAINER.button_color}}" size="10sp" w="140px" h="100px" layout_gravity="right" text="展开" />
                                 </horizontal>
                                 <vertical h="2px" w="*" bg="{{DATA_CONTAINER.line_color}}"></vertical>
@@ -146,50 +156,50 @@ const PAGE = (
                                 <text text="统计" color="{{DATA_CONTAINER.setting_title_text_color}}" textSize="13sp" margin="8" textStyle="bold"></text>
                                 <text text="-总计" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}" textSize="12sp" margin="8 0 8 0" textStyle="bold"></text>
                                 <linear>
-                                    <text text="总年数：" margin="8 0 0 0"textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}"/>
-                                    <text text="114" id="stat_all_year" textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}"/>
+                                    <text text="总年数：" margin="8 0 0 0" textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}" />
+                                    <text text="114" id="stat_all_year" textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}" />
                                 </linear>
                                 <linear>
-                                    <text text="总月数：" margin="8 0 0 0"textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}"/>
-                                    <text text="114" id="stat_all_month" textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}"/>
+                                    <text text="总月数：" margin="8 0 0 0" textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}" />
+                                    <text text="114" id="stat_all_month" textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}" />
                                 </linear>
                                 <linear>
-                                    <text text="总天数：" margin="8 0 0 0"textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}"/>
-                                    <text text="114" id="stat_all_day" textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}"/>
+                                    <text text="总天数：" margin="8 0 0 0" textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}" />
+                                    <text text="114" id="stat_all_day" textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}" />
                                 </linear>
                                 <linear>
-                                    <text text="总次数：" margin="8 0 0 0"textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}"/>
-                                    <text text="114" id="stat_all_count" textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}"/>
+                                    <text text="总次数：" margin="8 0 0 0" textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}" />
+                                    <text text="114" id="stat_all_count" textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}" />
                                 </linear>
                                 <linear>
-                                    <text text="总单日最高：" margin="8 0 0 0"textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}"/>
-                                    <text text="114" id="stat_all_max_count" textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}"/>
+                                    <text text="总单日最高：" margin="8 0 0 0" textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}" />
+                                    <text text="114" id="stat_all_max_count" textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}" />
                                 </linear>
                                 <text text="-按年" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}" textSize="12sp" margin="8 0 8 0" textStyle="bold"></text>
                                 <linear>
-                                    <text text="年日数：" margin="8 0 0 0"textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}"/>
-                                    <text text="114" id="stat_year_day" textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}"/>
+                                    <text text="年日数：" margin="8 0 0 0" textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}" />
+                                    <text text="114" id="stat_year_day" textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}" />
                                 </linear>
                                 <linear>
-                                    <text text="年次数：" margin="8 0 0 0"textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}"/>
-                                    <text text="114" id="stat_year_count" textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}"/>
+                                    <text text="年次数：" margin="8 0 0 0" textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}" />
+                                    <text text="114" id="stat_year_count" textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}" />
                                 </linear>
                                 <linear>
-                                    <text text="年单日最高：" margin="8 0 0 0"textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}"/>
-                                    <text text="114" id="stat_year_max_count" textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}"/>
+                                    <text text="年单日最高：" margin="8 0 0 0" textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}" />
+                                    <text text="114" id="stat_year_max_count" textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}" />
                                 </linear>
                                 <text text="-按月" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}" textSize="12sp" margin="8 0 8 0" textStyle="bold"></text>
                                 <linear>
-                                    <text text="月日数：" margin="8 0 0 0"textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}"/>
-                                    <text text="114" id="stat_month_day" textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}"/>
+                                    <text text="月日数：" margin="8 0 0 0" textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}" />
+                                    <text text="114" id="stat_month_day" textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}" />
                                 </linear>
                                 <linear>
-                                    <text text="月次数：" margin="8 0 0 0"textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}"/>
-                                    <text text="114" id="stat_month_count" textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}"/>
+                                    <text text="月次数：" margin="8 0 0 0" textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}" />
+                                    <text text="114" id="stat_month_count" textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}" />
                                 </linear>
                                 <linear>
-                                    <text text="月单日最高：" margin="8 0 0 0"textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}"/>
-                                    <text text="114" id="stat_month_max_count" textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}"/>
+                                    <text text="月单日最高：" margin="8 0 0 0" textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}" />
+                                    <text text="114" id="stat_month_max_count" textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}" />
                                 </linear>
                             </vertical>
                         </ScrollView>
