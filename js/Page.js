@@ -172,7 +172,6 @@ const Page = function (app) {
     this.openMainPage = function () {
         ui.run(() => {
             this.allHidden();
-            this.main_page.attr("h", this.getHeight());
             this.main_page.attr("visibility", "visible");
             this.toolbar.title = "主页";
             this.is_main_page = true;
@@ -182,7 +181,6 @@ const Page = function (app) {
     this.openNikki = function () {
         ui.run(() => {
             this.allHidden();
-            this.nikki.attr("h", this.getHeight());
             this.nikki.attr("visibility", "visible");
             this.toolbar.title = "日记";
             this.is_nikki = true;
@@ -192,7 +190,6 @@ const Page = function (app) {
     this.openLookNikki = function () {
         ui.run(() => {
             this.allHidden();
-            this.look_nikki.attr("h", this.getHeight());
             this.look_nikki.attr("visibility", "visible");
             this.toolbar.title = "查看日记";
             this.is_look_nikki = true;
@@ -202,7 +199,6 @@ const Page = function (app) {
     this.openWriteNikki = function () {
         ui.run(() => {
             this.allHidden();
-            this.write_nikki.attr("h", this.getHeight());
             this.write_nikki.attr("visibility", "visible");
             this.toolbar.title = "写日记-";
             this.toolbar.title += this.temp_nikki === null || this.temp_nikki.is_new ? "新" : "来自草稿";
@@ -213,7 +209,6 @@ const Page = function (app) {
     this.openTekoki = function () {
         ui.run(() => {
             this.allHidden();
-            this.tekoki.attr("h", this.getHeight());
             this.tekoki.attr("visibility", "visible");
             this.toolbar.title = "记录";
             this.is_tekoki = true;
@@ -223,7 +218,6 @@ const Page = function (app) {
     this.openSetting = function () {
         ui.run(() => {
             this.allHidden();
-            this.setting.attr("h", this.getHeight());
             this.setting.attr("visibility", "visible");
             this.toolbar.title = "设置";
             this.is_setting = true;
@@ -234,7 +228,6 @@ const Page = function (app) {
     this.openViAr = function () {
         ui.run(() => {
             this.allHidden();
-            this.viar.attr("h", this.getHeight());
             this.viar.attr("visibility", "visible");
             this.toolbar.title = "故事集";
             this.is_viar = true;
@@ -246,7 +239,6 @@ const Page = function (app) {
     this.openLookViAr = function () {
         ui.run(() => {
             this.allHidden();
-            this.look_viar.attr("h", this.getHeight());
             this.look_viar.attr("visibility", "visible");
             this.toolbar.title = "故事集-查看";
             this.is_look_viar = true;
@@ -256,7 +248,6 @@ const Page = function (app) {
     this.openWriteViAr = function () {
         ui.run(() => {
             this.allHidden();
-            this.write_viar.attr("h", this.getHeight());
             this.write_viar.attr("visibility", "visible");
             this.toolbar.title = "故事集-写";
             this.is_write_viar = true;
@@ -267,7 +258,6 @@ const Page = function (app) {
     this.openSelectViarForParent = function () {
         ui.run(() => {
             this.allHidden();
-            this.viar.attr("h", this.getHeight());
             this.viar.attr("visibility", "visible");
             this.toolbar.title = "故事集-搜索";
             this.is_select_viar_for_parent = true;
@@ -278,7 +268,6 @@ const Page = function (app) {
     this.openSelectViarForLinks = function () {
         ui.run(() => {
             this.allHidden();
-            this.viar.attr("h", this.getHeight());
             this.viar.attr("visibility", "visible");
             this.toolbar.title = "故事集-搜索";
             this.is_select_viar_for_links = true;
@@ -289,7 +278,6 @@ const Page = function (app) {
     this.openPasswordBook = function () {
         ui.run(() => {
             this.allHidden();
-            this.password_book.attr("h", this.getHeight());
             this.password_book.attr("visibility", "visible");
             this.toolbar.title = "密码簿";
             this.is_password_book = true;

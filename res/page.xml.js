@@ -16,16 +16,16 @@ const PAGE = (
                                     <text color="{{DATA_CONTAINER.dis_text_color}}" size="10sp" margin="4 0 0 0" text="搜索条件" />
                                     <input id="nikki_srh_kw" hint="无" color="{{DATA_CONTAINER.normal_text_color}}" size="12sp" margin="4 0 0 0" />
                                 </vertical>
-                                <vertical id="nikki_sub_tob1" visibility="gone">
-                                    <ScrollView>
+                                <ScrollView>
+                                    <vertical id="nikki_sub_tob1" visibility="gone">
                                         <text text="统计" color="{{DATA_CONTAINER.setting_title_text_color}}" textSize="13sp" margin="8" textStyle="bold"></text>
                                         <text text="-总计" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}" textSize="12sp" margin="8 0 8 0" textStyle="bold"></text>
                                         <linear>
                                             <text text="总字数：" margin="8 0 0 0" textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}" />
                                             <text text="114" id="stat_all_nikki_word" textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}" />
                                         </linear>
-                                    </ScrollView>
-                                </vertical>
+                                    </vertical>
+                                </ScrollView>
                                 <horizontal w="*" gravity="right">
                                     <button id="nikki_stat" style="Widget.AppCompat.Button.Borderless.Colored" color="{{DATA_CONTAINER.button_color}}" size="10sp" w="140px" h="100px" layout_gravity="right" text="统计" visibility="gone" />
                                     <button id="nikki_srh" style="Widget.AppCompat.Button.Borderless.Colored" color="{{DATA_CONTAINER.button_color}}" size="10sp" w="140px" h="100px" layout_gravity="right" text="搜索" visibility="gone" />
