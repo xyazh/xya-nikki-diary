@@ -175,6 +175,18 @@ const PAGE = (
                                     <text text="总单日最高：" margin="8 0 0 0" textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}" />
                                     <text text="114" id="stat_all_max_count" textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}" />
                                 </linear>
+                                <linear>
+                                    <text text="首日至今：" margin="8 0 0 0" textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}" />
+                                    <text text="114" id="stat_frist_to" textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}" />
+                                </linear>
+                                <linear>
+                                    <text text="最近至今：" margin="8 0 0 0" textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}" />
+                                    <text text="114" id="stat_end_to" textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}" />
+                                </linear>
+                                <linear>
+                                    <text text="区间：" margin="8 0 0 0" textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}" />
+                                    <text text="114" id="stat_start_to_end" textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}" />
+                                </linear>
                                 <text text="-按年" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}" textSize="12sp" margin="8 0 8 0" textStyle="bold"></text>
                                 <linear>
                                     <text text="年日数：" margin="8 0 0 0" textSize="12sp" color="{{this.DATA_CONTAINER.tekoki_btn_text_color}}" />

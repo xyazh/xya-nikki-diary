@@ -99,6 +99,7 @@ const NikkiBinder = function (page, app) {
         var result = {};
         result.all_words = 0;
         var items = this.app.data_manager.getNikkis();
+        result.count = items.length;
         for(var item of items){
             result.all_words += item.text.length;
         }

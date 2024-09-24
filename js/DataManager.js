@@ -659,7 +659,32 @@ const DataMnager = function (app) {
         var load_nikki = load_backup.out_nikki;
         var load_tekoki = load_backup.out_tekoki;
         var load_event = load_backup.out_tekoki_event;
-        this._importNikkiVBeta(load_nikki);
+        this._impor
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        tNikkiVBeta(load_nikki);
         this._importTekokiVBeta(load_tekoki, load_event);
     }
 

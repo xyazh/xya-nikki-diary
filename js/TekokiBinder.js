@@ -35,6 +35,9 @@ const TekokiBinder = function (page, app) {
     this.ui_all_day = ui.stat_all_day;
     this.ui_all_count = ui.stat_all_count;
     this.ui_all_max_count = ui.stat_all_max_count;
+    this.ui_frist_to = ui.stat_frist_to;
+    this.ui_end_to = ui.stat_end_to;
+    this.ui_start_to_end = ui.stat_start_to_end;
     this.ui_year_day = ui.stat_year_day;
     this.ui_year_count = ui.stat_year_count;
     this.ui_year_max_count = ui.stat_year_max_count;
@@ -70,6 +73,9 @@ const TekokiBinder = function (page, app) {
         this.ui_all_day.text(String(stat.all_day));
         this.ui_all_count.text(String(stat.all_count));
         this.ui_all_max_count.text(String(stat.all_max_count));
+        this.ui_frist_to.text(String(stat.frist_to));
+        this.ui_end_to.text(String(stat.end_to));
+        this.ui_start_to_end.text(String(stat.frist_to_end));
         this.ui_year_day.text(String(stat.year_day));
         this.ui_year_count.text(String(stat.year_count));
         this.ui_year_max_count.text(String(stat.year_max_count));
@@ -111,6 +117,9 @@ const TekokiBinder = function (page, app) {
         result.all_day = 0;
         result.all_count = 0;
         result.all_max_count = 0;
+        result.frist_to = 0;
+        result.end_to = 0;
+        result.frist_to_end = 0;
 
         result.year_day = 0;
         result.year_count = 0;
@@ -119,6 +128,9 @@ const TekokiBinder = function (page, app) {
         result.month_day = 0;
         result.month_count = 0;
         result.month_max_count = 0;
+
+        var frist_day = null;
+        var end_day = null;
 
         for (var year = 1995; year <= 2124; year++) {
             var has_year = false;
@@ -130,7 +142,18 @@ const TekokiBinder = function (page, app) {
                 for (var i of event_datas) {
                     var day_count = i.events[this.event];
                     month_count += day_count;
-                    month_day += day_count > 0 ? 1 : 0;
+                    var flag = day_count > 0;
+                    month_day += flag ? 1 : 0;
+                    if (flag) {
+                        if (frist_day == null) {
+                            frist_day = new Date(year, month - 1, i.day);
+                        }
+                        if (end_day == null) {
+                            end_day = new Date(year, month - 1, i.day);
+                        }
+                        frist_day = Math.min(frist_day, new Date(year, month - 1, i.day));
+                        end_day = Math.max(end_day, new Date(year, month - 1, i.day));
+                    }
                     result.all_count += day_count;
                     if (year == this.year) {
                         result.year_count += day_count;
@@ -167,6 +190,13 @@ const TekokiBinder = function (page, app) {
                 result.all_year++;
             }
         }
+        if (frist_day !== null) {
+            result.frist_to = Math.floor((new Date() - frist_day) / (24 * 60 * 60 * 1000));
+        }
+        if (end_day !== null) {
+            result.end_to = Math.floor((new Date() - end_day) / (24 * 60 * 60 * 1000));
+        }
+        result.frist_to_end = result.frist_to - result.end_to;
         return result;
     }
 
