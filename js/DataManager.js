@@ -90,10 +90,14 @@ const DataMnager = function (app) {
         if (TEKOKIS.data[key] === undefined) {
             return result;
         }
-        for (var i in TEKOKIS.data[key]) {
-            var events = TEKOKIS.data[key][i].events;
-            if (event_name in events) {
-                result.push(TEKOKIS.data[key][i]);
+        if(event_name === undefined){
+            
+        }else{
+            for (var i in TEKOKIS.data[key]) {
+                var events = TEKOKIS.data[key][i].events;
+                if (event_name in events) {
+                    result.push(TEKOKIS.data[key][i]);
+                }
             }
         }
         return result;

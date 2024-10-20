@@ -1,6 +1,6 @@
-const VERSION = "0.6.2";
+const VERSION = "0.6.3";
 const PACKAGE_NAME = "xyz.xyazh.nikki";
-const VERSION_ID = 13;
+const VERSION_ID = 14;
 
 const PAGE_XML = require("./res/page.xml.js");
 const Utils = require("./js/Utils.js");
@@ -17,7 +17,7 @@ const App = function (DATA_CONTAINER) {
     this.PACKAGE_NAME = PACKAGE_NAME;
     this.config = storages.create(PACKAGE_NAME + ".config");
     this.APP_PATH = context.getFilesDir().getAbsolutePath();
-    //this.APP_PATH = ".";
+    this.APP_PATH = ".";
 
     this.date = new Date();
     this.password_manager = new PasswordManager(this);
