@@ -2,7 +2,7 @@ const VERSION = "0.6.3";
 const PACKAGE_NAME = "xyz.xyazh.nikki";
 const VERSION_ID = 14;
 
-const PAGE_XML = require("./res/page.xml.js");
+const PAGE_XML = files.read("./res/page.xml", [encoding = "utf-8"]);
 const Utils = require("./js/Utils.js");
 const Page = require("./js/Page.js");
 const PasswordManager = require("./js/PasswordManager.js");
